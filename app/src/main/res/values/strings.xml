@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Namma Apartments Society Services</string>
+
+    <!--Base Activity-->
+    <string name="back_button_description">Back button to navigate previous activity</string>
+
+    <!--Namma Apartments Society Services Home Activity-->
+    <string name="society_services">Society Services</string>
+    <string name="awaiting_customer_requirement">Awaiting User Requirement</string>
+    <string name="name">Name:</string>
+    <string name="society">Society:</string>
+    <string name="apartment">Apartment:</string>
+    <string name="flat">Flat:</string>
+    <string name="problem_description">Problem:</string>
+    <string name="call">Call</string>
+    <string name="end_service">End Service</string>
+    <string name="verify_otp">Verify OTP</string>
+
+    <!--End Service Activity-->
+    <string name="please_ask_user_for_otp">Please Ask user to give OTP </string>
+
+</resources>
