@@ -15,6 +15,9 @@
     <string name="call">Call</string>
     <string name="end_service">End Service</string>
     <string name="verify_otp">Verify OTP</string>
+    <string name="serving">Serving</string>
+    <string name="future">Future</string>
+    <string name="history">History</string>
 
     <!--End Service Activity-->
     <string name="please_ask_user_for_otp">Please Ask user to give OTP </string>

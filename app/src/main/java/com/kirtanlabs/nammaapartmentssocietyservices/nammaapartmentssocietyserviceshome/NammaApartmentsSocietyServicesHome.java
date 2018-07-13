@@ -1,20 +1,16 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class NammaApartmentsSocietyServicesHome extends BaseActivity implements View.OnClickListener {
-
-    /* ------------------------------------------------------------- *
-     * Overriding BaseActivity Objects
-     * ------------------------------------------------------------- */
+public class NammaApartmentsSocietyServicesHome extends BaseActivity {
 
     @Override
     protected int getLayoutResourceId() {
@@ -30,55 +26,53 @@ public class NammaApartmentsSocietyServicesHome extends BaseActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         /*Since this is Namma Apartments Society Services Home Screen we wouldn't want the users to go back,
+        /*Since this is Namma Apartments Society Services Home Screen we wouldn't want the users to go back,
         hence hiding the back button from the Title Bar*/
         hideBackButton();
 
-        /*Getting Id's for all the views*/
-        TextView textAwaitingResponse = findViewById(R.id.textAwaitingResponse);
-        TextView textName = findViewById(R.id.textName);
-        TextView textSociety = findViewById(R.id.textSociety);
-        TextView textApartment = findViewById(R.id.textApartment);
-        TextView textFlatNumber = findViewById(R.id.textFlatNumber);
-        TextView textProblemDescription = findViewById(R.id.textProblemDescription);
-        TextView textNameValue = findViewById(R.id.textNameValue);
-        TextView textSocietyValue = findViewById(R.id.textSocietyValue);
-        TextView textApartmentValue = findViewById(R.id.textApartmentValue);
-        TextView textFlatNumberValue = findViewById(R.id.textFlatNumberValue);
-        TextView textProblemDescriptionValue = findViewById(R.id.textProblemDescriptionValue);
-        Button buttonMakeCall = findViewById(R.id.buttonMakeCall);
-        Button buttonEndService = findViewById(R.id.buttonEndService);
-
-        /*Setting font for all the views*/
-        textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(this));
-        textName.setTypeface(Constants.setLatoRegularFont(this));
-        textSociety.setTypeface(Constants.setLatoRegularFont(this));
-        textApartment.setTypeface(Constants.setLatoRegularFont(this));
-        textFlatNumber.setTypeface(Constants.setLatoRegularFont(this));
-        textProblemDescription.setTypeface(Constants.setLatoRegularFont(this));
-        textNameValue.setTypeface(Constants.setLatoBoldFont(this));
-        textSocietyValue.setTypeface(Constants.setLatoBoldFont(this));
-        textApartmentValue.setTypeface(Constants.setLatoBoldFont(this));
-        textFlatNumberValue.setTypeface(Constants.setLatoBoldFont(this));
-        textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(this));
-        buttonMakeCall.setTypeface(Constants.setLatoLightFont(this));
-        buttonEndService.setTypeface(Constants.setLatoLightFont(this));
-
-        // TODO: To uncomment this later, this layout will be visible in starting when particular society service has not accepted any request from user.
-        /* layoutAwaitingResponse.setVisibility(View.VISIBLE);
-         *//*We need Progress Indicator in this screen*//*
-        showProgressIndicator();*/
-
-        /*Setting onClickListener for view*/
-        buttonEndService.setOnClickListener(this);
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPager mViewPager = findViewById(R.id.container);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
 
     /* ------------------------------------------------------------- *
-     * Overriding OnClick Listener
+     * SectionPagerAdapter Class
      * ------------------------------------------------------------- */
 
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(NammaApartmentsSocietyServicesHome.this, EndService.class));
+    class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        /* ------------------------------------------------------------- *
+         * Constructor
+         * ------------------------------------------------------------- */
+
+        SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /* ------------------------------------------------------------- *
+         * Overriding FragmentPagerAdapter Objects
+         * ------------------------------------------------------------- */
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new Serving();
+                case 1:
+                    return new Future();
+                case 2:
+                    return new History();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }
