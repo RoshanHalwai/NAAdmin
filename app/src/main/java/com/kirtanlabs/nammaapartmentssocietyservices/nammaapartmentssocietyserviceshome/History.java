@@ -14,6 +14,10 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
 public class History extends Fragment {
 
+    /* ------------------------------------------------------------- *
+     * Overriding Fragment Objects
+     * ------------------------------------------------------------- */
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

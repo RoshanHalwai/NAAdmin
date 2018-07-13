@@ -12,6 +12,10 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
 public class NammaApartmentsSocietyServicesHome extends BaseActivity {
 
+    /* ------------------------------------------------------------- *
+     * Overriding BaseActivity Objects
+     * ------------------------------------------------------------- */
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_namma_apartments_society_services_home;
