@@ -1,54 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".nammaapartmentssocietyserviceshome.NammaApartmentsSocietyServicesHome">
-
-    <include
-        android:id="@+id/layoutBaseActivity"
-        layout="@layout/activity_base" />
-
-    <LinearLayout
-        android:id="@+id/layoutAwaitingResponse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/animationWaitingToLoadData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:indicatorColor="@color/nmBlack"
-            app:indicatorName="BallSpinFadeLoaderIndicator" />
-
-        <TextView
-            android:id="@+id/textAwaitingResponse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="@string/awaiting_customer_requirement"
-            android:textColor="@color/nmBlack"
-            android:textSize="18sp" />
-
-    </LinearLayout>
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutBaseActivity"
         android:layout_margin="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageActionTaken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/image_society_service_action_taken_on_notification"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,22 +40,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textName"
+                        android:id="@+id/textResidentName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="@string/name"
+                        android:text="@string/resident_name"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/textSociety"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:text="@string/society"
-                        android:textColor="@color/nmBlack"
-                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textApartment"
@@ -105,6 +68,15 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/textDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/date"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:id="@+id/textProblemDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -112,7 +84,6 @@
                         android:text="@string/problem_description"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -124,7 +95,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textNameValue"
+                        android:id="@+id/textResidentNameValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -134,16 +105,6 @@
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/textSocietyValue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:padding="2dp"
-                        android:text="Brigade Gateway"
-                        android:textColor="@color/nmBlack"
-                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textApartmentValue"
@@ -166,6 +127,15 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/textDateValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="Jul 27,  18:30"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:id="@+id/textProblemDescriptionValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -173,35 +143,20 @@
                         android:text="Leakage in Tap"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonMakeCall"
+                android:id="@+id/buttonCallResident"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@color/nmBlack"
-                android:text="@string/call"
-                android:textAllCaps="true"
+                android:text="@string/call_resident"
+                android:textAllCaps="false"
                 android:textColor="@color/nmLightYellow"
                 android:textSize="@dimen/button_default_size" />
-
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
 
-    <Button
-        android:id="@+id/buttonEndService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/nmBlack"
-        android:text="@string/end_service"
-        android:textAllCaps="false"
-        android:textColor="@color/nmLightYellow"
-        android:textSize="@dimen/button_default_size" />
-
-</RelativeLayout>
+</LinearLayout>
