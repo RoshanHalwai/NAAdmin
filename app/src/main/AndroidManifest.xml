@@ -13,9 +13,9 @@
         <!-- Ignore this activity for now -->
         <activity android:name=".MainActivity" />
 
-        <!-- Namma Apartments Society Services Home Screen -->
+        <!-- Namma Apartments Plumber Services Screen -->
         <activity
-            android:name=".nammaapartmentssocietyserviceshome.NammaApartmentsSocietyServicesHome"
+            android:name=".nammaapartmentssocietyserviceshome.NammaApartmentsPlumberServices"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

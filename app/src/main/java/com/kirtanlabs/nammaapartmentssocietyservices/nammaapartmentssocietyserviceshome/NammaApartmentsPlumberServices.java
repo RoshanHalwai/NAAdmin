@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class NammaApartmentsSocietyServicesHome extends BaseActivity {
+public class NammaApartmentsPlumberServices extends BaseActivity {
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -18,12 +18,12 @@ public class NammaApartmentsSocietyServicesHome extends BaseActivity {
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_namma_apartments_society_services_home;
+        return R.layout.activity_namma_apartments_plumber_services;
     }
 
     @Override
     protected int getActivityTitle() {
-        return R.string.society_services;
+        return R.string.plumber_services;
     }
 
     @Override

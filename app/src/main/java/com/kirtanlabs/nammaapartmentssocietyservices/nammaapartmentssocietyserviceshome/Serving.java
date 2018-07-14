@@ -36,32 +36,32 @@ public class Serving extends Fragment {
 
         /*Getting Id's for all the views*/
         TextView textAwaitingResponse = view.findViewById(R.id.textAwaitingResponse);
-        TextView textName = view.findViewById(R.id.textName);
-        TextView textSociety = view.findViewById(R.id.textSociety);
+        TextView textResidentName = view.findViewById(R.id.textResidentName);
         TextView textApartment = view.findViewById(R.id.textApartment);
         TextView textFlatNumber = view.findViewById(R.id.textFlatNumber);
+        TextView textDate = view.findViewById(R.id.textDate);
         TextView textProblemDescription = view.findViewById(R.id.textProblemDescription);
-        TextView textNameValue = view.findViewById(R.id.textNameValue);
-        TextView textSocietyValue = view.findViewById(R.id.textSocietyValue);
+        TextView textResidentNameValue = view.findViewById(R.id.textResidentNameValue);
         TextView textApartmentValue = view.findViewById(R.id.textApartmentValue);
         TextView textFlatNumberValue = view.findViewById(R.id.textFlatNumberValue);
+        TextView textDateValue = view.findViewById(R.id.textDateValue);
         TextView textProblemDescriptionValue = view.findViewById(R.id.textProblemDescriptionValue);
-        Button buttonMakeCall = view.findViewById(R.id.buttonMakeCall);
+        Button buttonCallResident = view.findViewById(R.id.buttonCallResident);
         Button buttonEndService = view.findViewById(R.id.buttonEndService);
 
         /*Setting font for all the views*/
         textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textName.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textSociety.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
+        textResidentName.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
         textApartment.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
         textFlatNumber.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
+        textDate.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
         textProblemDescription.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textNameValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textSocietyValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
+        textResidentNameValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
         textApartmentValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
         textFlatNumberValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
+        textDateValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
         textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        buttonMakeCall.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
+        buttonCallResident.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
         buttonEndService.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
     }
 }
