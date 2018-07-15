@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
@@ -19,6 +20,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
      * Private Members
      * ------------------------------------------------------------- */
 
+    private final BaseActivity baseActivity;
     private Context mCtx;
     private int screenTitle;
 
@@ -28,6 +30,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
 
     PlumberServicesAdapter(Context mCtx, int screenTitle) {
         this.mCtx = mCtx;
+        baseActivity = (BaseActivity) mCtx;
         this.screenTitle = screenTitle;
     }
 
@@ -75,7 +78,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
      * History Holder class
      * ------------------------------------------------------------- */
 
-    class PlumberServicesHolder extends RecyclerView.ViewHolder {
+    class PlumberServicesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /* ------------------------------------------------------------- *
          * Private Members
@@ -127,6 +130,18 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
             textDateValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             buttonCallResident.setTypeface(Constants.setLatoLightFont(mCtx));
+
+            //Setting listener for item in card view
+            buttonCallResident.setOnClickListener(this);
+        }
+
+        /* ------------------------------------------------------------- *
+         * Overriding OnClick Listeners
+         * ------------------------------------------------------------- */
+
+        @Override
+        public void onClick(View v) {
+            baseActivity.makePhoneCall();
         }
     }
 }

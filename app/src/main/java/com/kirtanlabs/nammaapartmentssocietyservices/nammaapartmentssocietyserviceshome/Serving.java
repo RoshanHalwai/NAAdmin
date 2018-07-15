@@ -13,12 +13,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
 import java.util.Objects;
 
-public class Serving extends Fragment {
+public class Serving extends Fragment implements View.OnClickListener {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private BaseActivity baseActivity;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -63,5 +70,19 @@ public class Serving extends Fragment {
         textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
         buttonCallResident.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
         buttonEndService.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
+
+        baseActivity = (BaseActivity) getActivity();
+
+        //Setting listener for item in card view
+        buttonCallResident.setOnClickListener(this);
+    }
+
+    /* ------------------------------------------------------------- *
+     * Overriding OnClick Listeners
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onClick(View v) {
+        baseActivity.makePhoneCall();
     }
 }
