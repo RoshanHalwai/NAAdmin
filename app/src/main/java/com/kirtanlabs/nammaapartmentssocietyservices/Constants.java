@@ -6,10 +6,17 @@ import android.graphics.Typeface;
 public class Constants {
 
     /* ------------------------------------------------------------- *
+     * Validation Keys
+     * ------------------------------------------------------------- */
+
+    public static final int OTP_CODE_MAX_LENGTH = 1;
+
+    /* ------------------------------------------------------------- *
      * Request Code
      * ------------------------------------------------------------- */
 
     static final int PLACE_CALL_PERMISSION_REQUEST_CODE = 1;
+    public static final int END_SERVICE_REQUEST_CODE = 2;
 
     /* ------------------------------------------------------------- *
      * Font Types

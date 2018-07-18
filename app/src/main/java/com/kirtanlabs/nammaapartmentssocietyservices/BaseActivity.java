@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -88,6 +90,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             startActivity(callIntent);
         }
+    }
+
+    /* ------------------------------------------------------------- *
+     * Protected Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method checks if all the editTexts are filled or not.
+     *
+     * @param fields consists of array of EditTexts.
+     * @return consists of boolean variable based on the context.
+     */
+    protected boolean isAllFieldsFilled(EditText[] fields) {
+        for (EditText currentField : fields) {
+            if (TextUtils.isEmpty(currentField.getText().toString())) {
+                currentField.requestFocus();
+                return false;
+            }
+        }
+        return true;
     }
 
     /* ------------------------------------------------------------- *
