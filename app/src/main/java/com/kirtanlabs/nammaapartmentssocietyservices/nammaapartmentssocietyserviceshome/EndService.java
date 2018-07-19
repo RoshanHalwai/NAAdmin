@@ -12,11 +12,8 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
 
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.OTP_CODE_MAX_LENGTH;
 
 public class EndService extends BaseActivity implements View.OnClickListener {
 
@@ -31,10 +28,6 @@ public class EndService extends BaseActivity implements View.OnClickListener {
     private EditText editFifthOTPDigit;
     private EditText editSixthOTPDigit;
     private Button buttonVerifyOTP;
-    private TextView textWaitingForOTPOrResendOTP;
-    private TextView textTimer;
-    private int RESEND_OTP_SECONDS;
-    private int RESEND_OTP_MINUTE;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -67,8 +60,6 @@ public class EndService extends BaseActivity implements View.OnClickListener {
         editFifthOTPDigit = findViewById(R.id.editFifthOTPDigit);
         editSixthOTPDigit = findViewById(R.id.editSixthOTPDigit);
         buttonVerifyOTP = findViewById(R.id.buttonVerifyOTP);
-        textWaitingForOTPOrResendOTP = findViewById(R.id.textWaitingForOTPOrResendOTP);
-        textTimer = findViewById(R.id.textTimer);
 
         /*Setting font for all the views*/
         textDescription.setTypeface(Constants.setLatoRegularFont(this));
@@ -79,18 +70,12 @@ public class EndService extends BaseActivity implements View.OnClickListener {
         editFifthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
         editSixthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
         buttonVerifyOTP.setTypeface(Constants.setLatoLightFont(this));
-        textWaitingForOTPOrResendOTP.setTypeface(Constants.setLatoRegularFont(this));
-        textTimer.setTypeface(Constants.setLatoRegularFont(this));
-
-        // To start timer of 120seconds on load of activity.
-        startResendOTPTimer();
 
         /*Setting events for OTP edit text*/
         setEventsForEditText();
 
         /*Setting onClickListener for view*/
         buttonVerifyOTP.setOnClickListener(this);
-        textWaitingForOTPOrResendOTP.setOnClickListener(this);
     }
 
     /* ------------------------------------------------------------- *
@@ -99,24 +84,17 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonVerifyOTP:
-                boolean allFieldsFilled = isAllFieldsFilled(new EditText[]{
-                        editFirstOTPDigit,
-                        editSecondOTPDigit,
-                        editThirdOTPDigit,
-                        editFourthOTPDigit,
-                        editFifthOTPDigit,
-                        editSixthOTPDigit
-                });
-                if (allFieldsFilled) {
-                    setResult(RESULT_OK);
-                    finish();
-                }
-                break;
-            case R.id.textWaitingForOTPOrResendOTP:
-                startResendOTPTimer();
-                break;
+        //TODO:To Write Logic to compare the OTP entered by the Society Service Person matches with the OTP sent to user’s Mobile number
+        boolean allFieldsFilled = isAllFieldsFilled(new EditText[]{
+                editFirstOTPDigit,
+                editSecondOTPDigit,
+                editThirdOTPDigit,
+                editFourthOTPDigit,
+                editFifthOTPDigit,
+                editSixthOTPDigit
+        });
+        if (allFieldsFilled) {
+            finish();
         }
     }
 
@@ -136,9 +114,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
-                    editFirstOTPDigit.requestFocus();
-                } else {
+                if (count > EDIT_TEXT_EMPTY_LENGTH) {
                     editSecondOTPDigit.requestFocus();
                 }
             }
@@ -157,7 +133,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
+                if (count == EDIT_TEXT_EMPTY_LENGTH) {
                     editFirstOTPDigit.requestFocus();
                 } else {
                     editThirdOTPDigit.requestFocus();
@@ -178,7 +154,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
+                if (count == EDIT_TEXT_EMPTY_LENGTH) {
                     editSecondOTPDigit.requestFocus();
                 } else {
                     editFourthOTPDigit.requestFocus();
@@ -199,7 +175,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
+                if (count == EDIT_TEXT_EMPTY_LENGTH) {
                     editThirdOTPDigit.requestFocus();
                 } else {
                     editFifthOTPDigit.requestFocus();
@@ -220,7 +196,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
+                if (count == EDIT_TEXT_EMPTY_LENGTH) {
                     editFourthOTPDigit.requestFocus();
                 } else {
                     editSixthOTPDigit.requestFocus();
@@ -241,7 +217,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < OTP_CODE_MAX_LENGTH) {
+                if (count == EDIT_TEXT_EMPTY_LENGTH) {
                     editFifthOTPDigit.requestFocus();
                     buttonVerifyOTP.setVisibility(View.INVISIBLE);
                 } else {
@@ -254,48 +230,5 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
             }
         });
-    }
-
-    /**
-     * This method is invoked to start timer again on click of Resend OTP, if the user doesn't receive after 120 seconds
-     */
-    private void startResendOTPTimer() {
-        textWaitingForOTPOrResendOTP.setText(R.string.waiting_for_otp);
-        textTimer.setVisibility(View.VISIBLE);
-        RESEND_OTP_MINUTE = 1;
-        RESEND_OTP_SECONDS = 59;
-        String timer = timeFormatter(RESEND_OTP_MINUTE) + ":" + timeFormatter(RESEND_OTP_SECONDS);
-        textTimer.setText(timer);
-        textTimer.setEnabled(false);
-        textWaitingForOTPOrResendOTP.setEnabled(false);
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(() -> {
-                    RESEND_OTP_SECONDS -= 1;
-                    String timer = timeFormatter(RESEND_OTP_MINUTE) + ":" + timeFormatter(RESEND_OTP_SECONDS);
-                    textTimer.setText(timer);
-                    if (RESEND_OTP_MINUTE == 0 && RESEND_OTP_SECONDS == 0) {
-                        t.cancel();
-
-                        /* User can Resend OTP to owners mobile number*/
-                        textWaitingForOTPOrResendOTP.setText(R.string.resend_otp);
-                        textWaitingForOTPOrResendOTP.setEnabled(true);
-                        textTimer.setEnabled(true);
-                        textTimer.setVisibility(View.INVISIBLE);
-                    } else if (RESEND_OTP_SECONDS == 0) {
-                        timer = timeFormatter(RESEND_OTP_MINUTE) + ":" + timeFormatter(RESEND_OTP_SECONDS);
-                        textTimer.setText(timer);
-                        RESEND_OTP_SECONDS = 60;
-                        RESEND_OTP_MINUTE = RESEND_OTP_MINUTE - 1;
-                    }
-                });
-            }
-        }, 0, 1000);
-    }
-
-    private String timeFormatter(int time) {
-        return String.format(Locale.ENGLISH, "%02d", time % 60);
     }
 }

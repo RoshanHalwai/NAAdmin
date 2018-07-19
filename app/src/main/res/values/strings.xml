@@ -23,7 +23,5 @@
 
     <!--End Service Activity-->
     <string name="enter_otp">A 6 digit OTP has been sent to the Flat Owner. Please enter the OTP to end the Service.</string>
-    <string name="resend_otp">Resend OTP</string>
-    <string name="waiting_for_otp">Waiting for OTP. . .</string>
 
 </resources>

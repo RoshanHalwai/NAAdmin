@@ -9,7 +9,7 @@ public class Constants {
      * Validation Keys
      * ------------------------------------------------------------- */
 
-    public static final int OTP_CODE_MAX_LENGTH = 1;
+    public static final int EDIT_TEXT_EMPTY_LENGTH = 0;
 
     /* ------------------------------------------------------------- *
      * Request Code
