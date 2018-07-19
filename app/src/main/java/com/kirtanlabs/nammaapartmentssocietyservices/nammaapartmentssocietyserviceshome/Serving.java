@@ -1,6 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
 import java.util.Objects;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 
 public class Serving extends Fragment implements View.OnClickListener {
 
@@ -75,6 +78,7 @@ public class Serving extends Fragment implements View.OnClickListener {
 
         //Setting listener for item in card view
         buttonCallResident.setOnClickListener(this);
+        buttonEndService.setOnClickListener(this);
     }
 
     /* ------------------------------------------------------------- *
@@ -83,6 +87,14 @@ public class Serving extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        baseActivity.makePhoneCall();
+        switch (v.getId()) {
+            case R.id.buttonCallResident:
+                baseActivity.makePhoneCall();
+                break;
+            case R.id.buttonEndService:
+                Intent intent = new Intent(getActivity(), EndService.class);
+                startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
+                break;
+        }
     }
 }

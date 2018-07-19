@@ -22,6 +22,6 @@
     <string name="image_society_service_action_taken_on_notification">Image to indicate whether Society Service has Accepted or Rejected notification that they received</string>
 
     <!--End Service Activity-->
-    <string name="please_ask_user_for_otp">Please Ask user to give OTP </string>
+    <string name="enter_otp">A 6 digit OTP has been sent to the Flat Owner. Please enter the OTP to end the Service.</string>
 
 </resources>
