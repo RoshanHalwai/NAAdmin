@@ -3,7 +3,16 @@ package com.kirtanlabs.nammaapartmentssocietyservices;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Constants {
+
+    /* ------------------------------------------------------------- *
+     * Intent Keys
+     * ------------------------------------------------------------- */
+
+    public static final String MESSAGE = "message";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -17,6 +26,20 @@ public class Constants {
 
     static final int PLACE_CALL_PERMISSION_REQUEST_CODE = 1;
     public static final int END_SERVICE_REQUEST_CODE = 2;
+
+    /* ------------------------------------------------------------- *
+     * Firebase Objects
+     * ------------------------------------------------------------- */
+
+    public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
+    public static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyService";
+
+    /* ------------------------------------------------------------- *
+     * Firebase Database References
+     * ------------------------------------------------------------- */
+    private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
+    public static final DatabaseReference SOCIETY_SERVICE_TOKEN_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES)
+            .child(FIREBASE_CHILD_TOKEN_ID);
 
     /* ------------------------------------------------------------- *
      * Font Types
