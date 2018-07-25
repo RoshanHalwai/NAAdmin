@@ -19,6 +19,7 @@
     <string name="serving">Serving</string>
     <string name="future">Future</string>
     <string name="history">History</string>
+    <string name="default_notification_channel_id">01</string>
     <string name="image_society_service_action_taken_on_notification">Image to indicate whether Society Service has Accepted or Rejected notification that they received</string>
 
     <!--End Service Activity-->
