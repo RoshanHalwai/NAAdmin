@@ -18,28 +18,35 @@
         <!-- Namma Apartments Plumber Services Screen -->
         <activity
             android:name=".nammaapartmentssocietyserviceshome.NammaApartmentsPlumberServices"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".nammaapartmentssocietyserviceshome.EndService"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Login Screen -->
+        <activity
+            android:name=".login.SignIn"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".nammaapartmentssocietyserviceshome.EndService"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
 
-        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseMessagingService" >
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseInstanceIdService" >
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

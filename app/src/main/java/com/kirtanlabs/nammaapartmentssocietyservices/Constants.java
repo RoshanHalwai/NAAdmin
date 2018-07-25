@@ -19,6 +19,7 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     public static final int EDIT_TEXT_EMPTY_LENGTH = 0;
+    public static final int PHONE_NUMBER_MAX_LENGTH = 10;
 
     /* ------------------------------------------------------------- *
      * Request Code

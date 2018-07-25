@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.regex.Pattern;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLACE_CALL_PERMISSION_REQUEST_CODE;
 
 /**
@@ -141,4 +144,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             startActivity(callIntent);
         }
     }
+
+    /**
+     * This method checks if user is entering proper phone number or not.
+     *
+     * @param phone consists of string value of mobile number.
+     * @return returns a boolean variable based on the context.
+     */
+    public boolean isValidPhone(String phone) {
+        return !Pattern.matches("[a-zA-Z]+", phone) && phone.length() == PHONE_NUMBER_MAX_LENGTH;
+    }
+
 }
