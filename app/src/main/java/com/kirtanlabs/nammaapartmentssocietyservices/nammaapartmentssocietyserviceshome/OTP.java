@@ -1,5 +1,6 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,7 +16,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
 
 
-public class EndService extends BaseActivity implements View.OnClickListener {
+public class OTP extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -28,6 +29,7 @@ public class EndService extends BaseActivity implements View.OnClickListener {
     private EditText editFifthOTPDigit;
     private EditText editSixthOTPDigit;
     private Button buttonVerifyOTP;
+    private int screenTitle;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -35,12 +37,19 @@ public class EndService extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_end_service;
+        return R.layout.activity_otp;
     }
 
     @Override
     protected int getActivityTitle() {
-        return R.string.end_service;
+        /*We use a common class for Phone Verification and End Service, we set the title
+         * based on the user navigating from previous screen*/
+        if (getIntent().getIntExtra(Constants.SCREEN_TITLE, 0) == R.string.login) {
+            screenTitle = R.string.phone_verification;
+        } else {
+            screenTitle = R.string.end_service;
+        }
+        return screenTitle;
     }
 
     @Override
@@ -71,6 +80,11 @@ public class EndService extends BaseActivity implements View.OnClickListener {
         editSixthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
         buttonVerifyOTP.setTypeface(Constants.setLatoLightFont(this));
 
+        /*Since we are using same layout for Phone Verification and End Service Screens, So we update textDescription accordingly*/
+        if (screenTitle == R.string.phone_verification) {
+            textDescription.setText(R.string.enter_verification_code);
+        }
+
         /*Setting events for OTP edit text*/
         setEventsForEditText();
 
@@ -94,7 +108,15 @@ public class EndService extends BaseActivity implements View.OnClickListener {
                 editSixthOTPDigit
         });
         if (allFieldsFilled) {
-            finish();
+            switch (screenTitle) {
+                case R.string.phone_verification:
+                    startActivity(new Intent(OTP.this, MyService.class));
+                    finish();
+                    break;
+                case R.string.end_service:
+                    finish();
+                    break;
+            }
         }
     }
 

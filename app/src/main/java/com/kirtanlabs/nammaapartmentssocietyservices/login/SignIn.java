@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome.NammaApartmentsPlumberServices;
+import com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome.OTP;
 
 public class SignIn extends BaseActivity implements View.OnClickListener {
 
@@ -67,7 +67,9 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
         String mobileNumber = editMobileNumber.getText().toString().trim();
         //TODO: To remove this mobile number from here and check whether entered is mobile number present in firebase or not.
         if (isValidPhone(mobileNumber) && mobileNumber.equals("7895185103")) {
-            startActivity(new Intent(SignIn.this, NammaApartmentsPlumberServices.class));
+            Intent intent = new Intent(SignIn.this, OTP.class);
+            intent.putExtra(Constants.SCREEN_TITLE, R.string.login);
+            startActivity(intent);
             finish();
         } else {
             editMobileNumber.setError(getString(R.string.mobile_number_validation));

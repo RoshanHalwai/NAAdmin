@@ -15,12 +15,12 @@
         <!-- Ignore this activity for now -->
         <activity android:name=".MainActivity" />
 
-        <!-- Namma Apartments Plumber Services Screen -->
+        <!-- My Service Screen -->
         <activity
-            android:name=".nammaapartmentssocietyserviceshome.NammaApartmentsPlumberServices"
+            android:name=".nammaapartmentssocietyserviceshome.MyService"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nammaapartmentssocietyserviceshome.EndService"
+            android:name=".nammaapartmentssocietyserviceshome.OTP"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
