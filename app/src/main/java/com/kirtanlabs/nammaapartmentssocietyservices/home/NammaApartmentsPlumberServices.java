@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +13,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
 
 public class NammaApartmentsPlumberServices extends BaseActivity {
 

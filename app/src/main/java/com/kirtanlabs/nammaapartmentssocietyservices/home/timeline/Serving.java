@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.home.timeline;
 
 
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
 
 import java.util.Objects;
 
@@ -92,7 +93,7 @@ public class Serving extends Fragment implements View.OnClickListener {
                 baseActivity.makePhoneCall();
                 break;
             case R.id.buttonEndService:
-                Intent intent = new Intent(getActivity(), EndService.class);
+                Intent intent = new Intent(getActivity(), OTP.class);
                 startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
                 break;
         }

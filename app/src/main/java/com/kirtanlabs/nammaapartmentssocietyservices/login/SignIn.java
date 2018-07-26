@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome.NammaApartmentsPlumberServices;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.NammaApartmentsPlumberServices;
 
 public class SignIn extends BaseActivity implements View.OnClickListener {
 
