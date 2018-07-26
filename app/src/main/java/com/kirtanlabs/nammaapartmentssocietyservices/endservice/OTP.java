@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.endservice;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +15,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
 
 
-public class EndService extends BaseActivity implements View.OnClickListener {
+public class OTP extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members

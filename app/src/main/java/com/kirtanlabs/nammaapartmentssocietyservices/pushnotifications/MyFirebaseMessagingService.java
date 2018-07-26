@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
