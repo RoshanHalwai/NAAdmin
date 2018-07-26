@@ -63,7 +63,7 @@ public class MyService extends BaseActivity implements CompoundButton.OnCheckedC
 
         switchAvailability.setVisibility(View.VISIBLE);
 
-        /*When user logs in then its status then its status will become Available*/
+        /*When user logs In its default status will be Available */
         switchAvailability.setChecked(true);
         layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
         tabLayout.setBackgroundResource(R.color.nmGreen);
