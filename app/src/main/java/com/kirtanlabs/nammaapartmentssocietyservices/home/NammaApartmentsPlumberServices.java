@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -29,6 +30,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
     private LinearLayout layoutBaseActivity;
     private TabLayout tabLayout;
+    private TextView textActivityTitle;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -41,7 +43,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
     @Override
     protected int getActivityTitle() {
-        return R.string.my_service;
+        return R.string.available;
     }
 
     @Override
@@ -52,12 +54,19 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         hence hiding the back button from the Title Bar*/
         hideBackButton();
 
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*Getting Id's for all the views*/
         ViewPager mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabs);
+        textActivityTitle = findViewById(R.id.textActivityTitle);
         Switch switchAvailability = findViewById(R.id.switchAvailability);
         layoutBaseActivity = findViewById(R.id.layoutBaseActivity);
+
+        /*Setting font for all the views*/
+        textActivityTitle.setTypeface(Constants.setLatoRegularFont(this));
+
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
@@ -86,9 +95,11 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         //TODO: To update the status of society service in firebase also
         if (isChecked) {
+            textActivityTitle.setText(R.string.available);
             layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
             tabLayout.setBackgroundResource(R.color.nmGreen);
         } else {
+            textActivityTitle.setText(R.string.unavailable);
             layoutBaseActivity.setBackgroundResource(R.color.nmRed);
             tabLayout.setBackgroundResource(R.color.nmRed);
         }
