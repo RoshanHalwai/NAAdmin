@@ -1,5 +1,6 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,9 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -21,8 +25,9 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
+import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
 
-public class NammaApartmentsPlumberServices extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class NammaApartmentsPlumberServices extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -31,6 +36,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
     private LinearLayout layoutBaseActivity;
     private TabLayout tabLayout;
     private TextView textActivityTitle;
+    private ImageView imageMenu;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -60,6 +66,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         textActivityTitle = findViewById(R.id.textActivityTitle);
         Switch switchAvailability = findViewById(R.id.switchAvailability);
         layoutBaseActivity = findViewById(R.id.layoutBaseActivity);
+        imageMenu = findViewById(R.id.imageMenu);
 
         /*Setting font for all the views*/
         textActivityTitle.setTypeface(Constants.setLatoRegularFont(this));
@@ -71,6 +78,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         switchAvailability.setVisibility(View.VISIBLE);
+        imageMenu.setVisibility(View.VISIBLE);
 
         /*When user logs In its default status will be Available */
         switchAvailability.setChecked(true);
@@ -85,11 +93,24 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
         /*Setting event for views*/
         switchAvailability.setOnCheckedChangeListener(this);
+        imageMenu.setOnClickListener(this);
     }
 
     /* ------------------------------------------------------------- *
-     * Overriding OnCheckedChanged Listeners
+     * Overriding onClick, OnCheckedChanged & onMenuItemClick Listeners
      * ------------------------------------------------------------- */
+
+    @Override
+    public void onClick(View v) {
+        PopupMenu popupMenu = new PopupMenu(NammaApartmentsPlumberServices.this, imageMenu);
+        popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            startActivity(new Intent(NammaApartmentsPlumberServices.this, SignIn.class));
+            finish();
+            return true;
+        });
+        popupMenu.show();
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
