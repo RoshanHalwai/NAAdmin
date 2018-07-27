@@ -15,21 +15,21 @@
         <!-- Ignore this activity for now -->
         <activity android:name=".MainActivity" />
 
-        <!-- My Service Screen -->
+        <!-- Namma Apartments Plumber Services Screen -->
         <activity
-            android:name=".nammaapartmentssocietyserviceshome.MyService"
+            android:name=".home.NammaApartmentsPlumberServices"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nammaapartmentssocietyserviceshome.OTP"
+            android:name=".endservice.OTP"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseMessagingService">
+        <service android:name=".pushnotifications.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseInstanceIdService">
+        <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

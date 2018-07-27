@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -28,7 +28,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
      * Constructor
      * ------------------------------------------------------------- */
 
-    PlumberServicesAdapter(Context mCtx, int screenTitle) {
+    public PlumberServicesAdapter(Context mCtx, int screenTitle) {
         this.mCtx = mCtx;
         baseActivity = (BaseActivity) mCtx;
         this.screenTitle = screenTitle;

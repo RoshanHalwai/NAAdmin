@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome.OTP;
+import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
 
 public class SignIn extends BaseActivity implements View.OnClickListener {
 

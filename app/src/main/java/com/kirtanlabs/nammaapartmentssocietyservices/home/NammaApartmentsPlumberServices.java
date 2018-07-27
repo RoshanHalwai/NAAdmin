@@ -1,8 +1,6 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,8 +17,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
 
-public class MyService extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class NammaApartmentsPlumberServices extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -35,7 +36,7 @@ public class MyService extends BaseActivity implements CompoundButton.OnCheckedC
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_my_service;
+        return R.layout.activity_namma_apartments_plumber_services;
     }
 
     @Override
@@ -43,7 +44,6 @@ public class MyService extends BaseActivity implements CompoundButton.OnCheckedC
         return R.string.my_service;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

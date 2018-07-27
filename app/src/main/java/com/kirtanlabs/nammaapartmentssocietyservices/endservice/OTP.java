@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.endservice;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.NammaApartmentsPlumberServices;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
 
@@ -110,7 +111,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         if (allFieldsFilled) {
             switch (screenTitle) {
                 case R.string.phone_verification:
-                    startActivity(new Intent(OTP.this, MyService.class));
+                    startActivity(new Intent(OTP.this, NammaApartmentsPlumberServices.class));
                     finish();
                     break;
                 case R.string.end_service:
