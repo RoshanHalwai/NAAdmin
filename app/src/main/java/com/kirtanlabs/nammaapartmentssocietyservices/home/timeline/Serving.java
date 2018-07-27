@@ -94,6 +94,7 @@ public class Serving extends Fragment implements View.OnClickListener {
                 break;
             case R.id.buttonEndService:
                 Intent intent = new Intent(getActivity(), OTP.class);
+                intent.putExtra(Constants.SCREEN_TITLE, R.string.serving);
                 startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
                 break;
         }

@@ -13,6 +13,7 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     public static final String MESSAGE = "message";
+    public static final String SCREEN_TITLE = "screenTitle";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
