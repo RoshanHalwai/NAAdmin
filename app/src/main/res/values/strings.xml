@@ -5,7 +5,8 @@
     <string name="back_button_description">Back button to navigate previous activity</string>
 
     <!--Namma Apartments Society Services Home Activity-->
-    <string name="my_service">My Service</string>
+    <string name="available">Available</string>
+    <string name="unavailable">Unavailable</string>
     <string name="awaiting_customer_requirement">Awaiting User Requirement</string>
     <string name="resident_name">Resident Name:</string>
     <string name="society">Society:</string>
