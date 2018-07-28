@@ -30,17 +30,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <service android:name=".pushnotifications.MyFirebaseMessagingService" >
+        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseMessagingService" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".pushnotifications.MyFirebaseInstanceIdService" >
+        <service android:name=".nammaapartmentssocietyserviceshome.MyFirebaseInstanceIdService" >
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <receiver android:name=".pushnotifications.Button_listener" >
+        <receiver android:name=".nammaapartmentssocietyserviceshome.Button_listener" >
             <intent-filter>
                 <action android:name="accept_button_clicked" />
                 <action android:name="reject_button_clicked" />
