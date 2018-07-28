@@ -47,6 +47,11 @@
             </intent-filter>
         </activity>
 
+        <!-- Register Screen -->
+        <activity
+            android:name=".admin.Register"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

@@ -12,8 +12,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.regex.Pattern;
@@ -32,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private ImageView backButton;
+    private ImageView backButton, imageMenu;
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
 
@@ -56,11 +58,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void setBackButtonListener() {
         ImageView backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
+        backButton.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void setMenuIconListener() {
+        imageMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(this, imageMenu);
+            popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(item -> {
+                startActivity(new Intent(this, SignIn.class));
+                finish();
+                return true;
+            });
+            popupMenu.show();
         });
     }
 
@@ -70,6 +80,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void hideBackButton() {
         backButton.setVisibility(View.INVISIBLE);
+    }
+
+    protected void showMenuIcon() {
+        imageMenu = findViewById(R.id.imageMenu);
+        imageMenu.setVisibility(View.VISIBLE);
+        setMenuIconListener();
     }
 
 

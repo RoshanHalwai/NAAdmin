@@ -65,10 +65,13 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String mobileNumber = editMobileNumber.getText().toString().trim();
-        //TODO: To remove this mobile number from here and check whether entered is mobile number present in firebase or not.
-        if (isValidPhone(mobileNumber) && mobileNumber.equals("7895185103")) {
+        //TODO: To remove this admin mobile number from here and check whether entered is mobile number present in firebase or not.
+        if (isValidPhone(mobileNumber)) {
             Intent intent = new Intent(SignIn.this, OTP.class);
             intent.putExtra(Constants.SCREEN_TITLE, R.string.login);
+            if (mobileNumber.equals("7895185103")) {
+                intent.putExtra(Constants.IS_ADMIN, true);
+            }
             startActivity(intent);
             finish();
         } else {
