@@ -36,8 +36,8 @@ public class Constants {
 
     private static final String FIREBASE_CHILD_ALL = "all";
     private static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
-    private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyService";
-    private static final String FIREBASE_CHILD_SOCIETYSERVICE = "societyServices";
+    private static final String FIREBASE_CHILD_SOCIETY_SERVICE = "societyService";
+    private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
@@ -47,9 +47,9 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
-    public static final DatabaseReference SOCIETY_SERVICE_TOKEN_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES)
+    public static final DatabaseReference SOCIETY_SERVICE_TOKEN_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICE)
             .child(FIREBASE_CHILD_TOKEN_ID);
-    public static final DatabaseReference ALL_SOCIETYSERVICE_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICE).child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference ALL_SOCIETY_SERVICE_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES).child(FIREBASE_CHILD_ALL);
 
     /* ------------------------------------------------------------- *
      * Font Types

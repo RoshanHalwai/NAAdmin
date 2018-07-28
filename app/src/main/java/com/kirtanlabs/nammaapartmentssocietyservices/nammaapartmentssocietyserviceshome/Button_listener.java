@@ -68,7 +68,7 @@ public class Button_listener extends BroadcastReceiver {
      */
     private void replyNotification(final String notificationUID, final String status) {
         /*Once the notification gets triggered, a 'notifications' child will be created in societyServices->all->societyServiceType->data->private->uid*/
-        DatabaseReference societyServicesReference = Constants.ALL_SOCIETYSERVICE_REFERENCE.child("plumber").child(FIREBASE_CHILD_DATA)
+        DatabaseReference societyServicesReference = Constants.ALL_SOCIETY_SERVICE_REFERENCE.child("plumber").child(FIREBASE_CHILD_DATA)
                 .child(FIREBASE_CHILD_PRIVATE).child(notificationUID);
         societyServicesReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
