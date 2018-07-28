@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications;
 
 import android.util.Log;
 
@@ -21,6 +21,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
         //now we will have the token
         String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Token", token);
 
         //for now we are displaying the token in the log
         //copy it as this method is called only when the new token is generated
