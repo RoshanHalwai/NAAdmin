@@ -23,6 +23,10 @@
     <string name="default_notification_channel_id">01</string>
     <string name="image_society_service_action_taken_on_notification">Image to indicate whether Society Service has Accepted or Rejected notification that they received</string>
 
+    <!--Custom Notification -->
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+
     <!--End Service Activity-->
     <string name="enter_verification_code_to_end_service">A 6 digit OTP has been sent to the Flat Owner Mobile Number. Please enter the OTP to end the Service.</string>
     <string name="phone_verification">Phone Verification</string>

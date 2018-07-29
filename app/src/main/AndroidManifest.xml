@@ -52,6 +52,13 @@
             android:name=".admin.Register"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+
+        <receiver android:name=".nammaapartmentssocietyserviceshome.Button_listener">
+            <intent-filter>
+                <action android:name="accept_button_clicked" />
+                <action android:name="reject_button_clicked" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
