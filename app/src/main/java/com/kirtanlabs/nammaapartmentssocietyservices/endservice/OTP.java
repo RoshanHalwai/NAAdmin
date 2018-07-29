@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.Register;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.NammaApartmentsPlumberServices;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
@@ -23,6 +24,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
      * Private Members
      * ------------------------------------------------------------- */
 
+    private TextView textDescription;
     private EditText editFirstOTPDigit;
     private EditText editSecondOTPDigit;
     private EditText editThirdOTPDigit;
@@ -30,7 +32,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     private EditText editFifthOTPDigit;
     private EditText editSixthOTPDigit;
     private Button buttonVerifyOTP;
-    private int screenTitle;
+    private int previousScreenTitle;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -43,14 +45,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int getActivityTitle() {
-        /*We use a common class for Phone Verification and End Service, we set the title
-         * based on the user navigating from previous screen*/
-        if (getIntent().getIntExtra(Constants.SCREEN_TITLE, 0) == R.string.login) {
-            screenTitle = R.string.phone_verification;
-        } else {
-            screenTitle = R.string.end_service;
-        }
-        return screenTitle;
+        return R.string.phone_verification;
     }
 
     @Override
@@ -62,7 +57,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         hideBackButton();
 
         /*Getting Id's for all the views*/
-        TextView textDescription = findViewById(R.id.textDescription);
+        textDescription = findViewById(R.id.textDescription);
         editFirstOTPDigit = findViewById(R.id.editFirstOTPDigit);
         editSecondOTPDigit = findViewById(R.id.editSecondOTPDigit);
         editThirdOTPDigit = findViewById(R.id.editThirdOTPDigit);
@@ -81,10 +76,10 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         editSixthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
         buttonVerifyOTP.setTypeface(Constants.setLatoLightFont(this));
 
-        /*Since we are using same layout for Phone Verification and End Service Screens, So we update textDescription accordingly*/
-        if (screenTitle == R.string.phone_verification) {
-            textDescription.setText(R.string.enter_verification_code);
-        }
+        /* Since multiple activities make use of this class we get previous
+         * screen title and update the views accordingly*/
+        getPreviousScreenTitle();
+        updatePhoneVerificationText();
 
         /*Setting events for OTP edit text*/
         setEventsForEditText();
@@ -109,12 +104,21 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                 editSixthOTPDigit
         });
         if (allFieldsFilled) {
-            switch (screenTitle) {
-                case R.string.phone_verification:
-                    startActivity(new Intent(OTP.this, NammaApartmentsPlumberServices.class));
+            switch (previousScreenTitle) {
+                case R.string.login:
+                    boolean isAdmin = getIntent().getBooleanExtra(Constants.IS_ADMIN, false);
+                    if (isAdmin) {
+                        startActivity(new Intent(OTP.this, Register.class));
+                    } else {
+                        startActivity(new Intent(OTP.this, NammaApartmentsPlumberServices.class));
+                    }
                     finish();
                     break;
-                case R.string.end_service:
+                case R.string.serving:
+                    finish();
+                    break;
+                case R.string.register:
+                    setResult(RESULT_OK);
                     finish();
                     break;
             }
@@ -124,6 +128,13 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     /* ------------------------------------------------------------- *
      * Private Method
      * ------------------------------------------------------------- */
+
+    /**
+     * This method to invoked to get the screen title based on the user navigating from previous screen
+     */
+    private void getPreviousScreenTitle() {
+        previousScreenTitle = getIntent().getIntExtra(Constants.SCREEN_TITLE, 0);
+    }
 
     /**
      * Once user enters a digit in one edit text we move the cursor to next edit text
@@ -253,5 +264,22 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
             }
         });
+    }
+
+    /**
+     * We update the Phone Verification text based on the activity calling this class.
+     */
+    private void updatePhoneVerificationText() {
+        switch (previousScreenTitle) {
+            case R.string.login:
+                textDescription.setText(R.string.enter_verification_code);
+                break;
+            case R.string.register:
+                textDescription.setText(R.string.enter_verification_code_for_registration);
+                break;
+            case R.string.serving:
+                textDescription.setText(R.string.enter_verification_code_to_end_service);
+                break;
+        }
     }
 }

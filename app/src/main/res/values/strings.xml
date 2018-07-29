@@ -5,8 +5,8 @@
     <string name="back_button_description">Back button to navigate previous activity</string>
 
     <!--Namma Apartments Society Services Home Activity-->
-    <string name="available">Available</string>
-    <string name="unavailable">Unavailable</string>
+    <string name="available">AVAILABLE</string>
+    <string name="unavailable">UNAVAILABLE</string>
     <string name="awaiting_customer_requirement">Awaiting User Requirement</string>
     <string name="resident_name">Resident Name:</string>
     <string name="society">Society:</string>
@@ -28,10 +28,12 @@
     <string name="reject">Reject</string>
 
     <!--End Service Activity-->
-    <string name="enter_otp">A 6 digit OTP has been sent to the Flat Owner. Please enter the OTP to end the Service.</string>
+    <string name="enter_verification_code_to_end_service">A 6 digit OTP has been sent to the Flat Owner Mobile Number. Please enter the OTP to end the Service.</string>
     <string name="phone_verification">Phone Verification</string>
     <string name="enter_verification_code">We need to verify your account. Please enter the 6 digit verification
     code sent to your mobile number.</string>
+    <string name="enter_verification_code_for_registration">A 6 digit OTP has been sent to the Society Service Mobile Number.
+        Please enter the OTP to create an Account.</string>
 
     <!-- Sign Up Activity -->
     <string name="login">LOGIN</string>
@@ -39,5 +41,22 @@
     <string name="phone_number">Mobile Number</string>
     <string name="mobile_number_validation">Please Enter a valid 10 digit mobile number</string>
     <string name="logout">Logout</string>
+
+    <!-- Register Activity -->
+    <string name="register">REGISTER</string>
+    <string name="society_service_type">Service Type</string>
+    <string name="name">Name:</string>
+    <string name="mobile_number">Mobile Number:</string>
+    <string name="select_service">Select Service</string>
+    <string name="plumber">Plumber</string>
+    <string name="carpenter">Carpenter</string>
+    <string name="electrician">Electrician</string>
+
+    <string-array name="service_list">
+        <item>@string/select_service</item>
+        <item>@string/plumber</item>
+        <item>@string/carpenter</item>
+        <item>@string/electrician</item>
+    </string-array>
 
 </resources>
