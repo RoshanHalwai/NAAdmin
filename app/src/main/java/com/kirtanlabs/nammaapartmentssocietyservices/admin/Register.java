@@ -5,19 +5,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
 
-
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SOCIETY_SERVICE_TYPE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 
 public class Register extends BaseActivity implements View.OnClickListener {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private EditText editFullName, editMobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -50,8 +60,8 @@ public class Register extends BaseActivity implements View.OnClickListener {
         TextView textFullName = findViewById(R.id.textFullName);
         TextView textCountryCode = findViewById(R.id.textCountryCode);
         Spinner spinnerSocietyServiceType = findViewById(R.id.spinnerSocietyServiceType);
-        EditText editFullName = findViewById(R.id.editFullName);
-        EditText editMobileNumber = findViewById(R.id.editMobileNumber);
+        editFullName = findViewById(R.id.editFullName);
+        editMobileNumber = findViewById(R.id.editMobileNumber);
         Button buttonRegister = findViewById(R.id.buttonRegister);
 
         /*Setting font for all the views*/
@@ -90,6 +100,44 @@ public class Register extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //TODO: We have to store Society Service Details in firebase.
+        if (resultCode == RESULT_OK && requestCode == SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE) {
+            storeSocietyServiceData();
+        }
     }
+
+    /* ------------------------------------------------------------- *
+     * Private Method
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked when the 'Admin' registers a Society Service
+     */
+    private void storeSocietyServiceData() {
+        /*Getting the reference of 'Data' child under 'societyServices'*/
+        //TODO: The 'societyServiceType' has been hardcoded to 'plumber' for now. Electrician & Carpenter will also be included.
+        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child("plumber").child(FIREBASE_CHILD_PRIVATE)
+                .child(FIREBASE_CHILD_DATA);
+
+        /*Generating the societyServiceUID and creating a reference for it*/
+        String societyServiceUID = societyServicesReference.push().getKey();
+        DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
+
+        /*Getting the data of the Society Service entered by Admin*/
+        String fullName = editFullName.getText().toString();
+        String mobileNumber = editMobileNumber.getText().toString();
+
+        /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
+        DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
+        societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
+
+        /*Mapping UID with societyServiceType*/
+        DatabaseReference societyTypeReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE).child(societyServiceUID);
+        societyTypeReference.child("plumber").setValue(true);
+
+        /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
+        NammaApartmentsSocietyServices nammaApartmentsSocietyServices = new NammaApartmentsSocietyServices(fullName,
+                mobileNumber, societyServiceUID);
+        societyServiceDetailsReference.setValue(nammaApartmentsSocietyServices);
+    }
+
 }
