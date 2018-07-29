@@ -61,6 +61,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> onBackPressed());
     }
 
+    /**
+     * This method is used to display a pop menu on click of menu icon and performs actions based on click of item in the list.
+     */
     private void setMenuIconListener() {
         imageMenu.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, imageMenu);
@@ -82,6 +85,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         backButton.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * This method is used to display menu icon in title bar wherever its needed.
+     */
     protected void showMenuIcon() {
         imageMenu = findViewById(R.id.imageMenu);
         imageMenu.setVisibility(View.VISIBLE);
