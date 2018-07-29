@@ -6,14 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
@@ -81,10 +83,37 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         tabLayout.setBackgroundResource(R.color.nmGreen);
 
         /*Storing society service token_id in firebase so that user can send notification*/
-        String token_id = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Token", token_id);
-        DatabaseReference securityGuardReference = Constants.SOCIETY_SERVICE_TOKEN_REFERENCE;
-        securityGuardReference.setValue(token_id);
+        String tokenId = FirebaseInstanceId.getInstance().getToken();
+        String societyServiceUid = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_UID);
+        String societyServiceMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
+
+        /*Getting the reference till societyService UID*/
+        DatabaseReference societyServiceUIDReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUid);
+        societyServiceUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot societyServiceTypeSnapshot : dataSnapshot.getChildren()) {
+                    /*Getting the societyServiceType*/
+                    String societyServiceType = societyServiceTypeSnapshot.getKey();
+
+                    /*Getting the token Id reference*/
+                    DatabaseReference tokenIdReference = Constants.SOCIETY_SERVICES_REFERENCE
+                            .child(societyServiceType)
+                            .child(Constants.FIREBASE_CHILD_PRIVATE);
+
+                    /*Setting the token Id in data->societyServiceUID*/
+                    tokenIdReference.child(Constants.FIREBASE_CHILD_DATA).child(societyServiceUid).child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
+
+                    /*Mapping Society Service mobile number with token Id in 'available'*/
+                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).setValue(tokenId);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         /*Setting event for views*/
         switchAvailability.setOnCheckedChangeListener(this);
