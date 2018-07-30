@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,7 +85,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
         /*Storing society service token_id in firebase so that user can send notification*/
         String tokenId = FirebaseInstanceId.getInstance().getToken();
-        String societyServiceUid = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_UID);
+        String societyServiceUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String societyServiceMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
 
         /*Getting the reference till societyService UID*/

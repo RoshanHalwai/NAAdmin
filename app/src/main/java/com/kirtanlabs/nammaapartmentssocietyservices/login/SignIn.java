@@ -72,71 +72,15 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         mobileNumber = editMobileNumber.getText().toString().trim();
         if (isValidPhone(mobileNumber)) {
-            checkMobileNumberInFirebase();
+            //We send mobile number to OTP class for Validation
+            Intent intent = new Intent(SignIn.this, OTP.class);
+            intent.putExtra(Constants.SCREEN_TITLE, R.string.login);
+            intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+            startActivity(intent);
+            finish();
         } else {
             editMobileNumber.setError(getString(R.string.mobile_number_validation));
         }
     }
 
-    /* ------------------------------------------------------------- *
-     * Private Methods
-     * ------------------------------------------------------------- */
-
-    /**
-     * Checking if user's mobile number exists in Firebase or not
-     */
-    private void checkMobileNumberInFirebase() {
-        DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
-
-        /* Here we are checking if mobile number entered of Admin or Society Service */
-        societyServiceAdminReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                String adminMobileNumber = dataSnapshot.getValue(String.class);
-
-                if (mobileNumber.equals(adminMobileNumber)) {
-                    openOtpScreen(true);
-                } else {
-                    DatabaseReference societyServicesReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE.child(mobileNumber);
-                    societyServicesReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                societyServiceUid = dataSnapshot.getValue(String.class);
-                                openOtpScreen(false);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Navigating to OTP class
-     *
-     * @param isAdmin Verifies if the mobile number entered by Admin exists or not in Database
-     */
-    private void openOtpScreen(boolean isAdmin) {
-        Intent intent = new Intent(SignIn.this, OTP.class);
-        intent.putExtra(Constants.SCREEN_TITLE, R.string.login);
-        intent.putExtra(Constants.IS_ADMIN, isAdmin);
-        if (!isAdmin) {
-            intent.putExtra(Constants.SOCIETY_SERVICE_UID, societyServiceUid);
-            intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
-        }
-        startActivity(intent);
-        finish();
-    }
 }
