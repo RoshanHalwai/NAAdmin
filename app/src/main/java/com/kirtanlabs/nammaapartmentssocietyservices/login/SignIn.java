@@ -16,8 +16,6 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
 
-import java.util.Objects;
-
 public class SignIn extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
@@ -95,7 +93,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String adminMobileNumber = Objects.requireNonNull(dataSnapshot.getValue()).toString();
+                String adminMobileNumber = dataSnapshot.getValue(String.class);
 
                 if (mobileNumber.equals(adminMobileNumber)) {
                     openOtpScreen(true);
@@ -105,7 +103,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                societyServiceUid = Objects.requireNonNull(dataSnapshot.getValue()).toString();
+                                societyServiceUid = dataSnapshot.getValue(String.class);
                                 openOtpScreen(false);
                             }
                         }

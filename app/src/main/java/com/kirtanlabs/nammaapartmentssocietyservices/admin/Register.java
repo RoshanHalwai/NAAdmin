@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
@@ -17,7 +18,6 @@ import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SOCIETY_SERVICE_TYPE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 
@@ -113,12 +113,18 @@ public class Register extends BaseActivity implements View.OnClickListener {
      * This method is invoked when the 'Admin' registers a Society Service
      */
     private void storeSocietyServiceData() {
+        //displaying progress dialog while image is uploading
+        showProgressDialog(this,
+                getString(R.string.adding_society_service_data),
+                getString(R.string.please_wait_a_moment));
+
         /*Getting the reference of 'Data' child under 'societyServices'*/
         //TODO: The 'societyServiceType' has been hardcoded to 'plumber' for now. Electrician & Carpenter will also be included.
         DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child("plumber").child(FIREBASE_CHILD_PRIVATE)
                 .child(FIREBASE_CHILD_DATA);
 
         /*Generating the societyServiceUID and creating a reference for it*/
+        //TODO: THe society service UID must be created using FirebaseAuthentication API the below code is temporary
         String societyServiceUID = societyServicesReference.push().getKey();
         DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
 
@@ -131,13 +137,22 @@ public class Register extends BaseActivity implements View.OnClickListener {
         societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
 
         /*Mapping UID with societyServiceType*/
+        //TODO: Change the service type here
         DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
         societyTypeReference.child("plumber").setValue(true);
 
         /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
         NammaApartmentsSocietyServices nammaApartmentsSocietyServices = new NammaApartmentsSocietyServices(fullName,
                 mobileNumber, societyServiceUID);
-        societyServiceDetailsReference.setValue(nammaApartmentsSocietyServices);
+        societyServiceDetailsReference.setValue(nammaApartmentsSocietyServices).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                hideProgressDialog();
+                showNotificationDialog(getString(R.string.society_service_added_title),
+                        getString(R.string.society_service_added_message),
+                        null);
+            }
+        });
     }
 
 }

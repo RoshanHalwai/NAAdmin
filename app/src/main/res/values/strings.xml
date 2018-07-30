@@ -51,6 +51,10 @@
     <string name="plumber">Plumber</string>
     <string name="carpenter">Carpenter</string>
     <string name="electrician">Electrician</string>
+    <string name="adding_society_service_data">Adding Society Service Data</string>
+    <string name="please_wait_a_moment">Please wait a moment</string>
+    <string name="society_service_added_title">Society Service Added</string>
+    <string name="society_service_added_message">Society Service Registration is completed.</string>
 
     <string-array name="service_list">
         <item>@string/select_service</item>
