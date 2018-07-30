@@ -57,8 +57,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         remoteViews.setOnClickPendingIntent(R.id.buttonAccept, acceptPendingIntent);
 
         Intent rejectButtonIntent = new Intent("reject_button_clicked");
-        rejectButtonIntent.putExtra("Notification_UID", notificationUID);
         rejectButtonIntent.putExtra("Notification_Id", mNotificationID);
+        rejectButtonIntent.putExtra("Notification_UID", notificationUID);
         rejectButtonIntent.putExtra("User_UID", ownerUID);
         rejectButtonIntent.putExtra("Mobile_Number", mobileNumber);
         PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(this, 123, rejectButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -66,7 +66,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        int notificationID = (int) System.currentTimeMillis();
-        Objects.requireNonNull(notificationManager).notify(notificationID, notification);
+        Objects.requireNonNull(notificationManager).notify(mNotificationID, notification);
     }
 }
