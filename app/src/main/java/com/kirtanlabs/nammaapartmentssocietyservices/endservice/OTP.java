@@ -110,7 +110,12 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                     if (isAdmin) {
                         startActivity(new Intent(OTP.this, Register.class));
                     } else {
-                        startActivity(new Intent(OTP.this, NammaApartmentsPlumberServices.class));
+                        String societyServiceUid = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_UID);
+                        String societyServiceMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
+                        Intent intent = new Intent(OTP.this, NammaApartmentsPlumberServices.class);
+                        intent.putExtra(Constants.SOCIETY_SERVICE_UID, societyServiceUid);
+                        intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, societyServiceMobileNumber);
+                        startActivity(intent);
                     }
                     finish();
                     break;

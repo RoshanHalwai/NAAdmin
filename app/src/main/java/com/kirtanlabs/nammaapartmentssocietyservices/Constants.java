@@ -2,7 +2,6 @@ package com.kirtanlabs.nammaapartmentssocietyservices;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.provider.ContactsContract;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,6 +15,8 @@ public class Constants {
     public static final String MESSAGE = "message";
     public static final String SCREEN_TITLE = "screenTitle";
     public static final String IS_ADMIN = "isAdmin";
+    public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
+    public static final String SOCIETY_SERVICE_MOBILE_NUMBER = "societyServiceMobileNumber";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -36,9 +37,10 @@ public class Constants {
      * Firebase Objects
      * ------------------------------------------------------------- */
 
+    private static final String FIREBASE_CHILD_ADMIN = "admin";
+    public static final String FIREBASE_CHILD_AVAILABLE = "available";
     public static final String FIREBASE_CHILD_ALL = "all";
-    private static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
-    private static final String FIREBASE_CHILD_SOCIETY_SERVICE = "societyService";
+    public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
@@ -50,10 +52,10 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
-    public static final DatabaseReference SOCIETY_SERVICE_TOKEN_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICE)
-            .child(FIREBASE_CHILD_TOKEN_ID);
-    public static final DatabaseReference ALL_SOCIETY_SERVICE_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES).child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference SOCIETY_SERVICES_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES);
+    public static final DatabaseReference SOCIETY_SERVICES_ADMIN_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ADMIN);
+    public static final DatabaseReference ALL_SOCIETY_SERVICES_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference SOCIETY_SERVICE_TYPE_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE);
 
     /* ------------------------------------------------------------- *
      * Font Types

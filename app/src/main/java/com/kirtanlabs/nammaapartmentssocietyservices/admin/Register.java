@@ -131,7 +131,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
         societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
 
         /*Mapping UID with societyServiceType*/
-        DatabaseReference societyTypeReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE).child(societyServiceUID);
+        DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
         societyTypeReference.child("plumber").setValue(true);
 
         /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
