@@ -19,6 +19,10 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -140,6 +144,11 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        /*displaying progress dialog while OTP is being validated*/
+        showProgressDialog(OTP.this,
+                getResources().getString(R.string.verifying_account),
+                getResources().getString(R.string.please_wait_a_moment));
+
         boolean allFieldsFilled = isAllFieldsFilled(new EditText[]{
                 editFirstOTPDigit,
                 editSecondOTPDigit,
@@ -178,6 +187,10 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                /*displaying progress dialog while OTP is being validated*/
+                showProgressDialog(OTP.this,
+                        getResources().getString(R.string.verifying_account),
+                        getResources().getString(R.string.please_wait_a_moment));
 
                 /*Hiding the Keyboard in case the Auto-Verification is completed*/
                 hideKeyboard();
@@ -216,22 +229,51 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
         fbAuth.signInWithCredential(phoneAuthCredential)
                 .addOnCompleteListener(this, (task) -> {
+                    hideProgressDialog();
                     if (task.isSuccessful()) {
-                        if (previousScreenTitle == R.string.login) {
-                            boolean isAdmin = getIntent().getBooleanExtra(Constants.IS_ADMIN, false);
-                            if (isAdmin) {
-                                startActivity(new Intent(OTP.this, Register.class));
-                            } else {
-                                String societyServiceUid = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_UID);
-                                Intent intent = new Intent(OTP.this, NammaApartmentsPlumberServices.class);
-                                intent.putExtra(Constants.SOCIETY_SERVICE_UID, societyServiceUid);
-                                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
-                                startActivity(intent);
-                            }
-                            finish();
-                        } else {
+                        //If Admin Registers new user
+                        if (previousScreenTitle == R.string.register) {
                             setResult(Activity.RESULT_OK, new Intent());
                             finish();
+                        } else {
+                            //Existing user is Logging in
+                            DatabaseReference allSocietyServiceReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE.child(userMobileNumber);
+                            allSocietyServiceReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    //Society Service has Logged In
+                                    if (dataSnapshot.exists()) {
+                                        Intent intent = new Intent(OTP.this, NammaApartmentsPlumberServices.class);
+                                        intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
+                                        startActivity(intent);
+                                    } else {
+                                        DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
+                                        societyServiceAdminReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                //Admin has logged In
+                                                if (userMobileNumber.equals(dataSnapshot.getValue(String.class))) {
+                                                    startActivity(new Intent(OTP.this, Register.class));
+                                                } else {
+                                                    //New member has logged in whose mobile number is not yet registered
+                                                    //TODO: Add UI Layout with the below message
+                                                    Toast.makeText(OTP.this, "Mobile Number not found, Request Admin to add Mobile Number", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                     } else {
                         /*Check if network is available or not*/

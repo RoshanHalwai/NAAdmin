@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
@@ -28,6 +29,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
      * ------------------------------------------------------------- */
 
     private EditText editFullName, editMobileNumber;
+    private String mobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -88,8 +90,10 @@ public class Register extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        mobileNumber = editMobileNumber.getText().toString().trim();
         Intent intent = new Intent(Register.this, OTP.class);
         intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
+        intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
         startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
     }
 
@@ -124,8 +128,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 .child(FIREBASE_CHILD_DATA);
 
         /*Generating the societyServiceUID and creating a reference for it*/
-        //TODO: THe society service UID must be created using FirebaseAuthentication API the below code is temporary
-        String societyServiceUID = societyServicesReference.push().getKey();
+        String societyServiceUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
 
         /*Getting the data of the Society Service entered by Admin*/
