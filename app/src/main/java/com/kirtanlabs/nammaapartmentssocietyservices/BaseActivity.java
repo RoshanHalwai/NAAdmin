@@ -1,6 +1,10 @@
 package com.kirtanlabs.nammaapartmentssocietyservices;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -37,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView backButton, imageMenu;
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
+    private ProgressDialog progressDialog;
 
     /* ------------------------------------------------------------- *
      * Abstract Methods
@@ -137,6 +142,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+
+    protected void showProgressDialog(Context context, String title, String message) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+    }
+
+    protected void hideProgressDialog() {
+        progressDialog.dismiss();
+    }
+
     /* ------------------------------------------------------------- *
      * Public Methods
      * ------------------------------------------------------------- */
@@ -150,6 +168,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (progressIndicator == null)
             progressIndicator = findViewById(R.id.animationWaitingToLoadData);
         progressIndicator.smoothToHide();
+    }
+
+    /**
+     * Shows message box with title, message and activity to be called when user
+     * clicks on Ok button
+     *
+     * @param title   - Title of the message
+     * @param message - Body of the message
+     * @param intent  - If null then on click of Ok, the dialog will disappear
+     *                else intent activity will be called
+     */
+    public void showNotificationDialog(String title, String message, Intent intent) {
+        AlertDialog.Builder alertNotifyGateDialog = new AlertDialog.Builder(this);
+        alertNotifyGateDialog.setCancelable(false);
+        alertNotifyGateDialog.setTitle(title);
+        alertNotifyGateDialog.setMessage(message);
+        if (intent == null) {
+            alertNotifyGateDialog.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
+        } else {
+            alertNotifyGateDialog.setPositiveButton("Ok", (dialog, which) -> startActivity(intent));
+        }
+
+        new Dialog(this);
+        alertNotifyGateDialog.show();
     }
 
     /**
