@@ -28,6 +28,7 @@ public class Constants {
 
     public static final int EDIT_TEXT_EMPTY_LENGTH = 0;
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
+    public static final String COUNTRY_CODE_IN = "+91";
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -36,6 +37,12 @@ public class Constants {
     static final int PLACE_CALL_PERMISSION_REQUEST_CODE = 1;
     public static final int END_SERVICE_REQUEST_CODE = 2;
     public static final int SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE = 3;
+
+    /* ------------------------------------------------------------- *
+     * Login/OTP Constants
+     * ------------------------------------------------------------- */
+
+    public static final int OTP_TIMER = 120;
 
     /* ------------------------------------------------------------- *
      * Firebase Keys

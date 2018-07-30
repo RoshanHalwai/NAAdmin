@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -99,6 +100,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         setMenuIconListener();
     }
 
+    /**
+     * This method is invoked to hide virtual keyboard from screen.
+     */
+    protected void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
     /* ------------------------------------------------------------- *
      * Overriding AppCompatActivity Methods
