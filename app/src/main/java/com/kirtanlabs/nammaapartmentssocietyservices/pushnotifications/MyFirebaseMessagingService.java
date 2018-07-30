@@ -17,6 +17,15 @@ import java.util.Map;
 import java.util.Objects;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_UID;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REJECT_BUTTON_CLICKED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_MOBILE_NUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_NOTIFICATION_UID;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_SOCIETY_SERVICE_TYPE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
 
 /**
  * KirtanLabs Pvt. Ltd.
@@ -30,9 +39,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> remoteMessageData = remoteMessage.getData();
 
         String message = remoteMessageData.get(Constants.MESSAGE);
-        String mobileNumber = remoteMessageData.get("mobile_number");
-        String notificationUID = remoteMessageData.get("notificationUID");
-        String ownerUID = remoteMessageData.get("owner_uid");
+        String mobileNumber = remoteMessageData.get(REMOTE_MOBILE_NUMBER);
+        String notificationUID = remoteMessageData.get(REMOTE_NOTIFICATION_UID);
+        String societyServiceType = remoteMessageData.get(REMOTE_SOCIETY_SERVICE_TYPE);
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_custom_notification);
 
@@ -48,19 +57,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         int mNotificationID = (int) System.currentTimeMillis();
 
-        Intent acceptButtonIntent = new Intent("accept_button_clicked");
-        acceptButtonIntent.putExtra("Notification_Id", mNotificationID);
-        acceptButtonIntent.putExtra("Notification_UID", notificationUID);
-        acceptButtonIntent.putExtra("User_UID", ownerUID);
-        acceptButtonIntent.putExtra("Mobile_Number", mobileNumber);
+        Intent acceptButtonIntent = new Intent(ACCEPT_BUTTON_CLICKED);
+        acceptButtonIntent.putExtra(NOTIFICATION_ID, mNotificationID);
+        acceptButtonIntent.putExtra(NOTIFICATION_UID, notificationUID);
+        acceptButtonIntent.putExtra(MOBILE_NUMBER, mobileNumber);
+        acceptButtonIntent.putExtra(SOCIETY_SERVICE_TYPE, societyServiceType);
         PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, 123, acceptButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.buttonAccept, acceptPendingIntent);
 
-        Intent rejectButtonIntent = new Intent("reject_button_clicked");
-        rejectButtonIntent.putExtra("Notification_Id", mNotificationID);
-        rejectButtonIntent.putExtra("Notification_UID", notificationUID);
-        rejectButtonIntent.putExtra("User_UID", ownerUID);
-        rejectButtonIntent.putExtra("Mobile_Number", mobileNumber);
+        Intent rejectButtonIntent = new Intent(REJECT_BUTTON_CLICKED);
+        rejectButtonIntent.putExtra(NOTIFICATION_ID, mNotificationID);
+        rejectButtonIntent.putExtra(NOTIFICATION_UID, notificationUID);
+        rejectButtonIntent.putExtra(MOBILE_NUMBER, mobileNumber);
+        rejectButtonIntent.putExtra(SOCIETY_SERVICE_TYPE, societyServiceType);
         PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(this, 123, rejectButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.buttonReject, rejectPendingIntent);
 
