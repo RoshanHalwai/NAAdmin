@@ -30,7 +30,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> remoteMessageData = remoteMessage.getData();
 
         String message = remoteMessageData.get(Constants.MESSAGE);
-        String notificationUID = remoteMessageData.get("society_service_uid");
+        String mobileNumber = remoteMessageData.get("mobile_number");
+        String notificationUID = remoteMessageData.get("notificationUID");
         String ownerUID = remoteMessageData.get("owner_uid");
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_custom_notification);
@@ -51,6 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         acceptButtonIntent.putExtra("Notification_Id", mNotificationID);
         acceptButtonIntent.putExtra("Notification_UID", notificationUID);
         acceptButtonIntent.putExtra("User_UID", ownerUID);
+        acceptButtonIntent.putExtra("Mobile_Number", mobileNumber);
         PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, 123, acceptButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.buttonAccept, acceptPendingIntent);
 
@@ -58,6 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         rejectButtonIntent.putExtra("Notification_UID", notificationUID);
         rejectButtonIntent.putExtra("Notification_Id", mNotificationID);
         rejectButtonIntent.putExtra("User_UID", ownerUID);
+        rejectButtonIntent.putExtra("Mobile_Number", mobileNumber);
         PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(this, 123, rejectButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.buttonReject, rejectPendingIntent);
 
