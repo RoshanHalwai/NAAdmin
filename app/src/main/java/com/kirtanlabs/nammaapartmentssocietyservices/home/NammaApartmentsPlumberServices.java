@@ -25,6 +25,8 @@ import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
+
 public class NammaApartmentsPlumberServices extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
     /* ------------------------------------------------------------- *
@@ -106,7 +108,24 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
                     tokenIdReference.child(Constants.FIREBASE_CHILD_DATA).child(societyServiceUid).child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
 
                     /*Mapping Society Service mobile number with token Id in 'available'*/
-                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).setValue(tokenId);
+                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists())  {
+                                tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber)
+                                        .child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
+
+                                tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber)
+                                        .child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
             }
 
