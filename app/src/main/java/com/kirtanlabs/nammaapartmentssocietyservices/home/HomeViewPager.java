@@ -17,17 +17,25 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.FutureFragment;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.HistoryFragment;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.ServingFragment;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
+import java.util.Objects;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
+import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.isTokenRefreshed;
 
-public class NammaApartmentsPlumberServices extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class HomeViewPager extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -36,6 +44,8 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
     private LinearLayout layoutBaseActivity;
     private TabLayout tabLayout;
     private TextView textActivityTitle;
+    private String societyServiceUid;
+    private String societyServiceMobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -85,48 +95,27 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
         tabLayout.setBackgroundResource(R.color.nmGreen);
 
-        /*Storing society service token_id in firebase so that user can send notification*/
-        String tokenId = FirebaseInstanceId.getInstance().getToken();
-        String societyServiceUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String societyServiceMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
+        if (isTokenRefreshed) {
+            /*Storing society service token_id in firebase so that user can send notification*/
+            storeTokenID();
+        }
 
-        /*Getting the reference till societyService UID*/
-        DatabaseReference societyServiceUIDReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUid);
-        societyServiceUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        /*Setting event for views*/
+        switchAvailability.setOnCheckedChangeListener(this);
+    }
+
+    /**
+     * Returns the Society Service Type
+     *
+     * @param serviceTypeCallback callback to return Society Service Type
+     */
+    public void getServiceType(ServingFragment.ServiceTypeCallback serviceTypeCallback) {
+        DatabaseReference societyServiceTypeReference = SOCIETY_SERVICE_TYPE_REFERENCE.
+                child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        societyServiceTypeReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot societyServiceTypeSnapshot : dataSnapshot.getChildren()) {
-                    /*Getting the societyServiceType*/
-                    String societyServiceType = societyServiceTypeSnapshot.getKey();
-
-                    /*Getting the token Id reference*/
-                    DatabaseReference tokenIdReference = Constants.SOCIETY_SERVICES_REFERENCE
-                            .child(societyServiceType)
-                            .child(Constants.FIREBASE_CHILD_PRIVATE);
-
-                    /*Setting the token Id in data->societyServiceUID*/
-                    tokenIdReference.child(Constants.FIREBASE_CHILD_DATA).child(societyServiceUid).child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
-
-                    /*Mapping Society Service mobile number with token Id in 'available'*/
-                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (!dataSnapshot.exists())  {
-                                tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber)
-                                        .child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
-
-                                tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber)
-                                        .child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
+                serviceTypeCallback.onCallBack(dataSnapshot.getChildren().iterator().next().getKey());
             }
 
             @Override
@@ -134,9 +123,41 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
             }
         });
+    }
 
-        /*Setting event for views*/
-        switchAvailability.setOnCheckedChangeListener(this);
+    private void storeTokenID() {
+        getServiceType(serviceType -> {
+            DatabaseReference societyServiceDataRef = SOCIETY_SERVICES_REFERENCE
+                    .child(serviceType)
+                    .child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_DATA)
+                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+            societyServiceDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    SocietyServiceData societyServiceData = dataSnapshot.getValue(SocietyServiceData.class);
+                    societyServiceMobileNumber = Objects.requireNonNull(societyServiceData).getMobileNumber();
+                    societyServiceUid = societyServiceData.getUid();
+
+                    /*Getting the token Id reference*/
+                    DatabaseReference tokenIdReference = Constants.SOCIETY_SERVICES_REFERENCE
+                            .child(serviceType)
+                            .child(Constants.FIREBASE_CHILD_PRIVATE);
+
+                    /*Setting the token Id in data->societyServiceUID*/
+                    tokenIdReference.child(FIREBASE_CHILD_DATA).child(societyServiceUid).child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(getRefreshedToken());
+
+                    /*Adding Token Id and Service Count under Available Society Service Mobile Number*/
+                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(getRefreshedToken());
+                    tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        });
     }
 
     /* ------------------------------------------------------------- *
@@ -179,11 +200,11 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new Serving();
+                    return new ServingFragment();
                 case 1:
-                    return new Future();
+                    return new FutureFragment();
                 case 2:
-                    return new History();
+                    return new HistoryFragment();
                 default:
                     return null;
             }

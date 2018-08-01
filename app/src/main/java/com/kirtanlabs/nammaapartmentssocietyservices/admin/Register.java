@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
+import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;

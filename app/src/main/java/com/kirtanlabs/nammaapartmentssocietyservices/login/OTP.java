@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.endservice;
+package com.kirtanlabs.nammaapartmentssocietyservices.login;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +27,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.Register;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.NammaApartmentsPlumberServices;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -243,7 +243,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     //Society Service has Logged In
                                     if (dataSnapshot.exists()) {
-                                        Intent intent = new Intent(OTP.this, NammaApartmentsPlumberServices.class);
+                                        Intent intent = new Intent(OTP.this, HomeViewPager.class);
                                         intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
                                         startActivity(intent);
                                     } else {

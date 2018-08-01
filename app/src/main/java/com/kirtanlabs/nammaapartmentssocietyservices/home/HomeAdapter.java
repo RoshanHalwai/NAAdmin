@@ -14,7 +14,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServicesAdapter.PlumberServicesHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberServicesHolder> {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -28,7 +28,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
      * Constructor
      * ------------------------------------------------------------- */
 
-    public PlumberServicesAdapter(Context mCtx, int screenTitle) {
+    public HomeAdapter(Context mCtx, int screenTitle) {
         this.mCtx = mCtx;
         baseActivity = (BaseActivity) mCtx;
         this.screenTitle = screenTitle;
@@ -75,7 +75,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
     }
 
     /* ------------------------------------------------------------- *
-     * History Holder class
+     * HistoryFragment Holder class
      * ------------------------------------------------------------- */
 
     class PlumberServicesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -108,12 +108,12 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
             textResidentName = itemView.findViewById(R.id.textResidentName);
             textApartment = itemView.findViewById(R.id.textApartment);
             textFlatNumber = itemView.findViewById(R.id.textFlatNumber);
-            textDate = itemView.findViewById(R.id.textDate);
+            textDate = itemView.findViewById(R.id.textTimeSlot);
             textProblemDescription = itemView.findViewById(R.id.textProblemDescription);
             textResidentNameValue = itemView.findViewById(R.id.textResidentNameValue);
             textApartmentValue = itemView.findViewById(R.id.textApartmentValue);
             textFlatNumberValue = itemView.findViewById(R.id.textFlatNumberValue);
-            textDateValue = itemView.findViewById(R.id.textDateValue);
+            textDateValue = itemView.findViewById(R.id.textTimeSlotValue);
             textProblemDescriptionValue = itemView.findViewById(R.id.textProblemDescriptionValue);
             buttonCallResident = itemView.findViewById(R.id.buttonCallResident);
             imageActionTaken = itemView.findViewById(R.id.imageActionTaken);

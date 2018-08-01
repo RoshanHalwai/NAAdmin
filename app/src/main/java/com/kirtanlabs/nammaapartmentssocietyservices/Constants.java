@@ -49,6 +49,7 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     private static final String FIREBASE_CHILD_ADMIN = "admin";
+    public static final String FIREBASE_CHILD_APARTMENT_NAME = "apartmentName";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICE_TYPE = "societyServiceType";
     private static final String FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS = "societyServiceNotifications";
     public static final String FIREBASE_CHILD_AVAILABLE = "available";
@@ -56,9 +57,17 @@ public class Constants {
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
+    public static final String FIREBASE_CHILD_FULL_NAME = "fullName";
+    public static final String FIREBASE_CHILD_FLAT_DETAILS = "flatDetails";
+    public static final String FIREBASE_CHILD_FLAT_NUMBER = "flatNumber";
+    public static final String FIREBASE_CHILD_PERSONAL_DETAILS = "personalDetails";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
+    public static final String FIREBASE_CHILD_PROBLEM = "problem";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
+    public static final String FIREBASE_CHILD_TIME_SLOT = "timeSlot";
+    private static final String FIREBASE_CHILD_USERS = "users";
+    public static final String FIREBASE_CHILD_USER_UID = "userUID";
     public static final String FIREBASE_CHILD_SERVICE_COUNT = "serviceCount";
 
     /* ------------------------------------------------------------- *
@@ -74,10 +83,12 @@ public class Constants {
 
     private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
     public static final DatabaseReference SOCIETY_SERVICES_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES);
+    private static final DatabaseReference USERS_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USERS);
     public static final DatabaseReference SOCIETY_SERVICES_ADMIN_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ADMIN);
     public static final DatabaseReference ALL_SOCIETY_SERVICES_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference SOCIETY_SERVICE_TYPE_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE);
     public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS).child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference PRIVATE_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys

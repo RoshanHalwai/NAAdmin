@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.nammaapartmentssocietyserviceshome;
+package com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -10,7 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.NammaApartmentsPlumberServices;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SE
  * Created by Ashish Jha on 7/26/2018
  */
 
-public class Button_listener extends BroadcastReceiver {
+public class ActionButtonListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -74,21 +74,24 @@ public class Button_listener extends BroadcastReceiver {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String societyServiceUID = dataSnapshot.getValue(String.class);
 
-                DatabaseReference societyServicesReference = Constants.SOCIETY_SERVICES_REFERENCE.child(societyServiceType)
+                DatabaseReference notificationsReference = Constants.SOCIETY_SERVICES_REFERENCE.child(societyServiceType)
                         .child(Constants.FIREBASE_CHILD_PRIVATE)
                         .child(FIREBASE_CHILD_DATA)
                         .child(Objects.requireNonNull(societyServiceUID))
                         .child(FIREBASE_CHILD_NOTIFICATIONS);
-                societyServicesReference.child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
 
-                    if (status.equals(FIREBASE_CHILD_ACCEPTED)) {
+                if (status.equals(FIREBASE_CHILD_ACCEPTED)) {
+                    notificationsReference.child("serving").child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
                         DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
                         societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-                        context.startActivity(new Intent(context, NammaApartmentsPlumberServices.class));
-                    } else {
-                        context.startActivity(new Intent(context, NammaApartmentsPlumberServices.class));
-                    }
-                });
+                        context.startActivity(new Intent(context, HomeViewPager.class));
+                    });
+
+                } else {
+                    notificationsReference.child("history").child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
+                        context.startActivity(new Intent(context, HomeViewPager.class));
+                    });
+                }
             }
 
             @Override

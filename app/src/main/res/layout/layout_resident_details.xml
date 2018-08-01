@@ -68,11 +68,20 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textDate"
+                        android:id="@+id/textServiceType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="@string/date"
+                        android:text="@string/service_type"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textTimeSlot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/time_slot"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
@@ -101,7 +110,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="Ashish Jha"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
@@ -113,7 +121,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="Bolivia"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
@@ -122,16 +129,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="B1001"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textDateValue"
+                        android:id="@+id/textServiceTypeValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="Jul 27,  18:30"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textTimeSlotValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
@@ -140,7 +153,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="Leakage in Tap"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
                 </LinearLayout>

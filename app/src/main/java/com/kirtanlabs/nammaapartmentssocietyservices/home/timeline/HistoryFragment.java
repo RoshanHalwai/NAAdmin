@@ -12,17 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.PlumberServicesAdapter;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeAdapter;
 
-public class Future extends Fragment {
+public class HistoryFragment extends Fragment {
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
      * ------------------------------------------------------------- */
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_future, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
     @Override
@@ -30,12 +31,12 @@ public class Future extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         /*Getting Id's for all the views*/
-        RecyclerView recyclerViewFuture = view.findViewById(R.id.recyclerViewFuture);
-        recyclerViewFuture.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView recyclerViewHistory = view.findViewById(R.id.recyclerViewHistory);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        PlumberServicesAdapter adapter = new PlumberServicesAdapter(getActivity(), R.string.future);
+        HomeAdapter adapter = new HomeAdapter(getActivity(), R.string.history);
 
         //Setting adapter to recycler view
-        recyclerViewFuture.setAdapter(adapter);
+        recyclerViewHistory.setAdapter(adapter);
     }
 }

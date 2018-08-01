@@ -4,21 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.timeline.Serving">
+    tools:context=".home.timeline.ServingFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layoutAwaitingResponse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/animationWaitingToLoadData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             app:indicatorColor="@color/nmBlack"
             app:indicatorName="BallSpinFadeLoaderIndicator" />
 
@@ -26,24 +23,33 @@
             android:id="@+id/textAwaitingResponse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/animationWaitingToLoadData"
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/awaiting_customer_requirement"
             android:textColor="@color/nmBlack"
             android:textSize="18sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <include layout="@layout/layout_resident_details" />
-
-    <Button
-        android:id="@+id/buttonEndService"
+    <RelativeLayout
+        android:id="@+id/layoutAcceptedUserDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/nmBlack"
-        android:text="@string/end_service"
-        android:textAllCaps="true"
-        android:textColor="@color/nmLightYellow"
-        android:textSize="@dimen/button_default_size" />
+        android:visibility="gone">
+
+        <include layout="@layout/layout_resident_details" />
+
+        <Button
+            android:id="@+id/buttonEndService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/nmBlack"
+            android:text="@string/end_service"
+            android:textAllCaps="true"
+            android:textColor="@color/nmLightYellow"
+            android:textSize="@dimen/button_default_size" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
