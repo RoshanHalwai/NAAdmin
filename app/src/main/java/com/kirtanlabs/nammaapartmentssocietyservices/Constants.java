@@ -59,6 +59,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
+    public static final String FIREBASE_CHILD_SERVICE_COUNT = "serviceCount";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

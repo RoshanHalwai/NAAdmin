@@ -25,6 +25,8 @@ import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Future;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.Serving;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
+
 public class NammaApartmentsPlumberServices extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
     /* ------------------------------------------------------------- *
@@ -114,7 +116,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
                                         .child(Constants.FIREBASE_CHILD_TOKEN_ID).setValue(tokenId);
 
                                 tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber)
-                                        .child("serviceCount").setValue(0);
+                                        .child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
                             }
                         }
 
