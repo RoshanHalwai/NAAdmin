@@ -8,13 +8,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
@@ -29,7 +29,6 @@ public class Register extends BaseActivity implements View.OnClickListener {
      * ------------------------------------------------------------- */
 
     private EditText editFullName, editMobileNumber;
-    private String mobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -90,7 +89,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mobileNumber = editMobileNumber.getText().toString().trim();
+        String mobileNumber = editMobileNumber.getText().toString().trim();
         Intent intent = new Intent(Register.this, OTP.class);
         intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
         intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
@@ -145,16 +144,13 @@ public class Register extends BaseActivity implements View.OnClickListener {
         societyTypeReference.child("plumber").setValue(true);
 
         /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
-        NammaApartmentsSocietyServices nammaApartmentsSocietyServices = new NammaApartmentsSocietyServices(fullName,
+        SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
                 mobileNumber, societyServiceUID);
-        societyServiceDetailsReference.setValue(nammaApartmentsSocietyServices).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                hideProgressDialog();
-                showNotificationDialog(getString(R.string.society_service_added_title),
-                        getString(R.string.society_service_added_message),
-                        null);
-            }
+        societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
+            hideProgressDialog();
+            showNotificationDialog(getString(R.string.society_service_added_title),
+                    getString(R.string.society_service_added_message),
+                    null);
         });
     }
 
