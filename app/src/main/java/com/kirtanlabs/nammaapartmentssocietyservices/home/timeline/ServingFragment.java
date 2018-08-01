@@ -25,7 +25,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
-import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NammaApartmentUser;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.Objects;
@@ -148,10 +148,10 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                     }
                     /*Person is currently serving flat, get the details and show in Card View*/
                     getServingData(servingUID, societyServiceNotification ->
-                            getUserData(societyServiceNotification.getUserUID(), nammaApartmentUser -> {
-                                textResidentNameValue.setText(nammaApartmentUser.getPersonalDetails().getFullName());
-                                textApartmentValue.setText(nammaApartmentUser.getFlatDetails().getApartmentName());
-                                textFlatNumberValue.setText(nammaApartmentUser.getFlatDetails().getFlatNumber());
+                            getUserData(societyServiceNotification.getUserUID(), NAUser -> {
+                                textResidentNameValue.setText(NAUser.getPersonalDetails().getFullName());
+                                textApartmentValue.setText(NAUser.getFlatDetails().getApartmentName());
+                                textFlatNumberValue.setText(NAUser.getFlatDetails().getFlatNumber());
                                 textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
                                 textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
                                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
@@ -225,7 +225,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         usersPrivateReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userDataCallback.onCallBack(dataSnapshot.getValue(NammaApartmentUser.class));
+                userDataCallback.onCallBack(dataSnapshot.getValue(NAUser.class));
             }
 
             @Override
@@ -248,7 +248,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface UserDataCallback {
-        void onCallBack(NammaApartmentUser nammaApartmentUser);
+        void onCallBack(NAUser NAUser);
     }
 
     public interface ServingUIDCallback {

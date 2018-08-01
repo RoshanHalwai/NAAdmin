@@ -2,7 +2,7 @@ package com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser;
 
 import java.io.Serializable;
 
-public class NammaApartmentUser implements Serializable {
+public class NAUser implements Serializable {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -16,10 +16,10 @@ public class NammaApartmentUser implements Serializable {
      * Constructors
      * ------------------------------------------------------------- */
 
-    public NammaApartmentUser() {
+    public NAUser() {
     }
 
-    public NammaApartmentUser(String uid, UserPersonalDetails personalDetails, UserFlatDetails flatDetails) {
+    public NAUser(String uid, UserPersonalDetails personalDetails, UserFlatDetails flatDetails) {
         this.uid = uid;
         this.personalDetails = personalDetails;
         this.flatDetails = flatDetails;
