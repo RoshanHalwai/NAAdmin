@@ -25,7 +25,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
-import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NammaApartmentUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.Objects;

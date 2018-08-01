@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.pojo;
+package com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser;
 
 import java.io.Serializable;
 
