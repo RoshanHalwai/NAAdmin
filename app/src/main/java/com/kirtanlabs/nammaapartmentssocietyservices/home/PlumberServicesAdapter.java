@@ -108,12 +108,12 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
             textResidentName = itemView.findViewById(R.id.textResidentName);
             textApartment = itemView.findViewById(R.id.textApartment);
             textFlatNumber = itemView.findViewById(R.id.textFlatNumber);
-            textDate = itemView.findViewById(R.id.textDate);
+            textDate = itemView.findViewById(R.id.textTimeSlot);
             textProblemDescription = itemView.findViewById(R.id.textProblemDescription);
             textResidentNameValue = itemView.findViewById(R.id.textResidentNameValue);
             textApartmentValue = itemView.findViewById(R.id.textApartmentValue);
             textFlatNumberValue = itemView.findViewById(R.id.textFlatNumberValue);
-            textDateValue = itemView.findViewById(R.id.textDateValue);
+            textDateValue = itemView.findViewById(R.id.textTimeSlotValue);
             textProblemDescriptionValue = itemView.findViewById(R.id.textProblemDescriptionValue);
             buttonCallResident = itemView.findViewById(R.id.buttonCallResident);
             imageActionTaken = itemView.findViewById(R.id.imageActionTaken);

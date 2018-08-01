@@ -13,6 +13,8 @@
     <string name="apartment">Apartment:</string>
     <string name="flat">Flat:</string>
     <string name="date">Date:</string>
+    <string name="time_slot">Time Slot:</string>
+    <string name="service_type">Service Type:</string>
     <string name="problem_description">Problem:</string>
     <string name="call_resident">Call Resident</string>
     <string name="end_service">End Service</string>
@@ -70,5 +72,9 @@
     <string name="waiting_for_otp">Waiting for OTP. . .</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="verifying_account">Verifying Account</string>
+
+    <!--Serving Fragment-->
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
 
 </resources>

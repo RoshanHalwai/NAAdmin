@@ -34,6 +34,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
     private LinearLayout layoutBaseActivity;
     private TabLayout tabLayout;
     private TextView textActivityTitle;
+    private String societyServiceUid;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -85,7 +86,7 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
 
         /*Storing society service token_id in firebase so that user can send notification*/
         String tokenId = FirebaseInstanceId.getInstance().getToken();
-        String societyServiceUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        societyServiceUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String societyServiceMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
 
         /*Getting the reference till societyService UID*/
@@ -160,7 +161,11 @@ public class NammaApartmentsPlumberServices extends BaseActivity implements Comp
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new Serving();
+                    Bundle bundle = new Bundle();
+                    Serving serving = new Serving();
+                    bundle.putString(Constants.SOCIETY_SERVICE_UID, societyServiceUid);
+                    serving.setArguments(bundle);
+                    return serving;
                 case 1:
                     return new Future();
                 case 2:
