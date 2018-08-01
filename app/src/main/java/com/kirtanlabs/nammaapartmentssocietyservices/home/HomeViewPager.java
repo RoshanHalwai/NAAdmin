@@ -200,11 +200,7 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Bundle bundle = new Bundle();
-                    ServingFragment servingFragment = new ServingFragment();
-                    bundle.putString(Constants.SOCIETY_SERVICE_UID, societyServiceUid);
-                    servingFragment.setArguments(bundle);
-                    return servingFragment;
+                    return new ServingFragment();
                 case 1:
                     return new FutureFragment();
                 case 2:
