@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,13 +23,23 @@ import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.endservice.OTP;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
+import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.Objects;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTIFICATIONS;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
-public class Serving extends Fragment implements View.OnClickListener {
+public class ServingFragment extends Fragment implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -42,7 +53,6 @@ public class Serving extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
-    private String societyServiceUid;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -130,98 +140,49 @@ public class Serving extends Fragment implements View.OnClickListener {
      * This method is used to retrieve user request details to whom society service in currently working from firebase.
      */
     private void getUserRequestDetails() {
-
-        if (getArguments() != null) {
-            societyServiceUid = getArguments().getString(Constants.SOCIETY_SERVICE_UID);
-        }
-
-        DatabaseReference societyServiceType = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUid);
-        societyServiceType.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot societyServiceTypeSnapshot : dataSnapshot.getChildren()) {
-                    /*Getting the societyServiceType*/
-                    String societyServiceType = societyServiceTypeSnapshot.getKey();
-
-                    /*Getting notificationUID*/
-                    DatabaseReference notificationReference = Constants.SOCIETY_SERVICES_REFERENCE
-                            .child(societyServiceType)
-                            .child(Constants.FIREBASE_CHILD_PRIVATE)
-                            .child(Constants.FIREBASE_CHILD_DATA)
-                            .child(societyServiceUid)
-                            .child(Constants.FIREBASE_CHILD_NOTIFICATIONS);
-                    notificationReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
+        new HomeViewPager().getServiceType(serviceType ->
+                getServingNotificationUID(serviceType, servingUID -> {
+                    /*Indicates Person is not serving any notification at the moment*/
+                    if (servingUID == null) {
+                        return;
+                    }
+                    /*Person is currently serving flat, get the details and show in Card View*/
+                    getServingData(servingUID, societyServiceNotification ->
+                            getUserData(societyServiceNotification.getUserUID(), nammaApartmentUser -> {
+                                textResidentNameValue.setText(nammaApartmentUser.getPersonalDetails().getFullName());
+                                textApartmentValue.setText(nammaApartmentUser.getFlatDetails().getApartmentName());
+                                textFlatNumberValue.setText(nammaApartmentUser.getFlatDetails().getFlatNumber());
+                                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                                textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
+                                textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
                                 layoutAwaitingResponse.setVisibility(View.GONE);
                                 layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
+                            })
+                    );
+                })
+        );
+    }
 
-                                for (DataSnapshot notificationsDataSnapshot : dataSnapshot.getChildren()) {
-                                    /*Getting Status of notificationUID whether Society Service has "Accepted" or "Rejected" user request*/
-                                    String notificationValue = notificationsDataSnapshot.getValue(String.class);
-                                    if (notificationValue.equals(getString(R.string.accepted))) {
-
-                                        String notificationUID = notificationsDataSnapshot.getKey();
-
-                                        /*Retrieving details of request to whom society service is serving*/
-                                        DatabaseReference userRequestDetailsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
-                                                .child(notificationUID);
-                                        userRequestDetailsReference.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                String date = dataSnapshot.child(Constants.FIREBASE_CHILD_TIME_SLOT).getValue(String.class);
-                                                String problemDescription = dataSnapshot.child(Constants.FIREBASE_CHILD_PROBLEM).getValue(String.class);
-                                                String userUID = dataSnapshot.child(Constants.FIREBASE_CHILD_USER_UID).getValue(String.class);
-
-                                                textServiceTypeValue.setText(societyServiceType);
-                                                textTimeSlotValue.setText(date);
-                                                textProblemDescriptionValue.setText(problemDescription);
-
-                                                /*Retrieving details of users to whom society service is serving*/
-                                                DatabaseReference userDatabaseReference = Constants.PRIVATE_USERS_REFERENCE
-                                                        .child(userUID);
-                                                userDatabaseReference.addValueEventListener(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                                        String residentName = dataSnapshot.child(Constants.FIREBASE_CHILD_PERSONAL_DETAILS)
-                                                                .child(Constants.FIREBASE_CHILD_FULL_NAME).getValue(String.class);
-                                                        String apartment = dataSnapshot.child(Constants.FIREBASE_CHILD_FLAT_DETAILS)
-                                                                .child(Constants.FIREBASE_CHILD_APARTMENT_NAME).getValue(String.class);
-                                                        String flat = dataSnapshot.child(Constants.FIREBASE_CHILD_FLAT_DETAILS)
-                                                                .child(Constants.FIREBASE_CHILD_FLAT_NUMBER).getValue(String.class);
-
-                                                        textResidentNameValue.setText(residentName);
-                                                        textApartmentValue.setText(apartment);
-                                                        textFlatNumberValue.setText(flat);
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                    }
-                                                });
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                    break;
-                }
+    /**
+     * Returns currently serving Notification UID
+     *
+     * @param serviceType        service Type of the Society Service
+     * @param servingUIDCallback callback to return Notification UID
+     */
+    private void getServingNotificationUID(String serviceType, ServingUIDCallback servingUIDCallback) {
+        DatabaseReference notificationsReference = SOCIETY_SERVICES_REFERENCE.child(serviceType)
+                .child(FIREBASE_CHILD_PRIVATE)
+                .child(FIREBASE_CHILD_DATA)
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .child(FIREBASE_CHILD_NOTIFICATIONS)
+                .child("serving");
+        notificationsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                    servingUIDCallback.onCallBack(dataSnapshot.getChildren().iterator().next().getKey());
+                else
+                    servingUIDCallback.onCallBack(null);
             }
 
             @Override
@@ -229,5 +190,68 @@ public class Serving extends Fragment implements View.OnClickListener {
 
             }
         });
+    }
+
+    /**
+     * Returns the details of the Notification
+     *
+     * @param notificationUID     the unique ID to identify the notification
+     * @param servingDataCallback callback to return details of the Notification
+     */
+    private void getServingData(String notificationUID, ServingDataCallback servingDataCallback) {
+        DatabaseReference societyServiceNotificationsRef = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
+                .child(notificationUID);
+        societyServiceNotificationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                servingDataCallback.onCallBack(dataSnapshot.getValue(SocietyServiceNotification.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Returns the data of the user who has triggered the notification
+     *
+     * @param userUID          whose data is to be retrieved
+     * @param userDataCallback callback to return user data
+     */
+    private void getUserData(String userUID, UserDataCallback userDataCallback) {
+        DatabaseReference usersPrivateReference = PRIVATE_USERS_REFERENCE.child(userUID);
+        usersPrivateReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userDataCallback.onCallBack(dataSnapshot.getValue(NammaApartmentUser.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------- *
+     * Interfaces
+     * ------------------------------------------------------------- */
+
+    public interface ServiceTypeCallback {
+        void onCallBack(String serviceType);
+    }
+
+    public interface ServingDataCallback {
+        void onCallBack(SocietyServiceNotification societyServiceNotification);
+    }
+
+    public interface UserDataCallback {
+        void onCallBack(NammaApartmentUser nammaApartmentUser);
+    }
+
+    public interface ServingUIDCallback {
+        void onCallBack(String servingUID);
     }
 }

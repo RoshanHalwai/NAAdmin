@@ -68,6 +68,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_TIME_SLOT = "timeSlot";
     private static final String FIREBASE_CHILD_USERS = "users";
     public static final String FIREBASE_CHILD_USER_UID = "userUID";
+    public static final String FIREBASE_CHILD_SERVICE_COUNT = "serviceCount";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

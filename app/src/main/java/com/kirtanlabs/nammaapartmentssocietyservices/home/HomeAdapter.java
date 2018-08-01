@@ -14,7 +14,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServicesAdapter.PlumberServicesHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberServicesHolder> {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -28,7 +28,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
      * Constructor
      * ------------------------------------------------------------- */
 
-    public PlumberServicesAdapter(Context mCtx, int screenTitle) {
+    public HomeAdapter(Context mCtx, int screenTitle) {
         this.mCtx = mCtx;
         baseActivity = (BaseActivity) mCtx;
         this.screenTitle = screenTitle;
@@ -75,7 +75,7 @@ public class PlumberServicesAdapter extends RecyclerView.Adapter<PlumberServices
     }
 
     /* ------------------------------------------------------------- *
-     * History Holder class
+     * HistoryFragment Holder class
      * ------------------------------------------------------------- */
 
     class PlumberServicesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

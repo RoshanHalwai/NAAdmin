@@ -73,7 +73,7 @@
     <string name="resend_otp">Resend OTP</string>
     <string name="verifying_account">Verifying Account</string>
 
-    <!--Serving Fragment-->
+    <!--ServingFragment Fragment-->
     <string name="accepted">Accepted</string>
     <string name="rejected">Rejected</string>
 
