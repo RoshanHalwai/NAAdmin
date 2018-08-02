@@ -22,6 +22,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.FutureFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.HistoryFragment;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.ServingFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
@@ -86,7 +87,22 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         switchAvailability.setVisibility(View.VISIBLE);
 
@@ -104,29 +120,8 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         switchAvailability.setOnCheckedChangeListener(this);
     }
 
-    /**
-     * Returns the Society Service Type
-     *
-     * @param serviceTypeCallback callback to return Society Service Type
-     */
-    public void getServiceType(ServingFragment.ServiceTypeCallback serviceTypeCallback) {
-        DatabaseReference societyServiceTypeReference = SOCIETY_SERVICE_TYPE_REFERENCE.
-                child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-        societyServiceTypeReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                serviceTypeCallback.onCallBack(dataSnapshot.getChildren().iterator().next().getKey());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     private void storeTokenID() {
-        getServiceType(serviceType -> {
+        new RetrievingNotificationData().getServiceType(serviceType -> {
             DatabaseReference societyServiceDataRef = SOCIETY_SERVICES_REFERENCE
                     .child(serviceType)
                     .child(FIREBASE_CHILD_PRIVATE)
@@ -202,9 +197,9 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
                 case 0:
                     return new ServingFragment();
                 case 1:
-                    return new FutureFragment();
-                case 2:
                     return new HistoryFragment();
+                case 2:
+                    return new FutureFragment();
                 default:
                     return null;
             }
