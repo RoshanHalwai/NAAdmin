@@ -29,12 +29,6 @@
                 android:text="@string/serving" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabHistory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/history" />
-
-            <android.support.design.widget.TabItem
                 android:id="@+id/tabFuture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

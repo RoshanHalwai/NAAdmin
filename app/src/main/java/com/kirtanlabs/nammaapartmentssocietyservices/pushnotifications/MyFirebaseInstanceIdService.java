@@ -11,10 +11,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
 
-    public static boolean isTokenRefreshed = false;
-
     public static String getRefreshedToken() {
-        isTokenRefreshed = false;
         return FirebaseInstanceId.getInstance().getToken();
     }
 
@@ -23,7 +20,6 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
-        isTokenRefreshed = true;
     }
 
 }

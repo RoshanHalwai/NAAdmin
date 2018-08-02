@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.home;
+package com.kirtanlabs.nammaapartmentssocietyservices.home.timeline;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,22 +10,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
-import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.List;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberServicesHolder> {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.PlumberServicesHolder> {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -39,7 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberService
      * Constructor
      * ------------------------------------------------------------- */
 
-    public HomeAdapter(Context mCtx, List<SocietyServiceNotification> requestDetailsList, int screenTitle) {
+    TimeLineAdapter(Context mCtx, List<SocietyServiceNotification> requestDetailsList) {
         this.mCtx = mCtx;
         baseActivity = (BaseActivity) mCtx;
         this.requestDetailsList = requestDetailsList;
@@ -83,7 +77,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberService
     }
 
     /* ------------------------------------------------------------- *
-     * HistoryFragment Holder class
+     * History Holder class
      * ------------------------------------------------------------- */
 
     class PlumberServicesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

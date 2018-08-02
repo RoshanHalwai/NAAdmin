@@ -14,8 +14,6 @@ public class Constants {
 
     public static final String MESSAGE = "message";
     public static final String SCREEN_TITLE = "screenTitle";
-    public static final String IS_ADMIN = "isAdmin";
-    public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
     public static final String SOCIETY_SERVICE_MOBILE_NUMBER = "societyServiceMobileNumber";
     public static final String NOTIFICATION_UID = "notificationUID";
     public static final String MOBILE_NUMBER = "mobileNumber";
@@ -49,7 +47,6 @@ public class Constants {
      * ------------------------------------------------------------- */
 
     private static final String FIREBASE_CHILD_ADMIN = "admin";
-    public static final String FIREBASE_CHILD_APARTMENT_NAME = "apartmentName";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICE_TYPE = "societyServiceType";
     private static final String FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS = "societyServiceNotifications";
     public static final String FIREBASE_CHILD_AVAILABLE = "available";
@@ -57,17 +54,10 @@ public class Constants {
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
-    public static final String FIREBASE_CHILD_FULL_NAME = "fullName";
-    public static final String FIREBASE_CHILD_FLAT_DETAILS = "flatDetails";
-    public static final String FIREBASE_CHILD_FLAT_NUMBER = "flatNumber";
-    public static final String FIREBASE_CHILD_PERSONAL_DETAILS = "personalDetails";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
-    public static final String FIREBASE_CHILD_PROBLEM = "problem";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
-    public static final String FIREBASE_CHILD_TIME_SLOT = "timeSlot";
     private static final String FIREBASE_CHILD_USERS = "users";
-    public static final String FIREBASE_CHILD_USER_UID = "userUID";
     public static final String FIREBASE_CHILD_SERVICE_COUNT = "serviceCount";
     public static final String FIREBASE_CHILD_SERVING = "serving";
     public static final String FIREBASE_CHILD_FUTURE = "future";
@@ -123,4 +113,9 @@ public class Constants {
     public static Typeface setLatoRegularFont(Context c) {
         return Typeface.createFromAsset(c.getAssets(), "fonts/Lato-Regular.ttf");
     }
+
+    static Typeface setLatoItalicFont(Context c) {
+        return Typeface.createFromAsset(c.getAssets(), "fonts/Lato-Italic.ttf");
+    }
+
 }
