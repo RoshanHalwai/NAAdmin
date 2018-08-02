@@ -17,8 +17,11 @@ import java.util.Objects;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_FUTURE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_HISTORY;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTIFICATIONS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_REJECTED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVING;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TAKEN_BY;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
@@ -64,7 +67,7 @@ public class ActionButtonListener extends BroadcastReceiver {
      * This method gets invoked when the Society Service presses the Accept/Reject button in the custom notification tray
      *
      * @param notificationUID is the UID of the particular received notification
-     * @param status is the notification status, if it has been accepted/rejected
+     * @param status          is the notification status, if it has been accepted/rejected
      */
     private void replyNotification(final Context context, final String notificationUID, final String mobileNumber, final String societyServiceType, final String status) {
 
@@ -81,14 +84,37 @@ public class ActionButtonListener extends BroadcastReceiver {
                         .child(FIREBASE_CHILD_NOTIFICATIONS);
 
                 if (status.equals(FIREBASE_CHILD_ACCEPTED)) {
-                    notificationsReference.child("serving").child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
-                        DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
-                        societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-                        context.startActivity(new Intent(context, HomeViewPager.class));
+                    /*Using the noticationsReference to differentiate between "serving" & "future" after the request has been 'Accepted'*/
+                    notificationsReference.child(FIREBASE_CHILD_SERVING).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            /*If no UID exists in 'Serving', the request will to 'serving'*/
+                            if (!dataSnapshot.exists()) {
+                                notificationsReference.child(FIREBASE_CHILD_SERVING).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
+                                    DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
+                                    societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
+                                    context.startActivity(new Intent(context, HomeViewPager.class));
+                                });
+                            }
+                            /*If a UID exists in 'serving', the new request will move to 'future'*/
+                            else {
+                                notificationsReference.child(FIREBASE_CHILD_FUTURE).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
+                                    DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
+                                    societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
+                                    context.startActivity(new Intent(context, HomeViewPager.class));
+                                });
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
                     });
 
                 } else {
-                    notificationsReference.child("history").child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
+                    notificationsReference.child(FIREBASE_CHILD_HISTORY).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
                         context.startActivity(new Intent(context, HomeViewPager.class));
                     });
                 }
