@@ -55,7 +55,7 @@ public class FutureFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*Getting Id's for all the views*/
+        /*Getting Id's for all the views*//*
         RecyclerView recyclerViewFuture = view.findViewById(R.id.recyclerViewFuture);
         recyclerViewFuture.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -66,15 +66,15 @@ public class FutureFragment extends Fragment {
         //Setting adapter to recycler view
         recyclerViewFuture.setAdapter(adapter);
 
-        /*Retrieving all the request details to which society service is going to serve in future*/
-        getFutureRequestDetails();
+        *//*Retrieving all the request details to which society service is going to serve in future*//*
+        getFutureRequestDetails();*/
     }
 
     /**
      * This method is invoked to retrieve all Future request from firebase that society service is going to serve after current request.
      */
     private void getFutureRequestDetails() {
-        new HomeViewPager().getServiceType(serviceType -> {
+        new RetrievingNotificationData().getServiceType(serviceType -> {
 
             /*Retrieving future notification uid from (Society Services->serviceType->Private->data->Society service Uid->notifications->future) in firebase.*/
             DatabaseReference notificationsReference = SOCIETY_SERVICES_REFERENCE.child(serviceType)

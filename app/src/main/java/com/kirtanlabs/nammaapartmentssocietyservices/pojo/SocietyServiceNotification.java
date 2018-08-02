@@ -1,5 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.pojo;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
+
 /**
  * KirtanLabs Pvt. Ltd.
  * Created by Roshan Halwai on 8/2/2018
@@ -17,6 +19,10 @@ public class SocietyServiceNotification {
     private String timeSlot;
     private long timeStamp;
     private String userUID;
+
+    /*Variable to indicate if Society Service Person has Accepted or Rejected the Notification*/
+    private String societyServiceResponse;
+    private NAUser naUser;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -68,4 +74,19 @@ public class SocietyServiceNotification {
         return userUID;
     }
 
+    public String getSocietyServiceResponse() {
+        return societyServiceResponse;
+    }
+
+    public void setSocietyServiceResponse(String societyServiceResponse) {
+        this.societyServiceResponse = societyServiceResponse;
+    }
+
+    public void setNaUser(NAUser naUser) {
+        this.naUser = naUser;
+    }
+
+    public NAUser getNaUser() {
+        return naUser;
+    }
 }

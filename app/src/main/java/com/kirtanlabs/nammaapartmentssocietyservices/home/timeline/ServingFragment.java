@@ -140,15 +140,16 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
      * This method is used to retrieve user request details to whom society service in currently working from firebase.
      */
     private void getUserRequestDetails() {
-        new HomeViewPager().getServiceType(serviceType ->
-                getServingNotificationUID(serviceType, servingUID -> {
+        RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData();
+        retrievingNotificationData.getServiceType(serviceType ->
+                retrievingNotificationData.getServingNotificationUID(serviceType, servingUID -> {
                     /*Indicates Person is not serving any notification at the moment*/
                     if (servingUID == null) {
                         return;
                     }
                     /*Person is currently serving flat, get the details and show in Card View*/
-                    getServingData(servingUID, societyServiceNotification ->
-                            getUserData(societyServiceNotification.getUserUID(), NAUser -> {
+                    retrievingNotificationData.getNotificationData(servingUID, societyServiceNotification ->
+                            retrievingNotificationData.getUserData(societyServiceNotification.getUserUID(), NAUser -> {
                                 textResidentNameValue.setText(NAUser.getPersonalDetails().getFullName());
                                 textApartmentValue.setText(NAUser.getFlatDetails().getApartmentName());
                                 textFlatNumberValue.setText(NAUser.getFlatDetails().getFlatNumber());
@@ -163,95 +164,4 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         );
     }
 
-    /**
-     * Returns currently serving Notification UID
-     *
-     * @param serviceType        service Type of the Society Service
-     * @param servingUIDCallback callback to return Notification UID
-     */
-    private void getServingNotificationUID(String serviceType, ServingUIDCallback servingUIDCallback) {
-        DatabaseReference notificationsReference = SOCIETY_SERVICES_REFERENCE.child(serviceType)
-                .child(FIREBASE_CHILD_PRIVATE)
-                .child(FIREBASE_CHILD_DATA)
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .child(FIREBASE_CHILD_NOTIFICATIONS)
-                .child("serving");
-        notificationsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists())
-                    servingUIDCallback.onCallBack(dataSnapshot.getChildren().iterator().next().getKey());
-                else
-                    servingUIDCallback.onCallBack(null);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Returns the details of the Notification
-     *
-     * @param notificationUID     the unique ID to identify the notification
-     * @param servingDataCallback callback to return details of the Notification
-     */
-    private void getServingData(String notificationUID, ServingDataCallback servingDataCallback) {
-        DatabaseReference societyServiceNotificationsRef = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
-                .child(notificationUID);
-        societyServiceNotificationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                servingDataCallback.onCallBack(dataSnapshot.getValue(SocietyServiceNotification.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Returns the data of the user who has triggered the notification
-     *
-     * @param userUID          whose data is to be retrieved
-     * @param userDataCallback callback to return user data
-     */
-    private void getUserData(String userUID, UserDataCallback userDataCallback) {
-        DatabaseReference usersPrivateReference = PRIVATE_USERS_REFERENCE.child(userUID);
-        usersPrivateReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userDataCallback.onCallBack(dataSnapshot.getValue(NAUser.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /* ------------------------------------------------------------- *
-     * Interfaces
-     * ------------------------------------------------------------- */
-
-    public interface ServiceTypeCallback {
-        void onCallBack(String serviceType);
-    }
-
-    public interface ServingDataCallback {
-        void onCallBack(SocietyServiceNotification societyServiceNotification);
-    }
-
-    public interface UserDataCallback {
-        void onCallBack(NAUser NAUser);
-    }
-
-    public interface ServingUIDCallback {
-        void onCallBack(String servingUID);
-    }
 }

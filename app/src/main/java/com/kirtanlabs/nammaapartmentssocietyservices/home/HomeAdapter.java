@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
@@ -33,8 +34,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberService
     private final BaseActivity baseActivity;
     private Context mCtx;
     private List<SocietyServiceNotification> requestDetailsList;
-    private int screenTitle;
-    private String userUid;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -44,7 +43,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberService
         this.mCtx = mCtx;
         baseActivity = (BaseActivity) mCtx;
         this.requestDetailsList = requestDetailsList;
-        this.screenTitle = screenTitle;
     }
 
     /* ------------------------------------------------------------- *
@@ -65,67 +63,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlumberService
 
         /*Creating an instance of class SocietyServiceNotification and retrieving the values from Firebase*/
         SocietyServiceNotification societyServiceNotification = requestDetailsList.get(position);
-        userUid = societyServiceNotification.getUserUID();
         holder.textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
         holder.textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
         holder.textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
-
-        /*To retrieve of user details from firebase*/
-        getUserDetails(holder.textResidentNameValue, holder.textApartmentValue, holder.textFlatNumberValue);
-
-        if (screenTitle == R.string.history) {
-            holder.buttonCallResident.setVisibility(View.GONE);
-            holder.imageActionTaken.setVisibility(View.VISIBLE);
-
-            //TODO: To remove this switch statement from here
-            switch (position) {
-                case 0:
-                    holder.imageActionTaken.setImageResource(R.drawable.rejected);
-                    break;
-                case 1:
-                    holder.imageActionTaken.setImageResource(R.drawable.accepted);
-                    break;
-                case 2:
-                    holder.imageActionTaken.setImageResource(R.drawable.rejected);
-                    break;
-            }
-        }
+        holder.textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
+        holder.textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
+        holder.textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
+        holder.imageActionTaken.setVisibility(View.VISIBLE);
+        holder.buttonCallResident.setVisibility(View.GONE);
+        if (societyServiceNotification.getSocietyServiceResponse().equals("Accepted"))
+            holder.imageActionTaken.setImageResource(R.drawable.accepted);
+        else
+            holder.imageActionTaken.setImageResource(R.drawable.rejected);
     }
 
     @Override
     public int getItemCount() {
         return requestDetailsList.size();
-    }
-
-    /**
-     * This method is invoked to retrieve details of user who has requested for society services
-     *
-     * @param textResidentNameValue - to display user name in this view
-     * @param textApartmentValue-   to display  user apartment name in this view
-     * @param textFlatNumberValue-  to display user flat number in this view
-     */
-    private void getUserDetails(final TextView textResidentNameValue, final TextView textApartmentValue, final TextView textFlatNumberValue) {
-        /*Getting user details from (users->private->userUID) in firebase*/
-        DatabaseReference userReference = Constants.PRIVATE_USERS_REFERENCE
-                .child(userUid);
-        userReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                NAUser naUser = dataSnapshot.getValue(NAUser.class);
-                assert naUser != null;
-                String residentName = naUser.getPersonalDetails().getFullName();
-                String apartment = naUser.getFlatDetails().getApartmentName();
-                String flatNumber = naUser.getFlatDetails().getFlatNumber();
-                textResidentNameValue.setText(residentName);
-                textApartmentValue.setText(apartment);
-                textFlatNumberValue.setText(flatNumber);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     /* ------------------------------------------------------------- *

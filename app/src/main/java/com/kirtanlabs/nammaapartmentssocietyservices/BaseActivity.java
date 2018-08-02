@@ -171,12 +171,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showProgressIndicator() {
         progressIndicator = findViewById(R.id.animationWaitingToLoadData);
+        progressIndicator.setVisibility(View.VISIBLE);
         progressIndicator.smoothToShow();
     }
 
     public void hideProgressIndicator() {
         if (progressIndicator == null)
             progressIndicator = findViewById(R.id.animationWaitingToLoadData);
+        progressIndicator.setVisibility(View.INVISIBLE);
         progressIndicator.smoothToHide();
     }
 
