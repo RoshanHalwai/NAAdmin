@@ -88,23 +88,20 @@ public class ActionButtonListener extends BroadcastReceiver {
                     notificationsReference.child(FIREBASE_CHILD_SERVING).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            DatabaseReference notificationTabReference;
                             /*If no UID exists in 'Serving', the request will to 'serving'*/
                             if (!dataSnapshot.exists()) {
-                                notificationsReference.child(FIREBASE_CHILD_SERVING).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
-                                    DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
-                                    societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-                                    context.startActivity(new Intent(context, HomeViewPager.class));
-                                });
+                                notificationTabReference = notificationsReference.child(FIREBASE_CHILD_SERVING);
                             }
                             /*If a UID exists in 'serving', the new request will move to 'future'*/
                             else {
-                                notificationsReference.child(FIREBASE_CHILD_FUTURE).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
-                                    DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
-                                    societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-                                    context.startActivity(new Intent(context, HomeViewPager.class));
-                                });
-
+                                notificationTabReference = notificationsReference.child(FIREBASE_CHILD_FUTURE);
                             }
+                            notificationTabReference.child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
+                                DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
+                                societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
+                                context.startActivity(new Intent(context, HomeViewPager.class));
+                            });
                         }
 
                         @Override
