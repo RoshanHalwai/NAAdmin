@@ -15,28 +15,15 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
-import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
-import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.Objects;
 
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTIFICATIONS;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
 public class ServingFragment extends Fragment implements View.OnClickListener {
@@ -110,8 +97,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         buttonCallResident.setOnClickListener(this);
         buttonEndService.setOnClickListener(this);
 
-        /* This method is used to display Details of User to whom Society service is working currently*/
-        getUserRequestDetails();
+        updateUIWithServingData();
     }
 
     /* ------------------------------------------------------------- *
@@ -132,36 +118,20 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /* ------------------------------------------------------------- *
-     * Private Methods
-     * ------------------------------------------------------------- */
-
-    /**
-     * This method is used to retrieve user request details to whom society service in currently working from firebase.
-     */
-    private void getUserRequestDetails() {
-        RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData();
-        retrievingNotificationData.getServiceType(serviceType ->
-                retrievingNotificationData.getServingNotificationUID(serviceType, servingUID -> {
-                    /*Indicates Person is not serving any notification at the moment*/
-                    if (servingUID == null) {
-                        return;
-                    }
-                    /*Person is currently serving flat, get the details and show in Card View*/
-                    retrievingNotificationData.getNotificationData(servingUID, societyServiceNotification ->
-                            retrievingNotificationData.getUserData(societyServiceNotification.getUserUID(), NAUser -> {
-                                textResidentNameValue.setText(NAUser.getPersonalDetails().getFullName());
-                                textApartmentValue.setText(NAUser.getFlatDetails().getApartmentName());
-                                textFlatNumberValue.setText(NAUser.getFlatDetails().getFlatNumber());
-                                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
-                                textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
-                                textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
-                                layoutAwaitingResponse.setVisibility(View.GONE);
-                                layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
-                            })
-                    );
-                })
-        );
+    private void updateUIWithServingData() {
+        RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
+        retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
+            if (societyServiceNotification != null) {
+                textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
+                textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
+                textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
+                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
+                textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
+                layoutAwaitingResponse.setVisibility(View.GONE);
+                layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
 }

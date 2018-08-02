@@ -13,6 +13,7 @@ public class SocietyServiceData {
     private String fullName;
     private String mobileNumber;
     private String uid;
+    private String societyServiceType;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -44,4 +45,15 @@ public class SocietyServiceData {
         return uid;
     }
 
+    public String getSocietyServiceType() {
+        return societyServiceType;
+    }
+
+    /* ------------------------------------------------------------- *
+     * Setters
+     * ------------------------------------------------------------- */
+
+    public void setSocietyServiceType(String societyServiceType) {
+        this.societyServiceType = societyServiceType;
+    }
 }

@@ -3,6 +3,8 @@ package com.kirtanlabs.nammaapartmentssocietyservices;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +19,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -27,6 +31,7 @@ import java.util.regex.Pattern;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLACE_CALL_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoItalicFont;
 
 /**
  * Root activity for most of the Activities of this project.
@@ -75,9 +80,13 @@ public abstract class BaseActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(this, imageMenu);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(item -> {
-                startActivity(new Intent(this, SignIn.class));
-                finish();
-                return true;
+                if (item.getItemId() == R.id.logout) {
+                    startActivity(new Intent(this, SignIn.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(this, History.class));
+                }
+                return super.onOptionsItemSelected(item);
             });
             popupMenu.show();
         });
@@ -169,6 +178,19 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Public Methods
      * ------------------------------------------------------------- */
 
+    /**
+     * Displays Feature Unavailable layout along with a message passed by the activity
+     *
+     * @param text feature unavailable message
+     */
+    public void showFeatureUnavailableLayout(int text) {
+        LinearLayout featureUnavailableLayout = findViewById(R.id.layoutFeatureUnavailable);
+        featureUnavailableLayout.setVisibility(View.VISIBLE);
+        TextView textView = findViewById(R.id.textFeatureUnavailable);
+        textView.setTypeface(setLatoItalicFont(this));
+        textView.setText(text);
+    }
+
     public void showProgressIndicator() {
         progressIndicator = findViewById(R.id.animationWaitingToLoadData);
         progressIndicator.setVisibility(View.VISIBLE);
@@ -227,6 +249,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param phone consists of string value of mobile number.
      * @return returns a boolean variable based on the context.
      */
+
     public boolean isValidPhone(String phone) {
         return !Pattern.matches("[a-zA-Z]+", phone) && phone.length() == PHONE_NUMBER_MAX_LENGTH;
     }
