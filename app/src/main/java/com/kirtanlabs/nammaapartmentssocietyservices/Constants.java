@@ -62,6 +62,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_SERVING = "serving";
     public static final String FIREBASE_CHILD_FUTURE = "future";
     public static final String FIREBASE_CHILD_HISTORY = "history";
+    public static final String FIREBASE_CHILD_STATUS = "status";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -69,6 +70,7 @@ public class Constants {
 
     public static final String FIREBASE_CHILD_ACCEPTED = "Accepted";
     public static final String FIREBASE_CHILD_REJECTED = "Rejected";
+    public static final String FIREBASE_CHILD_COMPLETED = "Completed";
 
     /* ------------------------------------------------------------- *
      * Firebase Database References

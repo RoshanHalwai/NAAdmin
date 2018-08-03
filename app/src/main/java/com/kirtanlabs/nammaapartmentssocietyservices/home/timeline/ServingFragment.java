@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -22,7 +23,11 @@ import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_COMPLETED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
@@ -40,6 +45,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
+    private String notificationUID;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -101,6 +107,17 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     }
 
     /* ------------------------------------------------------------- *
+     * Overriding onActivityResult
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == END_SERVICE_REQUEST_CODE) {
+            setSocietyServiceWorkStatus();
+        }
+    }
+
+    /* ------------------------------------------------------------- *
      * Overriding OnClick Listeners
      * ------------------------------------------------------------- */
 
@@ -118,6 +135,16 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * This method is invoked when a Society Service presses 'End Service' button and user
+     * authenticates OTP successfully
+     */
+    private void setSocietyServiceWorkStatus() {
+        /*Getting the reference to change the 'status' of the Society Service to 'completed' once the service ends*/
+        DatabaseReference workStatusReference = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
+        workStatusReference.child(FIREBASE_CHILD_STATUS).setValue(FIREBASE_CHILD_COMPLETED);
+    }
+
     private void updateUIWithServingData() {
         RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
         retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
@@ -130,6 +157,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
                 layoutAwaitingResponse.setVisibility(View.GONE);
                 layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
+
+                /*Getting UID of notification*/
+                notificationUID = societyServiceNotification.getNotificationUID();
             }
         });
     }
