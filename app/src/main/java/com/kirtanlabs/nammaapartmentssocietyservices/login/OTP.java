@@ -231,12 +231,8 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                 .addOnCompleteListener(this, (task) -> {
                     hideProgressDialog();
                     if (task.isSuccessful()) {
-                        //If Admin Registers new user
-                        if (previousScreenTitle == R.string.register) {
-                            setResult(Activity.RESULT_OK, new Intent());
-                            finish();
-                        } else {
-                            //Existing user is Logging in
+                        /*Existing user is Logging in*/
+                        if (previousScreenTitle == R.string.login) {
                             DatabaseReference allSocietyServiceReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE.child(userMobileNumber);
                             allSocietyServiceReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -274,6 +270,10 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
                                 }
                             });
+                        } else {
+                            /*If Admin Registers new user or when the society service is ending the service*/
+                            setResult(Activity.RESULT_OK, new Intent());
+                            finish();
                         }
                     } else {
                         /*Check if network is available or not*/
