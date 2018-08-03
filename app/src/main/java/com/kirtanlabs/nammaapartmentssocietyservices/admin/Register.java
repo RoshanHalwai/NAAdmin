@@ -97,13 +97,13 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
         /*Setting adapter to Spinner view*/
         spinnerSocietyServiceType.setAdapter(adapter);
 
-        /*Setting onClickListener for view*/
+        /*Setting Listeners for views*/
         buttonRegister.setOnClickListener(this);
         spinnerSocietyServiceType.setOnItemSelectedListener(this);
     }
 
     /* ------------------------------------------------------------- *
-     * Overriding OnClick and OnItemSelected Listeners Method
+     * Overriding OnClick and OnItemSelected Listeners Methods
      * ------------------------------------------------------------- */
 
     @Override
