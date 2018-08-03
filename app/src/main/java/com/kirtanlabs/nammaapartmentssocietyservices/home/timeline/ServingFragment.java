@@ -22,6 +22,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
@@ -116,10 +117,27 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonEndService:
                 Intent intent = new Intent(getActivity(), OTP.class);
                 intent.putExtra(Constants.SCREEN_TITLE, R.string.serving);
+                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
                 startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
                 break;
         }
     }
+
+    /*-------------------------------------------------------------------------------
+     *Overriding onActivityResult
+     *-----------------------------------------------------------------------------*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == END_SERVICE_REQUEST_CODE) {
+            //TODO: Card View to be moved from Serving to Future/History as per the current status of work
+        }
+    }
+
+    /*-------------------------------------------------------------------------------
+     *Private Method
+     *-----------------------------------------------------------------------------*/
 
     private void updateUIWithServingData() {
         RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
