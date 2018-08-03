@@ -46,6 +46,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
     private String notificationUID;
+    private String mobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -79,6 +80,8 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         textProblemDescriptionValue = view.findViewById(R.id.textProblemDescriptionValue);
         Button buttonCallResident = view.findViewById(R.id.buttonCallResident);
         Button buttonEndService = view.findViewById(R.id.buttonEndService);
+
+        buttonCallResident.setVisibility(View.VISIBLE);
 
         /*Setting font for all the views*/
         textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
@@ -125,11 +128,12 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonCallResident:
-                baseActivity.makePhoneCall();
+                baseActivity.makePhoneCall(mobileNumber);
                 break;
             case R.id.buttonEndService:
                 Intent intent = new Intent(getActivity(), OTP.class);
                 intent.putExtra(Constants.SCREEN_TITLE, R.string.serving);
+                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
                 startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
                 break;
         }
@@ -144,6 +148,10 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         DatabaseReference workStatusReference = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
         workStatusReference.child(FIREBASE_CHILD_STATUS).setValue(FIREBASE_CHILD_COMPLETED);
     }
+
+    /*-------------------------------------------------------------------------------
+     *Private Method
+     *-----------------------------------------------------------------------------*/
 
     private void updateUIWithServingData() {
         RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
@@ -160,6 +168,8 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
 
                 /*Getting UID of notification*/
                 notificationUID = societyServiceNotification.getNotificationUID();
+                /*Getting the mobile number of user*/
+                mobileNumber = societyServiceNotification.getNaUser().getPersonalDetails().getPhoneNumber();
             }
         });
     }
