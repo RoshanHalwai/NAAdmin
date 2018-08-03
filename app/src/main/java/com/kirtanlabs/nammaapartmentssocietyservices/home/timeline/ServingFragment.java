@@ -40,6 +40,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
+    private String mobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -73,6 +74,8 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         textProblemDescriptionValue = view.findViewById(R.id.textProblemDescriptionValue);
         Button buttonCallResident = view.findViewById(R.id.buttonCallResident);
         Button buttonEndService = view.findViewById(R.id.buttonEndService);
+
+        buttonCallResident.setVisibility(View.VISIBLE);
 
         /*Setting font for all the views*/
         textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
@@ -108,7 +111,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonCallResident:
-                baseActivity.makePhoneCall();
+                baseActivity.makePhoneCall(mobileNumber);
                 break;
             case R.id.buttonEndService:
                 Intent intent = new Intent(getActivity(), OTP.class);
@@ -130,6 +133,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
                 layoutAwaitingResponse.setVisibility(View.GONE);
                 layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
+
+                /*Getting the mobile number of user*/
+                mobileNumber = societyServiceNotification.getNaUser().getPersonalDetails().getPhoneNumber();
             }
         });
     }
