@@ -27,6 +27,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUM
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.generateOTP;
 
 /**
  * KirtanLabs Pvt. Ltd.
@@ -84,7 +85,7 @@ public class ActionButtonListener extends BroadcastReceiver {
                         .child(FIREBASE_CHILD_NOTIFICATIONS);
 
                 if (status.equals(FIREBASE_CHILD_ACCEPTED)) {
-                    /*Using the noticationsReference to differentiate between "serving" & "future" after the request has been 'Accepted'*/
+                    /*Using the notificationsReference to differentiate between "serving" & "future" after the request has been 'Accepted'*/
                     notificationsReference.child(FIREBASE_CHILD_SERVING).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,6 +101,7 @@ public class ActionButtonListener extends BroadcastReceiver {
                             notificationTabReference.child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
                                 DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
                                 societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
+                                societyServiceNotificationsReference.child("endOTP").setValue(generateOTP());
                                 context.startActivity(new Intent(context, HomeViewPager.class));
                             });
                         }

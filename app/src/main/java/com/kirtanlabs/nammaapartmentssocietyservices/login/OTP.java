@@ -95,15 +95,6 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
         fbAuth = FirebaseAuth.getInstance();
 
-        /* Generate an OTP to user's mobile number */
-        userMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
-        sendOTP();
-
-        /* Start the Resend OTP timer, valid for 120 seconds*/
-        textResendOTPOrVerificationMessage = findViewById(R.id.textResendOTPOrVerificationMessage);
-        textChangeNumberOrTimer = findViewById(R.id.textChangeNumberOrTimer);
-        startResendOTPTimer();
-
         /*Getting Id's for all the views*/
         textDescription = findViewById(R.id.textDescription);
         editFirstOTPDigit = findViewById(R.id.editFirstOTPDigit);
@@ -113,6 +104,8 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         editFifthOTPDigit = findViewById(R.id.editFifthOTPDigit);
         editSixthOTPDigit = findViewById(R.id.editSixthOTPDigit);
         buttonVerifyOTP = findViewById(R.id.buttonVerifyOTP);
+        textResendOTPOrVerificationMessage = findViewById(R.id.textResendOTPOrVerificationMessage);
+        textChangeNumberOrTimer = findViewById(R.id.textChangeNumberOrTimer);
 
         /*Setting font for all the views*/
         textDescription.setTypeface(Constants.setLatoRegularFont(this));
@@ -129,13 +122,21 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         getPreviousScreenTitle();
         updatePhoneVerificationText();
 
+        /*If Previous screen title is Serving, we wouldn't want Firebase to generate OTP*/
+        if (previousScreenTitle != R.string.serving) {
+            /* Generate an OTP to user's mobile number */
+            userMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
+            sendOTP();
+            /* Start the Resend OTP timer, valid for 120 seconds*/
+            startResendOTPTimer();
+        }
+
         /*Setting events for OTP edit text*/
         setEventsForEditText();
 
         /*Setting onClickListener for view*/
         buttonVerifyOTP.setOnClickListener(this);
         textResendOTPOrVerificationMessage.setOnClickListener(v -> resendOTP());
-
     }
 
     /* ------------------------------------------------------------- *
@@ -144,10 +145,13 @@ public class OTP extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        /*displaying progress dialog while OTP is being validated*/
-        showProgressDialog(OTP.this,
-                getResources().getString(R.string.verifying_account),
-                getResources().getString(R.string.please_wait_a_moment));
+        /*We wouldn't want to show progress dialog if previous screen title is Serving*/
+        if (previousScreenTitle != R.string.serving) {
+            /*Displaying progress dialog while OTP is being validated*/
+            showProgressDialog(OTP.this,
+                    getResources().getString(R.string.verifying_account),
+                    getResources().getString(R.string.please_wait_a_moment));
+        }
 
         boolean allFieldsFilled = isAllFieldsFilled(new EditText[]{
                 editFirstOTPDigit,
@@ -162,7 +166,18 @@ public class OTP extends BaseActivity implements View.OnClickListener {
             String code = editFirstOTPDigit.getText().toString() + editSecondOTPDigit.getText().toString() +
                     editThirdOTPDigit.getText().toString() + editFourthOTPDigit.getText().toString() + editFifthOTPDigit.getText().toString() +
                     editSixthOTPDigit.getText().toString();
-            signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(phoneVerificationId, code));
+
+            if (previousScreenTitle == R.string.serving) {
+                if (code.equals(getIntent().getStringExtra(Constants.END_OTP))) {
+                    setResult(Activity.RESULT_OK, new Intent());
+                    finish();
+                } else {
+                    /*Show this message if user has entered wrong OTP*/
+                    textResendOTPOrVerificationMessage.setText(R.string.wrong_otp_entered);
+                }
+            } else {
+                signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(phoneVerificationId, code));
+            }
         }
     }
 
@@ -242,6 +257,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                         Intent intent = new Intent(OTP.this, HomeViewPager.class);
                                         intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
                                         startActivity(intent);
+                                        finish();
                                     } else {
                                         DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
                                         societyServiceAdminReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -250,6 +266,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                                 //Admin has logged In
                                                 if (userMobileNumber.equals(dataSnapshot.getValue(String.class))) {
                                                     startActivity(new Intent(OTP.this, Register.class));
+                                                    finish();
                                                 } else {
                                                     //New member has logged in whose mobile number is not yet registered
                                                     //TODO: Add UI Layout with the below message

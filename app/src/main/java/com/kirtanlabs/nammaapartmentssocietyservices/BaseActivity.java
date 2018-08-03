@@ -3,8 +3,6 @@ package com.kirtanlabs.nammaapartmentssocietyservices;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -221,7 +219,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (intent == null) {
             alertNotifyGateDialog.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
         } else {
-            alertNotifyGateDialog.setPositiveButton("Ok", (dialog, which) -> startActivity(intent));
+            alertNotifyGateDialog.setPositiveButton("Ok", (dialog, which) -> {
+                startActivity(intent);
+                finish();
+            });
         }
 
         new Dialog(this);

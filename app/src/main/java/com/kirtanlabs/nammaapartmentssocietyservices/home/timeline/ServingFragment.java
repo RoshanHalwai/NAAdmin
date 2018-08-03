@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
 import java.util.Objects;
@@ -26,6 +27,7 @@ import java.util.Objects;
 import static android.app.Activity.RESULT_OK;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_COMPLETED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
@@ -47,6 +49,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textServiceTypeValue;
     private String notificationUID;
     private String mobileNumber;
+    private String endOTP;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -109,13 +112,15 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         updateUIWithServingData();
     }
 
+
     /* ------------------------------------------------------------- *
-     * Overriding onActivityResult
+     * Overriding onActivity Result
      * ------------------------------------------------------------- */
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == END_SERVICE_REQUEST_CODE) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == END_SERVICE_REQUEST_CODE && resultCode == RESULT_OK) {
             setSocietyServiceWorkStatus();
         }
     }
@@ -133,7 +138,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonEndService:
                 Intent intent = new Intent(getActivity(), OTP.class);
                 intent.putExtra(Constants.SCREEN_TITLE, R.string.serving);
-                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                intent.putExtra(Constants.END_OTP, endOTP);
                 startActivityForResult(intent, END_SERVICE_REQUEST_CODE);
                 break;
         }
@@ -147,6 +152,17 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         /*Getting the reference to change the 'status' of the Society Service to 'completed' once the service ends*/
         DatabaseReference workStatusReference = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
         workStatusReference.child(FIREBASE_CHILD_STATUS).setValue(FIREBASE_CHILD_COMPLETED);
+
+        /*Remove the Notification UID under Serving and put them under History*/
+        ((SocietyServiceGlobal) Objects.requireNonNull(getActivity()).getApplicationContext())
+                .getServingNotificationReference()
+                .child(notificationUID)
+                .removeValue((databaseError, databaseReference) ->
+                        ((SocietyServiceGlobal) getActivity().getApplicationContext())
+                                .getHistoryNotificationReference()
+                                .child(notificationUID)
+                                .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid -> updateUIWithServingData()));
+
     }
 
     /*-------------------------------------------------------------------------------
@@ -157,6 +173,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
         retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
             if (societyServiceNotification != null) {
+                endOTP = societyServiceNotification.getEndOTP();
                 textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
                 textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
                 textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
@@ -170,6 +187,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 notificationUID = societyServiceNotification.getNotificationUID();
                 /*Getting the mobile number of user*/
                 mobileNumber = societyServiceNotification.getNaUser().getPersonalDetails().getPhoneNumber();
+            } else {
+                layoutAwaitingResponse.setVisibility(View.VISIBLE);
+                layoutAcceptedUserDetails.setVisibility(View.GONE);
             }
         });
     }

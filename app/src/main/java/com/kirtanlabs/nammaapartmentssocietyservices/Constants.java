@@ -14,6 +14,7 @@ public class Constants {
 
     public static final String MESSAGE = "message";
     public static final String SCREEN_TITLE = "screenTitle";
+    public static final String END_OTP = "endOTP";
     public static final String SOCIETY_SERVICE_MOBILE_NUMBER = "societyServiceMobileNumber";
     public static final String NOTIFICATION_UID = "notificationUID";
     public static final String MOBILE_NUMBER = "mobileNumber";

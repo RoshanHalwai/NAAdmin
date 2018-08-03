@@ -19,8 +19,8 @@
     <string name="call_resident">Call Resident</string>
     <string name="end_service">End Service</string>
     <string name="verify_otp">Verify OTP</string>
-    <string name="serving">Serving</string>
-    <string name="future">Future</string>
+    <string name="serving">Serving Request</string>
+    <string name="future">Future Requests</string>
     <string name="history">History</string>
     <string name="default_notification_channel_id">01</string>
     <string name="feature_unavailable_image_desc">Image to indicate feature is currently unavailable</string>
