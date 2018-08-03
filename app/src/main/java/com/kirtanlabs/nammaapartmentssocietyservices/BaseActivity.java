@@ -231,10 +231,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * We check if permissions are granted to place calls if granted then we directly start Dialer Activity
      * else we show Request permission dialog to allow users to give access.
+     *
+     * @param mobileNumber to which call needs to be placed.
      */
-    public void makePhoneCall() {
-        //TODO: To remove this mobile number from here.
-        String mobileNumber = "9885665744";
+    public void makePhoneCall(String mobileNumber) {
         callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNumber));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, PLACE_CALL_PERMISSION_REQUEST_CODE);

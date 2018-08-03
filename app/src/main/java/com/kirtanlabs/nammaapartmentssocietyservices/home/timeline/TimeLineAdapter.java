@@ -6,11 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
@@ -25,7 +23,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
      * Private Members
      * ------------------------------------------------------------- */
 
-    private final BaseActivity baseActivity;
     private Context mCtx;
     private List<SocietyServiceNotification> requestDetailsList;
 
@@ -35,7 +32,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
 
     TimeLineAdapter(Context mCtx, List<SocietyServiceNotification> requestDetailsList) {
         this.mCtx = mCtx;
-        baseActivity = (BaseActivity) mCtx;
         this.requestDetailsList = requestDetailsList;
     }
 
@@ -64,7 +60,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         holder.textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
         holder.textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
         holder.imageActionTaken.setVisibility(View.VISIBLE);
-        holder.buttonCallResident.setVisibility(View.GONE);
         if (societyServiceNotification.getSocietyServiceResponse().equals("Accepted"))
             holder.imageActionTaken.setImageResource(R.drawable.accepted);
         else
@@ -80,7 +75,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
      * History Holder class
      * ------------------------------------------------------------- */
 
-    class PlumberServicesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class PlumberServicesHolder extends RecyclerView.ViewHolder {
 
         /* ------------------------------------------------------------- *
          * Private Members
@@ -98,7 +93,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         private TextView textServiceTypeValue;
         private TextView textTimeSlotValue;
         private TextView textProblemDescriptionValue;
-        private Button buttonCallResident;
         private ImageView imageActionTaken;
 
         /* ------------------------------------------------------------- *
@@ -121,7 +115,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
             textServiceTypeValue = itemView.findViewById(R.id.textServiceTypeValue);
             textTimeSlotValue = itemView.findViewById(R.id.textTimeSlotValue);
             textProblemDescriptionValue = itemView.findViewById(R.id.textProblemDescriptionValue);
-            buttonCallResident = itemView.findViewById(R.id.buttonCallResident);
             imageActionTaken = itemView.findViewById(R.id.imageActionTaken);
 
             /*Setting font for all the views*/
@@ -137,19 +130,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
             textServiceTypeValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textTimeSlotValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(mCtx));
-            buttonCallResident.setTypeface(Constants.setLatoLightFont(mCtx));
-
-            //Setting listener for item in card view
-            buttonCallResident.setOnClickListener(this);
-        }
-
-        /* ------------------------------------------------------------- *
-         * Overriding OnClick Listeners
-         * ------------------------------------------------------------- */
-
-        @Override
-        public void onClick(View v) {
-            baseActivity.makePhoneCall();
         }
     }
 }
