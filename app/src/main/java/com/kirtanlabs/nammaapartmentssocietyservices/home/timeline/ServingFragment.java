@@ -1,6 +1,8 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.home.timeline;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -126,6 +128,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == END_SERVICE_REQUEST_CODE && resultCode == RESULT_OK) {
             setSocietyServiceWorkStatus();
+
+            /*This method is used to create a dialog that indicates society service have successfully completed its service*/
+            openServiceSuccessfullyCompletedDialog();
         }
     }
 
@@ -208,4 +213,27 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    /**
+     * This method is used to open a dialog when society service successfully completes a service.
+     */
+    private void openServiceSuccessfullyCompletedDialog() {
+        View successfulDialog = View.inflate(getActivity(), R.layout.layout_successful_dialog, null);
+
+        /*Getting Id's for all the views*/
+        TextView textDescription = successfulDialog.findViewById(R.id.textDescription);
+
+        /*Setting font for all the views*/
+        textDescription.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
+
+        /*Setting view in Dialog*/
+        AlertDialog.Builder alertSuccessfulDialog = new AlertDialog.Builder(getActivity());
+        alertSuccessfulDialog.setCancelable(false);
+        alertSuccessfulDialog.setPositiveButton(R.string.ok, (dialog, which) -> dialog.cancel());
+        alertSuccessfulDialog.setView(successfulDialog);
+
+        AlertDialog dialog = alertSuccessfulDialog.create();
+
+        new Dialog(getActivity());
+        dialog.show();
+    }
 }

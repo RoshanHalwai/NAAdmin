@@ -77,6 +77,9 @@
     <!--Serving Fragment-->
     <string name="accepted">Accepted</string>
     <string name="rejected">Rejected</string>
+    <string name="image_success">Image to indicate society service has successfully completed service.</string>
+    <string name="successfully_completed_service">You have Successfully Completed Service</string>
+    <string name="ok">OK</string>
 
     <!--History Fragment-->
     <string name="history_detail_message">Past Service Details will be shown here</string>
