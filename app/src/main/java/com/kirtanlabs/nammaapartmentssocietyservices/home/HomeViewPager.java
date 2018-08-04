@@ -13,7 +13,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -25,9 +28,13 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import java.util.Objects;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TOKEN_ID;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_UNAVAILABLE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
@@ -131,15 +138,58 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //TODO: To update the status of society service in firebase also
+        SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
+        String serviceType = societyServiceData.getSocietyServiceType();
+        String societyServiceMobileNumber = societyServiceData.getMobileNumber();
         if (isChecked) {
             textActivityTitle.setText(R.string.available);
             layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
             tabLayout.setBackgroundResource(R.color.nmGreen);
+
+            /*Getting the reference of Society Service Mobile Number and placing the data back in 'available' in Firebase,
+             * once the Society Service is available. At the same time, the corresponding mobile number and its data is removed from 'unavailable'*/
+            DatabaseReference insertInAvailableReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_UNAVAILABLE).child(societyServiceMobileNumber);
+            insertInAvailableReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    SOCIETY_SERVICES_REFERENCE.child(serviceType)
+                            .child(FIREBASE_CHILD_PRIVATE)
+                            .child(FIREBASE_CHILD_AVAILABLE)
+                            .child(societyServiceMobileNumber)
+                            .setValue(dataSnapshot.getValue()).addOnCompleteListener(task -> insertInAvailableReference.removeValue());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         } else {
             textActivityTitle.setText(R.string.unavailable);
             layoutBaseActivity.setBackgroundResource(R.color.nmRed);
             tabLayout.setBackgroundResource(R.color.nmRed);
+
+            /*Getting the reference of Society Service Mobile Number and placing the data in 'unavailable' in Firebase,
+             * once the Society Service is unavailable. At the same time, the corresponding mobile number and its data is removed from 'available'*/
+            DatabaseReference removeFromAvailableReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber);
+            removeFromAvailableReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    SOCIETY_SERVICES_REFERENCE.child(serviceType)
+                            .child(FIREBASE_CHILD_PRIVATE)
+                            .child(FIREBASE_CHILD_UNAVAILABLE)
+                            .child(societyServiceMobileNumber)
+                            .setValue(dataSnapshot.getValue()).addOnCompleteListener(task -> removeFromAvailableReference.removeValue());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
