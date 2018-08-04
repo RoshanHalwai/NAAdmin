@@ -51,6 +51,7 @@ public class Constants {
     private static final String FIREBASE_CHILD_SOCIETY_SERVICE_TYPE = "societyServiceType";
     private static final String FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS = "societyServiceNotifications";
     public static final String FIREBASE_CHILD_AVAILABLE = "available";
+    public static final String FIREBASE_CHILD_UNAVAILABLE = "unavailable";
     public static final String FIREBASE_CHILD_ALL = "all";
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
