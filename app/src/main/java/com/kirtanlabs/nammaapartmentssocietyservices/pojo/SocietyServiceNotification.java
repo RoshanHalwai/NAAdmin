@@ -19,6 +19,7 @@ public class SocietyServiceNotification {
     private String timeSlot;
     private long timeStamp;
     private String userUID;
+    private String endOTP;
 
     /*Variable to indicate if Society Service Person has Accepted or Rejected the Notification*/
     private String societyServiceResponse;
@@ -32,7 +33,7 @@ public class SocietyServiceNotification {
 
     }
 
-    public SocietyServiceNotification(String notificationUID, String problem, String societyServiceType, String status, String timeSlot, long timeStamp, String userUID) {
+    public SocietyServiceNotification(String notificationUID, String problem, String societyServiceType, String status, String timeSlot, long timeStamp, String userUID, String endOTP) {
         this.notificationUID = notificationUID;
         this.problem = problem;
         this.societyServiceType = societyServiceType;
@@ -40,6 +41,7 @@ public class SocietyServiceNotification {
         this.timeSlot = timeSlot;
         this.timeStamp = timeStamp;
         this.userUID = userUID;
+        this.endOTP = endOTP;
     }
 
     /* ------------------------------------------------------------- *
@@ -74,10 +76,21 @@ public class SocietyServiceNotification {
         return userUID;
     }
 
+    public NAUser getNaUser() {
+        return naUser;
+    }
+
     public String getSocietyServiceResponse() {
         return societyServiceResponse;
     }
 
+    public String getEndOTP() {
+        return endOTP;
+    }
+
+    /* ------------------------------------------------------------- *
+     * Getters
+     * ------------------------------------------------------------- */
     public void setSocietyServiceResponse(String societyServiceResponse) {
         this.societyServiceResponse = societyServiceResponse;
     }
@@ -86,7 +99,4 @@ public class SocietyServiceNotification {
         this.naUser = naUser;
     }
 
-    public NAUser getNaUser() {
-        return naUser;
-    }
 }

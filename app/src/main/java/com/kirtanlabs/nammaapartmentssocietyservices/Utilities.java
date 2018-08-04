@@ -1,5 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices;
 
+import java.util.Random;
+
 /**
  * KirtanLabs Pvt. Ltd.
  * Created by Roshan Halwai on 8/2/2018
@@ -26,4 +28,15 @@ public class Utilities {
         }
         return sb.toString();
     }
+
+    public static String generateOTP() {
+        String numbers = "0123456789";
+        Random random = new Random();
+        char[] otp = new char[6];
+        for (int i = 0; i < 6; i++) {
+            otp[i] = numbers.charAt(random.nextInt(numbers.length()));
+        }
+        return new String(otp);
+    }
+
 }

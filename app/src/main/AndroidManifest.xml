@@ -18,31 +18,6 @@
         <!-- Ignore this activity for now -->
         <activity android:name=".MainActivity" />
 
-        <!-- Namma Apartments Plumber Services Screen -->
-        <activity
-            android:name=".home.HomeViewPager"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".login.OTP"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".home.timeline.History"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <service android:name=".pushnotifications.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <!-- Login Screen -->
         <activity
             android:name=".login.SignIn"
@@ -55,11 +30,40 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".login.OTP"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Register Screen -->
         <activity
             android:name=".admin.Register"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Namma Apartments Society Services Screen -->
+        <activity
+            android:name=".home.HomeViewPager"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".home.timeline.History"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Push Notifications related services-->
+
+        <service android:name=".pushnotifications.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
         <receiver android:name=".pushnotifications.ActionButtonListener">
             <intent-filter>
