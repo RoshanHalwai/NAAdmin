@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
@@ -22,6 +24,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
+import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -47,6 +50,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
+    private RetrievingNotificationData retrievingNotificationData;
     private String notificationUID;
     private String mobileNumber;
     private String endOTP;
@@ -163,6 +167,16 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                                 .child(notificationUID)
                                 .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid -> updateUIWithServingData()));
 
+        /*Remove the first Notification UID under Future and put them under Serving*/
+        retrievingNotificationData.getFutureUIDMap(futureUIDMap ->
+                ((SocietyServiceGlobal) ServingFragment.this.getActivity().getApplicationContext())
+                        .getServingNotificationReference()
+                        .child(futureUIDMap.entrySet().iterator().next().getKey())
+                        .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid ->
+                        ((SocietyServiceGlobal) Objects.requireNonNull(getActivity()).getApplicationContext())
+                                .getFutureNotificationReference()
+                                .child(futureUIDMap.entrySet().iterator().next().getKey())
+                                .removeValue()));
     }
 
     /*-------------------------------------------------------------------------------
@@ -170,7 +184,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
      *-----------------------------------------------------------------------------*/
 
     private void updateUIWithServingData() {
-        RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
+        retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
         retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
             if (societyServiceNotification != null) {
                 endOTP = societyServiceNotification.getEndOTP();
