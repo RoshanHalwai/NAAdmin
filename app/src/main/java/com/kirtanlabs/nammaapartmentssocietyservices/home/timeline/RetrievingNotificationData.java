@@ -198,10 +198,10 @@ public class RetrievingNotificationData {
      * @param futureUIDMapCallback callback to return a map of all notification UID which society service will
      *                             serve in future
      */
-    private void getFutureUIDMap(FutureUIDMapCallback futureUIDMapCallback) {
-        DatabaseReference historyReference = ((SocietyServiceGlobal) context.getApplicationContext())
+    protected void getFutureUIDMap(FutureUIDMapCallback futureUIDMapCallback) {
+        DatabaseReference futureReference = ((SocietyServiceGlobal) context.getApplicationContext())
                 .getFutureNotificationReference();
-        historyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        futureReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {

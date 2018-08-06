@@ -49,6 +49,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
+    private RetrievingNotificationData retrievingNotificationData;
     private String notificationUID;
     private String mobileNumber;
     private String endOTP;
@@ -168,6 +169,19 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                                 .child(notificationUID)
                                 .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid -> updateUIWithServingData()));
 
+        /*Remove the first Notification UID under Future and put them under Serving*/
+        retrievingNotificationData.getFutureUIDMap(futureUIDMap -> {
+            if (futureUIDMap != null) {
+                ((SocietyServiceGlobal) ServingFragment.this.getActivity().getApplicationContext())
+                        .getServingNotificationReference()
+                        .child(futureUIDMap.entrySet().iterator().next().getKey())
+                        .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid ->
+                        ((SocietyServiceGlobal) Objects.requireNonNull(getActivity()).getApplicationContext())
+                                .getFutureNotificationReference()
+                                .child(futureUIDMap.entrySet().iterator().next().getKey())
+                                .removeValue());
+            }
+        });
     }
 
     /*-------------------------------------------------------------------------------
@@ -175,7 +189,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
      *-----------------------------------------------------------------------------*/
 
     private void updateUIWithServingData() {
-        RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
+        retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
         retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
             if (societyServiceNotification != null) {
                 endOTP = societyServiceNotification.getEndOTP();
