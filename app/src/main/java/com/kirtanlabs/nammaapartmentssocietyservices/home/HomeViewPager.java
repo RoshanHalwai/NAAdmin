@@ -1,5 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SE
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
-public class HomeViewPager extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class HomeViewPager extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -47,6 +48,9 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
     private LinearLayout layoutBaseActivity;
     private TabLayout tabLayout;
     private TextView textActivityTitle;
+    private String serviceType;
+    private String societyServiceMobileNumber;
+    private Switch switchAvailability;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -77,7 +81,7 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         ViewPager mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabs);
         textActivityTitle = findViewById(R.id.textActivityTitle);
-        Switch switchAvailability = findViewById(R.id.switchAvailability);
+        switchAvailability = findViewById(R.id.switchAvailability);
         layoutBaseActivity = findViewById(R.id.layoutBaseActivity);
 
         /*Setting font for all the views*/
@@ -108,16 +112,30 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         tabLayout.setBackgroundResource(R.color.nmGreen);
 
         /*Setting event for views*/
-        switchAvailability.setOnCheckedChangeListener(this);
+        switchAvailability.setOnClickListener(this);
     }
+
+    /* ------------------------------------------------------------- *
+     * Overriding OnClick Listeners
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onClick(View v) {
+        boolean isSocietyServiceAvailable = switchAvailability.isChecked();
+        openConfirmationDialog(isSocietyServiceAvailable);
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Method
+     * ------------------------------------------------------------- */
 
     /**
      * Stores token ID to server so User can request for services in form of Notifications
      */
     private void storeTokenID() {
         SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
-        String serviceType = societyServiceData.getSocietyServiceType();
-        String societyServiceMobileNumber = societyServiceData.getMobileNumber();
+        serviceType = societyServiceData.getSocietyServiceType();
+        societyServiceMobileNumber = societyServiceData.getMobileNumber();
 
         /*Getting the token Id reference*/
         DatabaseReference tokenIdReference = Constants.SOCIETY_SERVICES_REFERENCE
@@ -132,19 +150,58 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
         tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
     }
 
-    /* ------------------------------------------------------------- *
-     * Overriding OnCheckedChanged Listeners
-     * ------------------------------------------------------------- */
+    /**
+     * This method is invoked to open a confirmation dialog when society service change its status.
+     *
+     * @param isSocietyServiceAvailable - availability status of Society Service
+     */
+    private void openConfirmationDialog(boolean isSocietyServiceAvailable) {
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
-        String serviceType = societyServiceData.getSocietyServiceType();
-        String societyServiceMobileNumber = societyServiceData.getMobileNumber();
-        if (isChecked) {
+        String dialogTitle, dialogMessage, positiveButtonText, negativeButtonText;
+
+        if (isSocietyServiceAvailable) {
+            positiveButtonText = getString(R.string.go_on_duty);
+            negativeButtonText = getString(R.string.stay_off_duty);
+            dialogTitle = getString(R.string.going_on_duty_title);
+            dialogMessage = getString(R.string.going_on_duty_message);
+        } else {
+            positiveButtonText = getString(R.string.go_off_duty);
+            negativeButtonText = getString(R.string.stay_on_duty);
+            dialogTitle = getString(R.string.going_off_duty_title);
+            dialogMessage = getString(R.string.going_off_duty_message);
+        }
+
+        /*Setting view in Dialog*/
+        AlertDialog.Builder alertConfirmationDialog = new AlertDialog.Builder(this);
+        alertConfirmationDialog.setTitle(dialogTitle);
+        alertConfirmationDialog.setMessage(dialogMessage);
+        alertConfirmationDialog.setCancelable(false);
+        alertConfirmationDialog.setPositiveButton(positiveButtonText, (dialog, which) -> changeAvailability(isSocietyServiceAvailable));
+        alertConfirmationDialog.setNegativeButton(negativeButtonText, (dialog, which) -> {
+            dialog.cancel();
+            if (isSocietyServiceAvailable) {
+                switchAvailability.setChecked(false);
+            } else {
+                switchAvailability.setChecked(true);
+            }
+        });
+        AlertDialog dialog = alertConfirmationDialog.create();
+        new Dialog(this);
+        dialog.show();
+    }
+
+    /**
+     * This method is used to change status of society service in firebase.
+     *
+     * @param isSocietyServiceAvailable - availability status of Society Service
+     */
+    private void changeAvailability(boolean isSocietyServiceAvailable) {
+
+        if (isSocietyServiceAvailable) {
             textActivityTitle.setText(R.string.available);
             layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
             tabLayout.setBackgroundResource(R.color.nmGreen);
+            switchAvailability.setChecked(true);
 
             /*Getting the reference of Society Service Mobile Number and placing the data back in 'available' in Firebase,
              * once the Society Service is available. At the same time, the corresponding mobile number and its data is removed from 'unavailable'*/
@@ -170,6 +227,7 @@ public class HomeViewPager extends BaseActivity implements CompoundButton.OnChec
             textActivityTitle.setText(R.string.unavailable);
             layoutBaseActivity.setBackgroundResource(R.color.nmRed);
             tabLayout.setBackgroundResource(R.color.nmRed);
+            switchAvailability.setChecked(false);
 
             /*Getting the reference of Society Service Mobile Number and placing the data in 'unavailable' in Firebase,
              * once the Society Service is unavailable. At the same time, the corresponding mobile number and its data is removed from 'available'*/

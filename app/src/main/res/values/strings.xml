@@ -25,6 +25,14 @@
     <string name="default_notification_channel_id">01</string>
     <string name="feature_unavailable_image_desc">Image to indicate feature is currently unavailable</string>
     <string name="image_society_service_action_taken_on_notification">Image to indicate whether Society Service has Accepted or Rejected notification that they received</string>
+    <string name="going_off_duty_title">Do you want to go OFF DUTY ? </string>
+    <string name="going_off_duty_message">If you go off duty, you will not receive any more requests.</string>
+    <string name="going_on_duty_title">Do you want to go ON DUTY ? </string>
+    <string name="going_on_duty_message">If you go on duty, you will start receiving requests.</string>
+    <string name="stay_on_duty">STAY ON DUTY</string>
+    <string name="go_off_duty">GO OFF DUTY</string>
+    <string name="go_on_duty">GO ON DUTY</string>
+    <string name="stay_off_duty">STAY OFF DUTY</string>
 
     <!--Custom Notification -->
     <string name="accept">Accept</string>
