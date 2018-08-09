@@ -51,7 +51,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Push Notifications related services-->
+        <!-- Push Notifications related services -->
 
         <service android:name=".pushnotifications.MyFirebaseMessagingService">
             <intent-filter>
@@ -71,6 +71,12 @@
                 <action android:name="reject_button_clicked" />
             </intent-filter>
         </receiver>
+
+        <!-- My Profile Screen -->
+        <activity
+            android:name=".myprofile.MyProfile"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

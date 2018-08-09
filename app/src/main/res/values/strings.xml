@@ -33,6 +33,7 @@
     <string name="go_off_duty">GO OFF DUTY</string>
     <string name="go_on_duty">GO ON DUTY</string>
     <string name="stay_off_duty">STAY OFF DUTY</string>
+    <string name="my_profile">My Profile</string>
 
     <!--Custom Notification -->
     <string name="accept">Accept</string>
@@ -94,5 +95,13 @@
 
     <!--Future Fragment-->
     <string name="future_detail_message">Future Service Details will be shown here</string>
+
+    <!--My Profile Activity-->
+    <string name="service_history">Service History</string>
+    <string name="today">Today</string>
+    <string name="weekly">WEEKLY</string>
+    <string name="monthly">MONTHLY</string>
+    <string name="till_date">TILL DATE</string>
+    <string name="total">Total</string>
 
 </resources>

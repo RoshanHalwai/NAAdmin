@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
+import com.kirtanlabs.nammaapartmentssocietyservices.myprofile.MyProfile;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.regex.Pattern;
@@ -78,11 +79,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(this, imageMenu);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.logout) {
-                    startActivity(new Intent(this, SignIn.class));
-                    finish();
-                } else {
-                    startActivity(new Intent(this, History.class));
+                switch (item.getItemId()) {
+                    case R.id.myProfile:
+                        startActivity(new Intent(this, MyProfile.class));
+                        break;
+                    case R.id.history:
+                        startActivity(new Intent(this, History.class));
+                        break;
+                    case R.id.logout:
+                        startActivity(new Intent(this, SignIn.class));
+                        finish();
+                        break;
                 }
                 return super.onOptionsItemSelected(item);
             });
