@@ -44,6 +44,13 @@ public class Constants {
     public static final int OTP_TIMER = 120;
 
     /* ------------------------------------------------------------- *
+     * Notification
+     * ------------------------------------------------------------- */
+
+    public static final String NOTIFICATION_EXPAND_MSG = "Slide down on note to respond";
+    public static final String NOTIFICATION_EXPAND_TITLE = "Namma Apartments";
+
+    /* ------------------------------------------------------------- *
      * Firebase Keys
      * ------------------------------------------------------------- */
 
