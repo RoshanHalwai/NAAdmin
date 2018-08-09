@@ -19,6 +19,8 @@ import java.util.Objects;
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_MSG;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REJECT_BUTTON_CLICKED;
@@ -49,6 +51,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Notification notification = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(NOTIFICATION_EXPAND_TITLE)
+                .setContentText(NOTIFICATION_EXPAND_MSG)
                 .setAutoCancel(true)
                 .setCustomBigContentView(remoteViews)
                 .setSound(RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND))
