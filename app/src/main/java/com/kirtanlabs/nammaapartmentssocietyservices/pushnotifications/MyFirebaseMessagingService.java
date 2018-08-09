@@ -49,6 +49,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Notification notification = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Namma Apartments")
+                .setContentText("Slide down on note to expand")
                 .setAutoCancel(true)
                 .setCustomBigContentView(remoteViews)
                 .setSound(RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND))
