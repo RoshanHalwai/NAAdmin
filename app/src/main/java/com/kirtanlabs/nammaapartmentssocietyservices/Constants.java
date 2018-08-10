@@ -110,6 +110,14 @@ public class Constants {
     public static final String REJECT_BUTTON_CLICKED = "reject_button_clicked";
 
     /* ------------------------------------------------------------- *
+     * Shared Preference Keys
+     * ------------------------------------------------------------- */
+
+    public static final String NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE = "nammaApartmentsSocietyServicesPreference";
+    public static final String LOGGED_IN = "loggedIn";
+    public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
+
+    /* ------------------------------------------------------------- *
      * Font Types
      * ------------------------------------------------------------- */
 

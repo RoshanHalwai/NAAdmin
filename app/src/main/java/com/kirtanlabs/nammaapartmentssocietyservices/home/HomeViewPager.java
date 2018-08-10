@@ -2,6 +2,7 @@ package com.kirtanlabs.nammaapartmentssocietyservices.home;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -70,6 +71,22 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* At this point We came to know that user has Successfully Logged In */
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
+        Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
+
+        String societyServiceUID;
+        /*If Society Service is Logged In then take Society Service Uid from Shared Preference*/
+        if (isLoggedIn) {
+            societyServiceUID = sharedPreferences.getString(Constants.SOCIETY_SERVICE_UID, null);
+        } else {
+            societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.LOGGED_IN, true);
+            editor.putString(Constants.SOCIETY_SERVICE_UID, societyServiceUID);
+            editor.apply();
+        }
+
         /*Since this is Namma Apartments Society Services Home Screen we wouldn't want the users to go back,
         hence hiding the back button from the Title Bar*/
         hideBackButton();
@@ -88,7 +105,6 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
         textActivityTitle.setTypeface(Constants.setLatoRegularFont(this));
 
         /*Store Society Service data to SocietyServiceGlobal class to access through out the application*/
-        String societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         new RetrievingNotificationData(this, societyServiceUID)
                 .getSocietyServiceData(societyServiceData -> {
                     ((SocietyServiceGlobal) getApplicationContext()).setSocietyServiceData(societyServiceData);
