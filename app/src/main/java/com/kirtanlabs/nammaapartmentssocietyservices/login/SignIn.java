@@ -1,6 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
 public class SignIn extends BaseActivity implements View.OnClickListener {
 
@@ -38,6 +40,14 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*Here we check If User has Logged In or Not*/
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
+        Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
+        if (isLoggedIn) {
+            startActivity(new Intent(SignIn.this, HomeViewPager.class));
+            finish();
+        }
 
          /*Since this is Login Screen we wouldn't want the users to go back,
         hence hiding the back button from the Title Bar*/

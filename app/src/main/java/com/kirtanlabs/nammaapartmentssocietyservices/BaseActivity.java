@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,6 +88,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                         startActivity(new Intent(this, History.class));
                         break;
                     case R.id.logout:
+                        /*Removing Society Service Uid from Shared Preference and Updating Login value to false*/
+                        SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(Constants.LOGGED_IN, false);
+                        editor.putString(Constants.SOCIETY_SERVICE_UID, null);
+                        editor.apply();
                         startActivity(new Intent(this, SignIn.class));
                         finish();
                         break;
