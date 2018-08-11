@@ -1,41 +1,65 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
+import com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.bitmapToByteArray;
 
-public class Register extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class Register extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
      * ------------------------------------------------------------- */
 
     private EditText editFullName, editMobileNumber;
-    private Spinner spinnerSocietyServiceType;
+    private Button buttonYes, buttonNo;
+    private CircleImageView profilePic;
     private String serviceType;
+    public static String imageFilePath = "";
+    private byte[] profilePhotoByteArray;
+    private boolean isAdmin = false;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -55,51 +79,45 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /* Since we wouldn't want the users to go back to previous screen,
-         * hence hiding the back button from the Title Bar*/
-        hideBackButton();
-
         /*We want to display menu icon in Title bar, so that user can perform various actions from list*/
         showMenuIcon();
 
         /*Getting Id's for all the views*/
-        TextView textSocietyServiceType = findViewById(R.id.textSocietyServiceType);
+        profilePic = findViewById(R.id.profilePic);
         TextView textMobileNumber = findViewById(R.id.textMobileNumber);
         TextView textFullName = findViewById(R.id.textFullName);
         TextView textCountryCode = findViewById(R.id.textCountryCode);
-        spinnerSocietyServiceType = findViewById(R.id.spinnerSocietyServiceType);
+        TextView textAdmin = findViewById(R.id.textAdmin);
         editFullName = findViewById(R.id.editFullName);
         editMobileNumber = findViewById(R.id.editMobileNumber);
         Button buttonRegister = findViewById(R.id.buttonRegister);
+        buttonYes = findViewById(R.id.buttonYes);
+        buttonNo = findViewById(R.id.buttonNo);
+        LinearLayout layoutYesNo = findViewById(R.id.layoutYesNo);
 
         /*Setting font for all the views*/
-        textSocietyServiceType.setTypeface(Constants.setLatoBoldFont(this));
         textMobileNumber.setTypeface(Constants.setLatoBoldFont(this));
         textFullName.setTypeface(Constants.setLatoBoldFont(this));
         textCountryCode.setTypeface(Constants.setLatoBoldFont(this));
+        textAdmin.setTypeface(Constants.setLatoBoldFont(this));
         editFullName.setTypeface(Constants.setLatoRegularFont(this));
         editMobileNumber.setTypeface(Constants.setLatoRegularFont(this));
+        buttonYes.setTypeface(Constants.setLatoLightFont(this));
+        buttonNo.setTypeface(Constants.setLatoLightFont(this));
         buttonRegister.setTypeface(Constants.setLatoLightFont(this));
 
-        /*Setting font for all the items in the list*/
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, getResources().getStringArray(R.array.service_list)) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textServiceType = view.findViewById(android.R.id.text1);
-                textServiceType.setTypeface(Constants.setLatoRegularFont(Register.this));
-                return view;
-            }
-        };
+        serviceType = getIntent().getStringExtra(Constants.SCREEN_TITLE);
 
-        /*Setting adapter to Spinner view*/
-        spinnerSocietyServiceType.setAdapter(adapter);
+        if (serviceType.equals(getString(R.string.guard))) {
+            profilePic.setVisibility(View.VISIBLE);
+            layoutYesNo.setVisibility(View.VISIBLE);
+        }
 
         /*Setting Listeners for views*/
         buttonRegister.setOnClickListener(this);
-        spinnerSocietyServiceType.setOnItemSelectedListener(this);
+        buttonYes.setOnClickListener(this);
+        buttonNo.setOnClickListener(this);
+        profilePic.setOnClickListener(this);
     }
 
     /* ------------------------------------------------------------- *
@@ -108,20 +126,32 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
 
     @Override
     public void onClick(View v) {
-        String mobileNumber = editMobileNumber.getText().toString().trim();
-        Intent intent = new Intent(Register.this, OTP.class);
-        intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
-        intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
-        startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        serviceType = spinnerSocietyServiceType.getItemAtPosition(position).toString().toLowerCase();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        switch (v.getId()) {
+            case R.id.buttonRegister:
+                String mobileNumber = editMobileNumber.getText().toString().trim();
+                Intent intent = new Intent(Register.this, OTP.class);
+                intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
+                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                break;
+            case R.id.buttonYes:
+                isAdmin = true;
+                buttonYes.setBackgroundResource(R.drawable.button_selected);
+                buttonNo.setBackgroundResource(R.drawable.button_not_selected);
+                buttonYes.setTextColor(Color.WHITE);
+                buttonNo.setTextColor(Color.BLACK);
+                break;
+            case R.id.buttonNo:
+                isAdmin = false;
+                buttonYes.setBackgroundResource(R.drawable.button_not_selected);
+                buttonNo.setBackgroundResource(R.drawable.button_selected);
+                buttonYes.setTextColor(Color.BLACK);
+                buttonNo.setTextColor(Color.WHITE);
+                break;
+            case R.id.profilePic:
+                launchCamera();
+                break;
+        }
     }
 
     /*-------------------------------------------------------------------------------
@@ -131,8 +161,20 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE) {
-            storeSocietyServiceData();
+        switch (requestCode) {
+            case SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    storeSocietyServiceData();
+                }
+                break;
+
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmapProfilePic = ImagePicker.getImageFromResult(Register.this, resultCode, data);
+                    profilePic.setImageBitmap(bitmapProfilePic);
+                    profilePhotoByteArray = bitmapToByteArray(bitmapProfilePic);
+                }
+                break;
         }
     }
 
@@ -150,7 +192,7 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
                 getString(R.string.please_wait_a_moment));
 
         /*Getting the reference of 'Data' child under 'societyServices'*/
-        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType.toLowerCase()).child(FIREBASE_CHILD_PRIVATE)
                 .child(FIREBASE_CHILD_DATA);
 
         /*Generating the societyServiceUID and creating a reference for it*/
@@ -161,17 +203,38 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
         String fullName = editFullName.getText().toString();
         String mobileNumber = editMobileNumber.getText().toString();
 
-        /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
-        DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
-        societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
-
-        /*Mapping UID with societyServiceType*/
-        DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
-        societyTypeReference.child(serviceType).setValue(true);
-
         /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
                 mobileNumber, societyServiceUID);
+
+
+        if (serviceType.equals(getString(R.string.guard))) {
+            /*Getting the storage reference*/
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType.toLowerCase())
+                    .child(Constants.FIREBASE_CHILD_PRIVATE)
+                    .child(Constants.FIREBASE_CHILD_DATA)
+                    .child(societyServiceUID);
+
+            UploadTask uploadTask = storageReference.putBytes(Objects.requireNonNull(profilePhotoByteArray));
+
+            /*Adding the profile photo to storage reference and Guard Data to real time database */
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                /*creating the upload object to store uploaded image details and guard data*/
+                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_ADMIN).setValue(isAdmin);
+                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
+
+            }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
+        } else {
+            /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
+            DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
+            societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
+
+            /*Mapping UID with societyServiceType*/
+            DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
+            societyTypeReference.child(serviceType.toLowerCase()).setValue(true);
+        }
+
         societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
             hideProgressDialog();
             showNotificationDialog(getString(R.string.society_service_added_title),
@@ -180,4 +243,39 @@ public class Register extends BaseActivity implements View.OnClickListener, Adap
         });
     }
 
+    /**
+     * Creates Image File for Captured Image
+     *
+     * @return captured Image file path
+     * @throws IOException if file is not created
+     */
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
+    }
+
+    /**
+     * This method gets invoked when the Admin presses the profilePic image to capture a photo
+     */
+    private void launchCamera() {
+        //TODO: Launch Camera functionality is not working for phone's with API level >=27
+        cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File photoFile;
+        try {
+            photoFile = createImageFile();
+            imageFilePath = photoFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", photoFile);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+        else {
+            startActivityForResult(cameraIntent, CAMERA_PERMISSION_REQUEST_CODE);
+        }
+    }
 }

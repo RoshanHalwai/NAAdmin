@@ -29,6 +29,8 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.regex.Pattern;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLACE_CALL_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoItalicFont;
@@ -48,6 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
     private ProgressDialog progressDialog;
+    protected Intent cameraIntent;
 
     /* ------------------------------------------------------------- *
      * Abstract Methods
@@ -148,8 +151,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            startActivity(callIntent);
+        switch (requestCode) {
+            case END_SERVICE_REQUEST_CODE:
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    startActivity(callIntent);
+                }
+                break;
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    startActivityForResult(cameraIntent, CAMERA_PERMISSION_REQUEST_CODE);
+                }
+                break;
         }
     }
 
