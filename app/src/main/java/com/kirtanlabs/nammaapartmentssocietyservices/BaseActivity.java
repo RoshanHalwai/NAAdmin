@@ -29,6 +29,8 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.regex.Pattern;
 
+import pl.aprilapps.easyphotopicker.EasyImage;
+
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
@@ -159,7 +161,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 break;
             case CAMERA_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    startActivityForResult(cameraIntent, CAMERA_PERMISSION_REQUEST_CODE);
+                    EasyImage.openCamera(this, 0);
                 }
                 break;
         }

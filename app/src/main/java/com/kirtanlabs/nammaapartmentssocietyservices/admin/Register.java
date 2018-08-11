@@ -5,12 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,19 +21,16 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
-import com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
@@ -45,7 +38,9 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.bitmapToByteArray;
+import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getBitmapFromFile;
+import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getByteArrayFromFile;
+import static pl.aprilapps.easyphotopicker.EasyImageConfig.REQ_TAKE_PICTURE;
 
 public class Register extends BaseActivity implements View.OnClickListener {
 
@@ -57,8 +52,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
     private Button buttonYes, buttonNo;
     private CircleImageView profilePic;
     private String serviceType;
-    public static String imageFilePath = "";
-    private byte[] profilePhotoByteArray;
+    private File profilePhotoPath;
     private boolean isAdmin = false;
 
     /* ------------------------------------------------------------- *
@@ -168,11 +162,16 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 }
                 break;
 
-            case CAMERA_PERMISSION_REQUEST_CODE:
+            case REQ_TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
-                    Bitmap bitmapProfilePic = ImagePicker.getImageFromResult(Register.this, resultCode, data);
-                    profilePic.setImageBitmap(bitmapProfilePic);
-                    profilePhotoByteArray = bitmapToByteArray(bitmapProfilePic);
+                    EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+                        @Override
+                        public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                            Bitmap bitmapProfilePic = getBitmapFromFile(Register.this, imageFile);
+                            profilePic.setImageBitmap(bitmapProfilePic);
+                            profilePhotoPath = imageFile;
+                        }
+                    });
                 }
                 break;
         }
@@ -215,7 +214,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                     .child(Constants.FIREBASE_CHILD_DATA)
                     .child(societyServiceUID);
 
-            UploadTask uploadTask = storageReference.putBytes(Objects.requireNonNull(profilePhotoByteArray));
+            UploadTask uploadTask = storageReference.putBytes(getByteArrayFromFile(Register.this, profilePhotoPath));
 
             /*Adding the profile photo to storage reference and Guard Data to real time database */
             uploadTask.addOnSuccessListener(taskSnapshot -> {
@@ -244,38 +243,13 @@ public class Register extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Creates Image File for Captured Image
-     *
-     * @return captured Image file path
-     * @throws IOException if file is not created
-     */
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return File.createTempFile(imageFileName, ".jpg", storageDir);
-    }
-
-    /**
      * This method gets invoked when the Admin presses the profilePic image to capture a photo
      */
     private void launchCamera() {
-        //TODO: Launch Camera functionality is not working for phone's with API level >=27
-        cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photoFile;
-        try {
-            photoFile = createImageFile();
-            imageFilePath = photoFile.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", photoFile);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
         else {
-            startActivityForResult(cameraIntent, CAMERA_PERMISSION_REQUEST_CODE);
+            EasyImage.openCamera(Register.this, 0);
         }
     }
 }
