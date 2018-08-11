@@ -48,7 +48,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".admin.RegisterType"
+            android:name=".admin.RegistrationCategories"
             android:screenOrientation="portrait" />
 
         <!-- Namma Apartments Society Services Screen -->

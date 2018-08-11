@@ -195,7 +195,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 .child(FIREBASE_CHILD_DATA);
 
         /*Generating the societyServiceUID and creating a reference for it*/
-        String societyServiceUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
 
         /*Getting the data of the Society Service entered by Admin*/

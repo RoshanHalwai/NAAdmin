@@ -26,8 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.Register;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.RegisterType;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.RegistrationCategories;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
 import java.util.Locale;
@@ -266,7 +265,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 //Admin has logged In
                                                 if (userMobileNumber.equals(dataSnapshot.getValue(String.class))) {
-                                                    startActivity(new Intent(OTP.this, RegisterType.class));
+                                                    startActivity(new Intent(OTP.this, RegistrationCategories.class));
                                                     finish();
                                                 } else {
                                                     //New member has logged in whose mobile number is not yet registered

@@ -8,26 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
 
-public class RegisterTypeAdapter extends BaseAdapter {
+public class RegistrationCategoriesAdapter extends BaseAdapter {
 
     /* ------------------------------------------------------------- *
      * Private Members
      * ------------------------------------------------------------- */
 
     private Context mCtx;
-    private String[] stringRegisterType;
+    private String[] stringRegisterCategories;
     private int[] icons;
 
     /* ------------------------------------------------------------- *
      * Constructors
      * ------------------------------------------------------------- */
 
-    RegisterTypeAdapter(Context mCtx, String[] stringRegisterType, int[] icons) {
+    RegistrationCategoriesAdapter(Context mCtx, String[] stringRegisterCategories, int[] icons) {
         this.mCtx = mCtx;
-        this.stringRegisterType = stringRegisterType;
+        this.stringRegisterCategories = stringRegisterCategories;
         this.icons = icons;
     }
 
@@ -37,12 +38,12 @@ public class RegisterTypeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return stringRegisterType.length;
+        return stringRegisterCategories.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return stringRegisterType[position];
+        return stringRegisterCategories[position];
     }
 
     @Override
@@ -63,9 +64,12 @@ public class RegisterTypeAdapter extends BaseAdapter {
             ImageView imageRegisterType = listView.findViewById(R.id.imageRegisterType);
             TextView textSocietyServiceType = listView.findViewById(R.id.textSocietyServiceType);
 
+            /*Setting fonts for all the views*/
+            textSocietyServiceType.setTypeface(Constants.setLatoRegularFont(mCtx));
+
             /*Setting values for all the views*/
             imageRegisterType.setImageResource(icons[position]);
-            textSocietyServiceType.setText(stringRegisterType[position]);
+            textSocietyServiceType.setText(stringRegisterCategories[position]);
         }
         return listView;
     }

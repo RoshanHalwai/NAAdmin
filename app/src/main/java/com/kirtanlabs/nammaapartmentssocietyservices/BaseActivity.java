@@ -52,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
     private ProgressDialog progressDialog;
-    protected Intent cameraIntent;
 
     /* ------------------------------------------------------------- *
      * Abstract Methods

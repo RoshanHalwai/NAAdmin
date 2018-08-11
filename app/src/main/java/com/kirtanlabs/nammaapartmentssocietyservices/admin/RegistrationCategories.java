@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class RegisterType extends BaseActivity implements AdapterView.OnItemClickListener {
+public class RegistrationCategories extends BaseActivity implements AdapterView.OnItemClickListener {
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -19,7 +18,7 @@ public class RegisterType extends BaseActivity implements AdapterView.OnItemClic
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_register_type;
+        return R.layout.activity_registration_categories;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class RegisterType extends BaseActivity implements AdapterView.OnItemClic
         /*Getting Id's for all the views*/
         ListView listViewRegisterType = findViewById(R.id.listViewRegisterType);
 
-        String[] stringRegisterType = {getString(R.string.plumber),
+        String[] stringRegisterCategories = {getString(R.string.plumber),
                 getString(R.string.carpenter),
                 getString(R.string.electrician),
                 getString(R.string.guard),
@@ -48,7 +47,7 @@ public class RegisterType extends BaseActivity implements AdapterView.OnItemClic
         int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.security_guard, R.drawable.user};
 
         /*Setting the Adapter to list view*/
-        RegisterTypeAdapter adapter = new RegisterTypeAdapter(RegisterType.this, stringRegisterType, icons);
+        RegistrationCategoriesAdapter adapter = new RegistrationCategoriesAdapter(RegistrationCategories.this, stringRegisterCategories, icons);
         listViewRegisterType.setAdapter(adapter);
 
         /*Setting onClickListener for view*/
@@ -61,30 +60,21 @@ public class RegisterType extends BaseActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(RegistrationCategories.this, Register.class);
         switch (position) {
             case 0:
-                Intent intentPlumber = new Intent(RegisterType.this, Register.class);
-                intentPlumber.putExtra(Constants.SCREEN_TITLE, getString(R.string.plumber));
-                startActivity(intentPlumber);
+                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.plumber));
                 break;
             case 1:
-                Intent intentCarpenter = new Intent(RegisterType.this, Register.class);
-                intentCarpenter.putExtra(Constants.SCREEN_TITLE, getString(R.string.carpenter));
-                startActivity(intentCarpenter);
+                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.carpenter));
                 break;
             case 2:
-                Intent intentElectrician = new Intent(RegisterType.this, Register.class);
-                intentElectrician.putExtra(Constants.SCREEN_TITLE, getString(R.string.electrician));
-                startActivity(intentElectrician);
+                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.electrician));
                 break;
             case 3:
-                Intent intentSecurity = new Intent(RegisterType.this, Register.class);
-                intentSecurity.putExtra(Constants.SCREEN_TITLE, getString(R.string.guard));
-                startActivity(intentSecurity);
-                break;
-            case 4:
-                Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
+                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.guard));
                 break;
         }
+        startActivity(intent);
     }
 }
