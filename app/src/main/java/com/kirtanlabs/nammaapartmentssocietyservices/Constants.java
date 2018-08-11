@@ -36,6 +36,7 @@ public class Constants {
     static final int PLACE_CALL_PERMISSION_REQUEST_CODE = 1;
     public static final int END_SERVICE_REQUEST_CODE = 2;
     public static final int SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE = 3;
+    public static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
 
     /* ------------------------------------------------------------- *
      * Login/OTP Constants
@@ -54,16 +55,17 @@ public class Constants {
      * Firebase Keys
      * ------------------------------------------------------------- */
 
-    private static final String FIREBASE_CHILD_ADMIN = "admin";
+    public static final String FIREBASE_CHILD_ADMIN = "admin";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICE_TYPE = "societyServiceType";
     private static final String FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS = "societyServiceNotifications";
     public static final String FIREBASE_CHILD_AVAILABLE = "available";
     public static final String FIREBASE_CHILD_UNAVAILABLE = "unavailable";
     public static final String FIREBASE_CHILD_ALL = "all";
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
-    private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
+    public static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
+    public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
     private static final String FIREBASE_CHILD_USERS = "users";
