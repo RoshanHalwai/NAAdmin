@@ -225,14 +225,14 @@ public class Register extends BaseActivity implements View.OnClickListener {
 
             }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
         } else {
-            /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
-            DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
-            societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
-
             /*Mapping UID with societyServiceType*/
             DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
             societyTypeReference.child(serviceType.toLowerCase()).setValue(true);
         }
+
+        /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
+        DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
+        societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
 
         societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
             hideProgressDialog();
