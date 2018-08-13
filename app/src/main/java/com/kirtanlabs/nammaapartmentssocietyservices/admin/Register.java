@@ -51,7 +51,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
     private EditText editFullName, editMobileNumber;
     private Button buttonYes, buttonNo;
     private CircleImageView profilePic;
-    private String serviceType;
+    private String serviceType, registrationOf;
     private File profilePhotoPath;
     private boolean isAdmin = false;
 
@@ -100,11 +100,14 @@ public class Register extends BaseActivity implements View.OnClickListener {
         buttonNo.setTypeface(Constants.setLatoLightFont(this));
         buttonRegister.setTypeface(Constants.setLatoLightFont(this));
 
-        serviceType = getIntent().getStringExtra(Constants.SCREEN_TITLE);
+        registrationOf = getIntent().getStringExtra(Constants.REGISTRATION_OF);
+        serviceType = registrationOf.toLowerCase();
 
-        if (serviceType.equals(getString(R.string.guard))) {
+        if (registrationOf.equals(getString(R.string.guard))) {
             profilePic.setVisibility(View.VISIBLE);
             layoutYesNo.setVisibility(View.VISIBLE);
+        } else if (registrationOf.equals(getString(R.string.garbage_management))) {
+            serviceType = Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
         }
 
         /*Setting Listeners for views*/
@@ -191,7 +194,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 getString(R.string.please_wait_a_moment));
 
         /*Getting the reference of 'Data' child under 'societyServices'*/
-        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType.toLowerCase()).child(FIREBASE_CHILD_PRIVATE)
+        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
                 .child(FIREBASE_CHILD_DATA);
 
         /*Generating the societyServiceUID and creating a reference for it*/
@@ -206,10 +209,9 @@ public class Register extends BaseActivity implements View.OnClickListener {
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
                 mobileNumber, societyServiceUID);
 
-
-        if (serviceType.equals(getString(R.string.guard))) {
+        if (registrationOf.equals(getString(R.string.guard))) {
             /*Getting the storage reference*/
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType.toLowerCase())
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType)
                     .child(Constants.FIREBASE_CHILD_PRIVATE)
                     .child(Constants.FIREBASE_CHILD_DATA)
                     .child(societyServiceUID);
@@ -227,7 +229,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
         } else {
             /*Mapping UID with societyServiceType*/
             DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
-            societyTypeReference.child(serviceType.toLowerCase()).setValue(true);
+            societyTypeReference.child(serviceType).setValue(true);
         }
 
         /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/

@@ -20,6 +20,7 @@ public class Constants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String SOCIETY_SERVICE_TYPE = "societyServiceType";
     public static final String NOTIFICATION_ID = "notificationID";
+    public static final String REGISTRATION_OF = "registrationOf";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -62,10 +63,11 @@ public class Constants {
     public static final String FIREBASE_CHILD_UNAVAILABLE = "unavailable";
     public static final String FIREBASE_CHILD_ALL = "all";
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
-    public static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
+    private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
+    public static final String FIREBASE_CHILD_GARBAGE_MANAGEMENT = "garbageManagement";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
     private static final String FIREBASE_CHILD_USERS = "users";

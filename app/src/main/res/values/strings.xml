@@ -60,6 +60,7 @@
     <string name="plumber">Plumber</string>
     <string name="carpenter">Carpenter</string>
     <string name="electrician">Electrician</string>
+    <string name="garbage_management">Garbage Management</string>
     <string name="guard">Guard</string>
     <string name="user">User</string>
     <string name="adding_society_service_data">Adding Society Service Data</string>
