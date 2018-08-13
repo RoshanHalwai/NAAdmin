@@ -40,11 +40,12 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
         String[] stringRegisterCategories = {getString(R.string.plumber),
                 getString(R.string.carpenter),
                 getString(R.string.electrician),
+                getString(R.string.garbage_management),
                 getString(R.string.guard),
                 getString(R.string.user)
         };
 
-        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.security_guard, R.drawable.user};
+        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.garbage_management, R.drawable.security_guard, R.drawable.user};
 
         /*Setting the Adapter to list view*/
         RegistrationCategoriesAdapter adapter = new RegistrationCategoriesAdapter(RegistrationCategories.this, stringRegisterCategories, icons);
@@ -63,16 +64,19 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
         Intent intent = new Intent(RegistrationCategories.this, Register.class);
         switch (position) {
             case 0:
-                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.plumber));
+                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.plumber));
                 break;
             case 1:
-                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.carpenter));
+                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.carpenter));
                 break;
             case 2:
-                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.electrician));
+                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.electrician));
                 break;
             case 3:
-                intent.putExtra(Constants.SCREEN_TITLE, getString(R.string.guard));
+                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.garbage_management));
+                break;
+            case 4:
+                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.guard));
                 break;
         }
         startActivity(intent);
