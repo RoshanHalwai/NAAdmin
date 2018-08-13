@@ -137,8 +137,11 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        boolean isSocietyServiceAvailable = switchAvailability.isChecked();
-        openConfirmationDialog(isSocietyServiceAvailable);
+        if (switchAvailability.isChecked()) {
+            changeAvailability(true);
+        } else {
+            openConfirmationDialog();
+        }
     }
 
     /* ------------------------------------------------------------- *
@@ -167,39 +170,18 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     }
 
     /**
-     * This method is invoked to open a confirmation dialog when society service change its status.
-     *
-     * @param isSocietyServiceAvailable - availability status of Society Service
+     * This method is invoked to open a confirmation dialog when society service change its status from AVAILABLE to UNAVAILABLE.
      */
-    private void openConfirmationDialog(boolean isSocietyServiceAvailable) {
-
-        String dialogTitle, dialogMessage, positiveButtonText, negativeButtonText;
-
-        if (isSocietyServiceAvailable) {
-            positiveButtonText = getString(R.string.go_on_duty);
-            negativeButtonText = getString(R.string.stay_off_duty);
-            dialogTitle = getString(R.string.going_on_duty_title);
-            dialogMessage = getString(R.string.going_on_duty_message);
-        } else {
-            positiveButtonText = getString(R.string.go_off_duty);
-            negativeButtonText = getString(R.string.stay_on_duty);
-            dialogTitle = getString(R.string.going_off_duty_title);
-            dialogMessage = getString(R.string.going_off_duty_message);
-        }
-
+    private void openConfirmationDialog() {
         /*Setting view in Dialog*/
         AlertDialog.Builder alertConfirmationDialog = new AlertDialog.Builder(this);
-        alertConfirmationDialog.setTitle(dialogTitle);
-        alertConfirmationDialog.setMessage(dialogMessage);
+        alertConfirmationDialog.setTitle(getString(R.string.going_off_duty_title));
+        alertConfirmationDialog.setMessage(getString(R.string.going_off_duty_message));
         alertConfirmationDialog.setCancelable(false);
-        alertConfirmationDialog.setPositiveButton(positiveButtonText, (dialog, which) -> changeAvailability(isSocietyServiceAvailable));
-        alertConfirmationDialog.setNegativeButton(negativeButtonText, (dialog, which) -> {
+        alertConfirmationDialog.setPositiveButton(getString(R.string.go_off_duty), (dialog, which) -> changeAvailability(false));
+        alertConfirmationDialog.setNegativeButton(getString(R.string.stay_on_duty), (dialog, which) -> {
             dialog.cancel();
-            if (isSocietyServiceAvailable) {
-                switchAvailability.setChecked(false);
-            } else {
-                switchAvailability.setChecked(true);
-            }
+            switchAvailability.setChecked(true);
         });
         AlertDialog dialog = alertConfirmationDialog.create();
         new Dialog(this);
