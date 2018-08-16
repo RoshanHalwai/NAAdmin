@@ -22,6 +22,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
 import java.util.Objects;
@@ -175,11 +176,19 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 ((SocietyServiceGlobal) ServingFragment.this.getActivity().getApplicationContext())
                         .getServingNotificationReference()
                         .child(futureUIDMap.entrySet().iterator().next().getKey())
-                        .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid ->
-                        ((SocietyServiceGlobal) Objects.requireNonNull(getActivity()).getApplicationContext())
-                                .getFutureNotificationReference()
-                                .child(futureUIDMap.entrySet().iterator().next().getKey())
-                                .removeValue());
+                        .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid -> {
+                    ((SocietyServiceGlobal) Objects.requireNonNull(ServingFragment.this.getActivity()).getApplicationContext())
+                            .getFutureNotificationReference()
+                            .child(futureUIDMap.entrySet().iterator().next().getKey())
+                            .removeValue();
+
+                    /*Getting Tag of Future Fragment*/
+                    String futureFragmentTag = ((HomeViewPager) getActivity()).getFutureFragmentTag();
+                    FutureFragment futureFragment = (FutureFragment) getActivity().getSupportFragmentManager().findFragmentByTag(futureFragmentTag);
+
+                    /*Updating Future Request List*/
+                    futureFragment.updateUIWithFutureData();
+                });
             }
         });
     }
