@@ -52,6 +52,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     private String serviceType;
     private String societyServiceMobileNumber;
     private Switch switchAvailability;
+    private String futureFragmentTag;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -247,6 +248,28 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
                 }
             });
         }
+    }
+
+    /* ------------------------------------------------------------- *
+     * Public Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is used to set Tag for Future Fragment
+     *
+     * @param futureFragmentTag - tag of Future fragment
+     */
+    public void setFutureFragmentTag(String futureFragmentTag) {
+        this.futureFragmentTag = futureFragmentTag;
+    }
+
+    /**
+     * This method is used to give the tag of Future Fragment
+     *
+     * @return - future fragment tag
+     */
+    public String getFutureFragmentTag() {
+        return futureFragmentTag;
     }
 
     /* ------------------------------------------------------------- *
