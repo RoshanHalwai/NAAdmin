@@ -65,7 +65,7 @@ public class FutureFragment extends Fragment {
     }
 
     /* ------------------------------------------------------------- *
-     * Private Members
+     * Public Method
      * ------------------------------------------------------------- */
 
     /**
