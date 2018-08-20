@@ -1,9 +1,11 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
@@ -49,7 +51,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         remoteViews.setTextViewText(R.id.textNotificationMessage, message);
 
-        Notification notification = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String channelId;
+
+        /*To support Android Oreo Devices and higher*/
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    getString(R.string.default_notification_channel_id), "Namma Apartments Channel", NotificationManager.IMPORTANCE_HIGH);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(mChannel);
+            channelId = mChannel.getId();
+            IntentFilter actionIntents = new IntentFilter();
+            actionIntents.addAction(ACCEPT_BUTTON_CLICKED);
+            actionIntents.addAction(REJECT_BUTTON_CLICKED);
+            getApplicationContext().registerReceiver(new ActionButtonListener(), actionIntents);
+        } else {
+            channelId = getString(R.string.default_notification_channel_id);
+        }
+
+        Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(NOTIFICATION_EXPAND_TITLE)
                 .setContentText(NOTIFICATION_EXPAND_MSG)
@@ -76,8 +95,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         rejectButtonIntent.putExtra(SOCIETY_SERVICE_TYPE, societyServiceType);
         PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(this, 123, rejectButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.buttonReject, rejectPendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         Objects.requireNonNull(notificationManager).notify(mNotificationID, notification);
     }
