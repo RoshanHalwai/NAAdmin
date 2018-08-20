@@ -22,7 +22,7 @@
     <string name="serving">Serving Request</string>
     <string name="future">Future Requests</string>
     <string name="history">History</string>
-    <string name="default_notification_channel_id">01</string>
+    <string name="default_notification_channel_id">02</string>
     <string name="feature_unavailable_image_desc">Image to indicate feature is currently unavailable</string>
     <string name="image_society_service_action_taken_on_notification">Image to indicate whether Society Service has Accepted or Rejected notification that they received</string>
     <string name="going_off_duty_title">Do you want to go OFF DUTY ? </string>
