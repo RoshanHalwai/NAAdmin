@@ -259,7 +259,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                         startActivity(intent);
                                         finish();
                                     } else {
-                                        DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
+                                        DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE.child(Constants.MOBILE_NUMBER);
                                         societyServiceAdminReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
