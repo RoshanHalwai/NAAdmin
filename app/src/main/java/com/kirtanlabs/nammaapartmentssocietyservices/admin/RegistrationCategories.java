@@ -6,9 +6,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
 public class RegistrationCategories extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -36,6 +39,9 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
 
         /*Getting Id's for all the views*/
         ListView listViewRegisterType = findViewById(R.id.listViewRegisterType);
+
+        /*Storing admin token_id in firebase so that user can send notification for event management*/
+        storeTokenID();
 
         String[] stringRegisterCategories = {getString(R.string.plumber),
                 getString(R.string.carpenter),
@@ -80,5 +86,21 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
                 break;
         }
         startActivity(intent);
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Method
+     * ------------------------------------------------------------- */
+
+    /**
+     * Stores token ID to server so User can request for event management in form of Notifications
+     */
+    private void storeTokenID() {
+        /*Getting the token Id reference of Andim*/
+        DatabaseReference adminTokenIdReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE
+                .child(Constants.FIREBASE_CHILD_TOKEN_ID);
+
+        /*Setting the token Id in admin->tokenId*/
+        adminTokenIdReference.setValue(getRefreshedToken());
     }
 }
