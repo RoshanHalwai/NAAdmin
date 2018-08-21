@@ -93,10 +93,10 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
      * ------------------------------------------------------------- */
 
     /**
-     * Stores token ID to server so User can request for event management in form of Notifications
+     * Stores Admin token ID to server so that User can request for event management in form of Notifications
      */
     private void storeTokenID() {
-        /*Getting the token Id reference of Andim*/
+        /*Getting the token Id reference of Admin*/
         DatabaseReference adminTokenIdReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE
                 .child(Constants.FIREBASE_CHILD_TOKEN_ID);
 
