@@ -73,9 +73,6 @@ public class Register extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*We want to display menu icon in Title bar, so that user can perform various actions from list*/
-        showMenuIcon();
-
         /*Getting Id's for all the views*/
         profilePic = findViewById(R.id.profilePic);
         TextView textMobileNumber = findViewById(R.id.textMobileNumber);
