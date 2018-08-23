@@ -77,6 +77,9 @@ public class Constants {
     public static final String FIREBASE_CHILD_HISTORY = "history";
     public static final String FIREBASE_CHILD_STATUS = "status";
     public static final String FIREBASE_CHILD_EVENT_MANAGEMENT = "eventManagement";
+    public static final String FIREBASE_CHILD_PLUMBER = "plumber";
+    public static final String FIREBASE_CHILD_CARPENTER = "carpenter";
+    public static final String FIREBASE_CHILD_ELECTRICIAN = "electrician";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
