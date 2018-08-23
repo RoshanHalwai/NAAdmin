@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:weightSum="3">
+
+                <RelativeLayout
+                    android:id="@+id/layoutUsersProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/animationWaitingForCustomers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        app:indicatorColor="@color/nmBlack"
+                        app:indicatorName="BallSpinFadeLoaderIndicator" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/usersProfilePic"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        app:civ_border_color="@android:color/white"
+                        app:civ_border_width="1dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1.1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/resident_name"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textUserApartmentName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/apartment"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textTextUserFlatNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/flat"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textUserMobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/mobile"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutTitleValues"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textUserNameValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:padding="2dp"
+                        android:text="Shivam Lohani"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textUserApartmentNameValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="Block - C"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textTextUserFlatNumberValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="C-101"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textUserMobileNumberValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="7895185103"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/row1"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:id="@+id/layoutIcons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/textCall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/call"
+                    android:gravity="center"
+                    android:text="@string/call"
+                    android:textColor="@color/nmBlack" />
+
+                <TextView
+                    android:id="@+id/textMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/message"
+                    android:gravity="center"
+                    android:text="@string/message"
+                    android:textColor="@color/nmBlack" />
+
+                <TextView
+                    android:id="@+id/textEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/email"
+                    android:gravity="center"
+                    android:text="@string/e_mail"
+                    android:textColor="@color/nmBlack" />
+
+                <TextView
+                    android:id="@+id/textRemove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/remove"
+                    android:gravity="center"
+                    android:text="@string/remove"
+                    android:textColor="@color/nmBlack" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonApproveUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layoutIcons"
+                android:layout_marginTop="10dp"
+                android:background="@color/nmBlack"
+                android:text="@string/approve"
+                android:textAllCaps="true"
+                android:textColor="@color/nmLightYellow"
+                android:textSize="@dimen/button_default_size"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

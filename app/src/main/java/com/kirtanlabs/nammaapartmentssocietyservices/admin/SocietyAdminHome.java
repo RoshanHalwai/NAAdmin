@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
@@ -62,6 +63,9 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
+            case 0:
+                startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
+                break;
             case 1:
                 startActivity(new Intent(SocietyAdminHome.this, RegistrationCategories.class));
                 break;

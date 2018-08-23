@@ -142,4 +142,8 @@ public class Constants {
         return Typeface.createFromAsset(c.getAssets(), "fonts/Lato-Italic.ttf");
     }
 
+    public static Typeface setLatoBoldItalicFont(Context c) {
+        return Typeface.createFromAsset(c.getAssets(), "fonts/Lato-BoldItalic.ttf");
+    }
+
 }

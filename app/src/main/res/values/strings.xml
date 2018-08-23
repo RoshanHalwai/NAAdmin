@@ -127,4 +127,15 @@
         <item>@string/help_desk</item>
     </string-array>
 
+    <!--Manage Users Activity-->
+    <string name="approved_users">APPROVED</string>
+    <string name="unapproved_users">UNAPPROVED</string>
+    <string name="removed_users">REMOVED</string>
+    <string name="mobile">Mobile:</string>
+    <string name="call">Call</string>
+    <string name="message">Message</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="remove">Remove</string>
+    <string name="approve">Approve</string>
+
 </resources>

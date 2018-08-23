@@ -92,6 +92,11 @@
             android:name=".admin.SocietyAdminHome"
             android:screenOrientation="portrait" />
 
+        <!-- Manage Users Screen -->
+        <activity
+            android:name=".admin.manageusers.ManageUsers"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
