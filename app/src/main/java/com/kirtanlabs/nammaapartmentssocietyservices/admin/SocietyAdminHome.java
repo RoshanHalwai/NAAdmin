@@ -1,5 +1,6 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.GridView;
 
@@ -30,6 +31,9 @@ public class SocietyAdminHome extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*Check user is already loggedIn or not*/
+        checkSharedPreference();
+
         /* Since we wouldn't want the users to go back to previous screen,
          * hence hiding the back button from the Title Bar*/
         hideBackButton();
@@ -50,6 +54,23 @@ public class SocietyAdminHome extends BaseActivity {
     /* ------------------------------------------------------------- *
      * Private Method
      * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked to check whether admin is already LoggedIn or not.
+     * If not then create Shared preference and store admin's credentials in shared preference.
+     */
+    private void checkSharedPreference() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
+        Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
+
+        /*If not LoggedIn than store Admin's Credentials in Shared Preference */
+        if (!isLoggedIn) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.LOGGED_IN, true);
+            editor.putString(Constants.LOGIN_TYPE, Constants.FIREBASE_CHILD_ADMIN);
+            editor.apply();
+        }
+    }
 
     /**
      * This method is invoked to get Adapter to Grid View

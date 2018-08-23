@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
+
+import java.util.Objects;
 
 public class SignIn extends BaseActivity implements View.OnClickListener {
 
@@ -20,8 +23,6 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
      * ------------------------------------------------------------- */
 
     private EditText editMobileNumber;
-    private String societyServiceUid;
-    private String mobileNumber;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Methods
@@ -44,8 +45,16 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
         /*Here we check If User has Logged In or Not*/
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
         Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
+        String loginType = sharedPreferences.getString(Constants.LOGIN_TYPE, null);
         if (isLoggedIn) {
-            startActivity(new Intent(SignIn.this, HomeViewPager.class));
+            switch (Objects.requireNonNull(loginType)) {
+                case Constants.FIREBASE_CHILD_SOCIETY_SERVICES:
+                    startActivity(new Intent(SignIn.this, HomeViewPager.class));
+                    break;
+                case Constants.FIREBASE_CHILD_ADMIN:
+                    startActivity(new Intent(SignIn.this, SocietyAdminHome.class));
+                    break;
+            }
             finish();
         }
 
@@ -75,7 +84,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mobileNumber = editMobileNumber.getText().toString().trim();
+        String mobileNumber = editMobileNumber.getText().toString().trim();
         if (isValidPhone(mobileNumber)) {
             //We send mobile number to OTP class for Validation
             Intent intent = new Intent(SignIn.this, OTP.class);

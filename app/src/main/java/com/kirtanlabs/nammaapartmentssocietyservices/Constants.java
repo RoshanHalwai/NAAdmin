@@ -63,7 +63,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_UNAVAILABLE = "unavailable";
     public static final String FIREBASE_CHILD_ALL = "all";
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
-    private static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
+    public static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
@@ -120,6 +120,7 @@ public class Constants {
     public static final String NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE = "nammaApartmentsSocietyServicesPreference";
     public static final String LOGGED_IN = "loggedIn";
     public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
+    public static final String LOGIN_TYPE = "loginType";
 
     /* ------------------------------------------------------------- *
      * Font Types
