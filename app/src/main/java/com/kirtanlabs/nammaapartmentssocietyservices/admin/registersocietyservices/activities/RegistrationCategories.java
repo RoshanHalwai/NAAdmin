@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.admin;
+package com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.adapter.RegistrationCategoriesAdapter;
 
 public class RegistrationCategories extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -30,10 +31,6 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /* Since we wouldn't want the users to go back to previous screen,
-         * hence hiding the back button from the Title Bar*/
-        hideBackButton();
-
         /*Getting Id's for all the views*/
         ListView listViewRegisterType = findViewById(R.id.listViewRegisterType);
 
@@ -41,11 +38,10 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
                 getString(R.string.carpenter),
                 getString(R.string.electrician),
                 getString(R.string.garbage_management),
-                getString(R.string.guard),
-                getString(R.string.user)
+                getString(R.string.guard)
         };
 
-        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.garbage_management, R.drawable.security_guard, R.drawable.user};
+        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.garbage_management, R.drawable.security_guard};
 
         /*Setting the Adapter to list view*/
         RegistrationCategoriesAdapter adapter = new RegistrationCategoriesAdapter(RegistrationCategories.this, stringRegisterCategories, icons);
