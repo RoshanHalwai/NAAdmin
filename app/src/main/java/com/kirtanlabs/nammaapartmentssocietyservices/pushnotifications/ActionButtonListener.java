@@ -102,7 +102,9 @@ public class ActionButtonListener extends BroadcastReceiver {
                                 DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
                                 societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
                                 societyServiceNotificationsReference.child("endOTP").setValue(generateOTP());
-                                context.startActivity(new Intent(context, HomeViewPager.class));
+                                Intent homeIntent = new Intent(context, HomeViewPager.class);
+                                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(homeIntent);
                             });
                         }
 
