@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.AddNoticeActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
@@ -64,6 +65,9 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
         switch (position) {
             case 1:
                 startActivity(new Intent(SocietyAdminHome.this, RegistrationCategories.class));
+                break;
+            case 4:
+                startActivity(new Intent(SocietyAdminHome.this, AddNoticeActivity.class));
                 break;
             default:
                 Toast.makeText(this, "Yet to Implement", Toast.LENGTH_SHORT).show();
