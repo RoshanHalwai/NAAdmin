@@ -8,7 +8,7 @@
     <string name="available">AVAILABLE</string>
     <string name="unavailable">UNAVAILABLE</string>
     <string name="awaiting_customer_requirement">Awaiting User Request</string>
-    <string name="resident_name">Resident Name:</string>
+    <string name="resident_name">Name:</string>
     <string name="society">Society:</string>
     <string name="apartment">Apartment:</string>
     <string name="flat">Flat:</string>
