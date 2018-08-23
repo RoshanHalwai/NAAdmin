@@ -1,17 +1,22 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
-public class SocietyAdminHome extends BaseActivity {
+public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItemClickListener {
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Methods
@@ -49,6 +54,24 @@ public class SocietyAdminHome extends BaseActivity {
 
         /*Storing admin token_id in firebase so that user can send notification for event management*/
         storeTokenID();
+
+        /*Setting onItemClickListener for view*/
+        gridSocietyAdminHome.setOnItemClickListener(this);
+    }
+
+    /* ------------------------------------------------------------- *
+     * Overriding On Item Click Method
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (position) {
+            case 1:
+                startActivity(new Intent(SocietyAdminHome.this, RegistrationCategories.class));
+                break;
+            default:
+                Toast.makeText(this, "Yet to Implement", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /* ------------------------------------------------------------- *

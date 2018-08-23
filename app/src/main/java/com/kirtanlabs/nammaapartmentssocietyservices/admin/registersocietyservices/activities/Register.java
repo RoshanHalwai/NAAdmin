@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.admin;
+package com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities;
 
 import android.Manifest;
 import android.content.Intent;
