@@ -36,7 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".login.OTP"
             android:screenOrientation="portrait"
@@ -70,7 +69,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -88,6 +86,12 @@
         <activity
             android:name=".myprofile.MyProfile"
             android:screenOrientation="portrait" />
+
+        <!--Society Admin Home Screen-->
+        <activity
+            android:name=".admin.SocietyAdminHome"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
