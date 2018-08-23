@@ -5,12 +5,29 @@ import android.widget.TextView;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_CARPENTER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ELECTRICIAN;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PLUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 
 
 public class MyProfile extends BaseActivity {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private TextView textSocietyServiceName;
+    private TextView textSocietyServiceType;
+    private TextView textSocietyServiceMobileNumber;
+    private CircleImageView imageSocietyService;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -31,10 +48,11 @@ public class MyProfile extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         /*Getting Id's for all the views*/
-        TextView textSocietyServiceName = findViewById(R.id.textSocietyServiceName);
-        TextView textSocietyServiceType = findViewById(R.id.textSocietyServiceType);
-        TextView textSocietyServiceMobileNumber = findViewById(R.id.textSocietyServiceMobileNumber);
+        textSocietyServiceName = findViewById(R.id.textSocietyServiceName);
+        textSocietyServiceType = findViewById(R.id.textSocietyServiceType);
+        textSocietyServiceMobileNumber = findViewById(R.id.textSocietyServiceMobileNumber);
         TextView textSocietyServiceRating = findViewById(R.id.textSocietyServiceRating);
+        imageSocietyService = findViewById(R.id.imageSocietyService);
         TextView textWeekly = findViewById(R.id.textWeekly);
         TextView textMonthly = findViewById(R.id.textMonthly);
         TextView textTillDate = findViewById(R.id.textTillDate);
@@ -83,5 +101,43 @@ public class MyProfile extends BaseActivity {
         textMonthlyTotalCount.setTypeface(setLatoBoldFont(this));
         textTotal.setTypeface(setLatoRegularFont(this));
         textTotalCount.setTypeface(setLatoBoldFont(this));
+
+        /*Getting Details Society Service who is currently logged in*/
+        getSocietyServiceDetails();
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked to Retrieve details of Society Service who is logged in and
+     * display details in My Profile screen
+     */
+    private void getSocietyServiceDetails() {
+        new RetrievingNotificationData(MyProfile.this, societyServiceUID).getSocietyServiceData(societyServiceData -> {
+            String societyServiceName = societyServiceData.getFullName();
+            String societyServiceMobile = societyServiceData.getMobileNumber();
+            String societyServiceType = societyServiceData.getSocietyServiceType();
+
+            textSocietyServiceName.setText(societyServiceName);
+            textSocietyServiceMobileNumber.setText(societyServiceMobile);
+            textSocietyServiceType.setText(societyServiceType);
+
+            switch (societyServiceType) {
+                case FIREBASE_CHILD_PLUMBER:
+                    imageSocietyService.setImageResource(R.drawable.plumber);
+                    break;
+                case FIREBASE_CHILD_CARPENTER:
+                    imageSocietyService.setImageResource(R.drawable.carpenter);
+                    break;
+                case FIREBASE_CHILD_ELECTRICIAN:
+                    imageSocietyService.setImageResource(R.drawable.electrician);
+                    break;
+                case FIREBASE_CHILD_GARBAGE_MANAGEMENT:
+                    imageSocietyService.setImageResource(R.drawable.garbage_management);
+                    break;
+            }
+        });
     }
 }
