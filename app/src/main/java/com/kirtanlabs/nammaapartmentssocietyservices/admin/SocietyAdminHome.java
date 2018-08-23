@@ -52,7 +52,7 @@ public class SocietyAdminHome extends BaseActivity {
      * ------------------------------------------------------------- */
 
     /**
-     * This method is invoked to get Adapter to Grid View
+     * This method is invoked to set Adapter to Grid View
      *
      * @return adapter of grid view
      */
