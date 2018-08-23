@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.admin;
+package com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,7 +26,7 @@ public class RegistrationCategoriesAdapter extends BaseAdapter {
      * Constructors
      * ------------------------------------------------------------- */
 
-    RegistrationCategoriesAdapter(Context mCtx, String[] stringRegisterCategories, int[] icons) {
+    public RegistrationCategoriesAdapter(Context mCtx, String[] stringRegisterCategories, int[] icons) {
         this.mCtx = mCtx;
         this.stringRegisterCategories = stringRegisterCategories;
         this.icons = icons;

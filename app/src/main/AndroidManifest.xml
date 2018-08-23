@@ -43,11 +43,11 @@
 
         <!-- Register Screen -->
         <activity
-            android:name=".admin.Register"
+            android:name=".admin.registersocietyservices.activities.Register"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".admin.RegistrationCategories"
+            android:name=".admin.registersocietyservices.activities.RegistrationCategories"
             android:screenOrientation="portrait" />
 
         <!-- Namma Apartments Society Services Screen -->
