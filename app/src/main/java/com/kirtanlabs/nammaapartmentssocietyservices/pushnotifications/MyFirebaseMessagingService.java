@@ -29,6 +29,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REJECT_BUT
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_SOCIETY_SERVICE_TYPE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_USER_ACCOUNT_NOTIFICATION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
 
 /**
@@ -47,10 +48,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String notificationUID = remoteMessageData.get(REMOTE_NOTIFICATION_UID);
         String societyServiceType = remoteMessageData.get(REMOTE_SOCIETY_SERVICE_TYPE);
 
-        if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT)) {
+        if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT) ||
+                societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION)) {
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            String channelId;
+
+            /*To support Android Oreo Devices and higher*/
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel mChannel = new NotificationChannel(
+                        getString(R.string.default_notification_channel_id), "Namma Apartments Channel", NotificationManager.IMPORTANCE_HIGH);
+                Objects.requireNonNull(notificationManager).createNotificationChannel(mChannel);
+                channelId = mChannel.getId();
+            } else {
+                channelId = getString(R.string.default_notification_channel_id);
+            }
 
             /*Event Management Notification - These do not require any user actions*/
-            Notification notification = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
+            Notification notification = new NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setAutoCancel(true)
                     .setContentTitle(getString(R.string.app_name))
@@ -58,15 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setPriority(PRIORITY_DEFAULT)
                     .build();
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            /*To support Android Oreo Devices and higher*/
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(
-                        getString(R.string.default_notification_channel_id), "Namma Apartments Channel", NotificationManager.IMPORTANCE_HIGH);
-                Objects.requireNonNull(notificationManager).createNotificationChannel(mChannel);
-            }
 
             int mNotificationID = (int) System.currentTimeMillis();
             Objects.requireNonNull(notificationManager).notify(mNotificationID, notification);

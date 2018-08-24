@@ -110,12 +110,13 @@ public class Constants {
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
 
     /* ------------------------------------------------------------- *
-     * Remote Message Keys
+     * Remote Message Keys And Values
      * ------------------------------------------------------------- */
 
     public static final String REMOTE_NOTIFICATION_UID = "notificationUID";
     public static final String REMOTE_MOBILE_NUMBER = "mobileNumber";
     public static final String REMOTE_SOCIETY_SERVICE_TYPE = "societyServiceType";
+    public static final String REMOTE_USER_ACCOUNT_NOTIFICATION = "userAccountNotification";
 
     /* ------------------------------------------------------------- *
      * Receiver Action Keys
