@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".admin.staffs.activities.StaffActivity">
 
-    <include layout="@layout/activity_base" />
+    <include
+        android:id="@+id/layoutBaseActivity"
+        layout="@layout/activity_base" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listSocietyStaff"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/layoutBaseActivity" />
 
-</LinearLayout>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/animationWaitingToLoadData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:indicatorColor="@color/nmBlack"
+        app:indicatorName="BallSpinFadeLoaderIndicator" />
+
+</RelativeLayout>

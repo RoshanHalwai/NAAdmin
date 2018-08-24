@@ -80,6 +80,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_PLUMBER = "plumber";
     public static final String FIREBASE_CHILD_CARPENTER = "carpenter";
     public static final String FIREBASE_CHILD_ELECTRICIAN = "electrician";
+    public static final String FIREBASE_CHILD_GUARD = "guard";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
