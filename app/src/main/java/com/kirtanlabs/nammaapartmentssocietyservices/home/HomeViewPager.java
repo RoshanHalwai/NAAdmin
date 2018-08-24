@@ -84,6 +84,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
             societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(Constants.LOGGED_IN, true);
+            editor.putString(Constants.LOGIN_TYPE, Constants.FIREBASE_CHILD_SOCIETY_SERVICES);
             editor.putString(Constants.SOCIETY_SERVICE_UID, societyServiceUID);
             editor.apply();
         }
