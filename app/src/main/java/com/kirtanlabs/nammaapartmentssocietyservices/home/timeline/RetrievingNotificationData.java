@@ -168,6 +168,30 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * Returns a list of all approved users data
+     *
+     * @param approvedUsersDataListCallback callback to return the list of approved user data
+     */
+    public void getApprovedUserDataList(ApprovedUsersDataListCallback approvedUsersDataListCallback) {
+        getAllUserUidList(userUIDList -> {
+            if (userUIDList != null) {
+                List<NAUser> approvedUsersDataList = new ArrayList<>();
+                for (String userUID : userUIDList) {
+                    getUserData(userUID, NAUser -> {
+                        boolean isVerified = NAUser.getPrivileges().isVerified();
+                        if (isVerified) {
+                            approvedUsersDataList.add(index++, NAUser);
+                        }
+                        approvedUsersDataListCallback.onCallBack(approvedUsersDataList);
+                    });
+                }
+            } else {
+                approvedUsersDataListCallback.onCallBack(null);
+            }
+        });
+    }
+
     /* ------------------------------------------------------------- *
      * Private APIs
      * ------------------------------------------------------------- */
@@ -412,6 +436,10 @@ public class RetrievingNotificationData {
 
     public interface UnApprovedUsersDataListCallback {
         void onCallBack(List<NAUser> unapprovedUsersList);
+    }
+
+    public interface ApprovedUsersDataListCallback {
+        void onCallBack(List<NAUser> approvedUsersList);
     }
 
 }

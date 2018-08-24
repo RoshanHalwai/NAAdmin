@@ -11,10 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.adapter.ManageUsersAdapter;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
+import java.util.Objects;
 
 public class ApprovedUsersFragment extends Fragment {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private BaseActivity baseActivity;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -34,9 +43,18 @@ public class ApprovedUsersFragment extends Fragment {
         RecyclerView recyclerViewApprovedUsers = view.findViewById(R.id.recyclerViewApprovedUsers);
         recyclerViewApprovedUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        /*Setting Adapter to Recycler view*/
-        //TODO: To UnComment this when we retrieve approved user details.
-        /*ManageUsersAdapter approvedUsersAdapter = new ManageUsersAdapter(getActivity(),R.string.approved_users);
-        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);*/
+        baseActivity = (BaseActivity) getActivity();
+
+        Objects.requireNonNull(baseActivity).showProgressIndicator();
+
+        new RetrievingNotificationData(getActivity(), "")
+                .getApprovedUserDataList(approvedUsersList -> {
+                    if (approvedUsersList != null) {
+                        /*Setting Adapter to Recycler view*/
+                        ManageUsersAdapter approvedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.approved_users, approvedUsersList);
+                        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);
+                        baseActivity.hideProgressIndicator();
+                    }
+                });
     }
 }
