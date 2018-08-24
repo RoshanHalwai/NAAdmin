@@ -127,4 +127,10 @@
         <item>@string/help_desk</item>
     </string-array>
 
+    <!--Add Notice Activity-->
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="admin_name">Ashish Jha</string>
+    <string name="designation">Society Manager</string>
+
 </resources>
