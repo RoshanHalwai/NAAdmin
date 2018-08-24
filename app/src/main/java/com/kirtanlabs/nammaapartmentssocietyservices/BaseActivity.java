@@ -97,6 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean(Constants.LOGGED_IN, false);
                         editor.putString(Constants.SOCIETY_SERVICE_UID, null);
+                        editor.putString(Constants.LOGIN_TYPE, null);
                         editor.apply();
                         startActivity(new Intent(this, SignIn.class));
                         finish();
