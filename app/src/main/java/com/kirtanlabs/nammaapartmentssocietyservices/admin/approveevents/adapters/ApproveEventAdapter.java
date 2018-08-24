@@ -48,6 +48,7 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
 
     @Override
     public int getItemCount() {
+        /*TODO:To Remove Item Count from here and replaced with array list size.*/
         return 3;
     }
 
