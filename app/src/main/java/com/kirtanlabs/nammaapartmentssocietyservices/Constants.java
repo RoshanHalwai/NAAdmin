@@ -84,6 +84,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_GUARD = "guard";
     public static final String FIREBASE_CHILD_PRIVILEGES = "privileges";
     public static final String FIREBASE_CHILD_VERIFIED = "verified";
+    public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -106,6 +107,7 @@ public class Constants {
     public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS).child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
     public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys
