@@ -133,4 +133,7 @@
     <string name="admin_name">Ashish Jha</string>
     <string name="designation">Society Manager</string>
 
+    <!--Staff Activity-->
+    <string name="remove">REMOVE</string>
+
 </resources>
