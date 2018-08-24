@@ -102,6 +102,11 @@
             android:name=".admin.staffs.activities.StaffActivity"
             android:screenOrientation="portrait" />
 
+        <!-- Approve Event Screen -->
+        <activity
+            android:name=".admin.approveevents.activities.ApproveEventsActivity"
+            android:screenOrientation="portrait" />
+
         <!-- Add Notice Screen -->
         <activity
             android:name=".admin.addnotice.activities.AddNoticeActivity"
