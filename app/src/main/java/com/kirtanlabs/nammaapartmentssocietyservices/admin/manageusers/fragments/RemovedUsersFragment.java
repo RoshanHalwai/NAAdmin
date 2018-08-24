@@ -35,7 +35,8 @@ public class RemovedUsersFragment extends Fragment {
         recyclerViewRemovedUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         /*Setting Adapter to Recycler view*/
-        ManageUsersAdapter removedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.removed_users);
-        recyclerViewRemovedUsers.setAdapter(removedUsersAdapter);
+        //TODO: To UnComment this when we retrieve removed user details.
+       /* ManageUsersAdapter removedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.removed_users);
+        recyclerViewRemovedUsers.setAdapter(removedUsersAdapter);*/
     }
 }

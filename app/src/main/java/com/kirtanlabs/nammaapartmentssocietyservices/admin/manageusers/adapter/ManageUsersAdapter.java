@@ -10,7 +10,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
+
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldItalicFont;
@@ -25,14 +33,16 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
 
     private Context mCtx;
     private int userType;
+    private List<NAUser> usersList;
 
     /* ------------------------------------------------------------- *
      * Constructor
      * ------------------------------------------------------------- */
 
-    public ManageUsersAdapter(Context mCtx, int userType) {
+    public ManageUsersAdapter(Context mCtx, int userType, List<NAUser> usersList) {
         this.mCtx = mCtx;
         this.userType = userType;
+        this.usersList = usersList;
     }
 
     /* ------------------------------------------------------------- *
@@ -50,6 +60,15 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ManageUserHolder holder, int position) {
+        /*Creating an instance of NammaApartments User class and retrieving the values from Firebase*/
+        NAUser naUser = usersList.get(position);
+
+        Glide.with(mCtx.getApplicationContext()).load(naUser.getPersonalDetails().getProfilePhoto()).into(holder.usersProfilePic);
+        holder.textUserNameValue.setText(naUser.getPersonalDetails().getFullName());
+        holder.textUserApartmentNameValue.setText(naUser.getFlatDetails().getApartmentName());
+        holder.textUserFlatNumberValue.setText(naUser.getFlatDetails().getFlatNumber());
+        holder.textUserMobileNumberValue.setText(naUser.getPersonalDetails().getPhoneNumber());
+
         switch (userType) {
             case R.string.approved_users:
                 holder.layoutIcons.setVisibility(View.VISIBLE);
@@ -65,27 +84,27 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
 
     @Override
     public int getItemCount() {
-        //TODO: To change item count here
-        return 5;
+        return usersList.size();
     }
 
     /* ------------------------------------------------------------- *
      * Manage User View Holder class
      * ------------------------------------------------------------- */
 
-    class ManageUserHolder extends RecyclerView.ViewHolder {
+    class ManageUserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /* ------------------------------------------------------------- *
          * Private Members
          * ------------------------------------------------------------- */
 
+        private CircleImageView usersProfilePic;
         private TextView textUserName;
         private TextView textUserApartmentName;
         private TextView textTextUserFlatNumber;
         private TextView textUserMobileNumber;
         private TextView textUserNameValue;
         private TextView textUserApartmentNameValue;
-        private TextView textTextUserFlatNumberValue;
+        private TextView textUserFlatNumberValue;
         private TextView textUserMobileNumberValue;
         private TextView textCall;
         private TextView textMessage;
@@ -103,13 +122,14 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             super(itemView);
 
             /*Getting Id's for all the views*/
+            usersProfilePic = itemView.findViewById(R.id.usersProfilePic);
             textUserName = itemView.findViewById(R.id.textUserName);
             textUserApartmentName = itemView.findViewById(R.id.textUserApartmentName);
             textTextUserFlatNumber = itemView.findViewById(R.id.textTextUserFlatNumber);
             textUserMobileNumber = itemView.findViewById(R.id.textUserMobileNumber);
             textUserNameValue = itemView.findViewById(R.id.textUserNameValue);
             textUserApartmentNameValue = itemView.findViewById(R.id.textUserApartmentNameValue);
-            textTextUserFlatNumberValue = itemView.findViewById(R.id.textTextUserFlatNumberValue);
+            textUserFlatNumberValue = itemView.findViewById(R.id.textUserFlatNumberValue);
             textUserMobileNumberValue = itemView.findViewById(R.id.textUserMobileNumberValue);
             textCall = itemView.findViewById(R.id.textCall);
             textMessage = itemView.findViewById(R.id.textMessage);
@@ -126,13 +146,45 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textUserMobileNumber.setTypeface(setLatoRegularFont(mCtx));
             textUserNameValue.setTypeface(setLatoBoldFont(mCtx));
             textUserApartmentNameValue.setTypeface(setLatoBoldFont(mCtx));
-            textTextUserFlatNumberValue.setTypeface(setLatoBoldFont(mCtx));
+            textUserFlatNumberValue.setTypeface(setLatoBoldFont(mCtx));
             textUserMobileNumberValue.setTypeface(setLatoBoldFont(mCtx));
             textCall.setTypeface(setLatoBoldItalicFont(mCtx));
             textMessage.setTypeface(setLatoBoldItalicFont(mCtx));
             textEmail.setTypeface(setLatoBoldItalicFont(mCtx));
             textRemove.setTypeface(setLatoBoldItalicFont(mCtx));
             buttonApproveUser.setTypeface(setLatoLightFont(mCtx));
+
+            /*Setting onClickListener for view*/
+            buttonApproveUser.setOnClickListener(this);
         }
+
+        /* ------------------------------------------------------------- *
+         * Overriding OnClick Listeners
+         * ------------------------------------------------------------- */
+
+        @Override
+        public void onClick(View v) {
+            int position = getLayoutPosition();
+            approveUsers(position);
+        }
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked to Approve the Users, by changing its verified value to 'true'.
+     *
+     * @param position of card view
+     */
+    private void approveUsers(int position) {
+        NAUser naUser = usersList.get(position);
+        DatabaseReference userReference = Constants.PRIVATE_USERS_REFERENCE
+                .child(naUser.getUID())
+                .child(Constants.FIREBASE_CHILD_PRIVILEGES)
+                .child(Constants.FIREBASE_CHILD_VERIFIED);
+
+        userReference.setValue(true);
     }
 }

@@ -13,6 +13,8 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.RemovedUsersFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.UnapprovedUsersFragment;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.DEFAULT_MANAGE_USERS_TAB_POSITION;
+
 public class ManageUsers extends BaseActivity {
 
     /* ------------------------------------------------------------- *
@@ -41,6 +43,9 @@ public class ManageUsers extends BaseActivity {
 
         manageUsersViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabsManageUsers));
         tabsManageUsers.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(manageUsersViewPager));
+
+        /*Setting Unapproved Users Tab as default Tab*/
+        manageUsersViewPager.setCurrentItem(DEFAULT_MANAGE_USERS_TAB_POSITION);
     }
 
     /* ------------------------------------------------------------- *

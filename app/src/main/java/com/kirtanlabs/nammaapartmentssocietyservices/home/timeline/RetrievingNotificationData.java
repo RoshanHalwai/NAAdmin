@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
@@ -31,6 +32,7 @@ public class RetrievingNotificationData {
 
     private String societyServiceUID;
     private Context context;
+    private int index = 0;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -138,6 +140,30 @@ public class RetrievingNotificationData {
                 });
             } else {
                 futureNotificationDataListCallback.onCallback(null);
+            }
+        });
+    }
+
+    /**
+     * Returns a list of all unapproved users data
+     *
+     * @param unApprovedUsersDataListCallback callback to return the list of unapproved user data
+     */
+    public void getUnapprovedUserDataList(UnApprovedUsersDataListCallback unApprovedUsersDataListCallback) {
+        getAllUserUidList(userUIDList -> {
+            if (userUIDList != null) {
+                List<NAUser> UnapprovedUsersDataList = new ArrayList<>();
+                for (String userUID : userUIDList) {
+                    getUserData(userUID, NAUser -> {
+                        boolean isVerified = NAUser.getPrivileges().isVerified();
+                        if (!isVerified) {
+                            UnapprovedUsersDataList.add(index++, NAUser);
+                        }
+                        unApprovedUsersDataListCallback.onCallBack(UnapprovedUsersDataList);
+                    });
+                }
+            } else {
+                unApprovedUsersDataListCallback.onCallBack(null);
             }
         });
     }
@@ -304,6 +330,33 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * Returns the list of All Users UID
+     *
+     * @param userUIDCallback callback to return users UID list
+     */
+    private void getAllUserUidList(UserUIDCallback userUIDCallback) {
+        ALL_USERS_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<String> userUIDList = new ArrayList<>();
+                    for (DataSnapshot userUIDDataSnapshot : dataSnapshot.getChildren()) {
+                        userUIDList.add(userUIDDataSnapshot.getValue(String.class));
+                    }
+                    userUIDCallback.onCallback(userUIDList);
+                } else {
+                    userUIDCallback.onCallback(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     /* ------------------------------------------------------------- *
      * Interfaces
      * ------------------------------------------------------------- */
@@ -351,6 +404,14 @@ public class RetrievingNotificationData {
 
     public interface SocietyServiceDataCallback {
         void onCallback(SocietyServiceData societyServiceData);
+    }
+
+    public interface UserUIDCallback {
+        void onCallback(List<String> userUIDList);
+    }
+
+    public interface UnApprovedUsersDataListCallback {
+        void onCallBack(List<NAUser> unapprovedUsersList);
     }
 
 }
