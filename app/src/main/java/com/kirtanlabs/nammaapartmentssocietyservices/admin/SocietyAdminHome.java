@@ -1,7 +1,7 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
-import android.content.SharedPreferences;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +15,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.staffs.activities.StaffActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.AddNoticeActivity;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
@@ -76,6 +77,9 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
                 break;
             case 2:
                 startActivity(new Intent(SocietyAdminHome.this, StaffActivity.class));
+                break;
+            case 4:
+                startActivity(new Intent(SocietyAdminHome.this, AddNoticeActivity.class));
                 break;
             default:
                 Toast.makeText(this, "Yet to Implement", Toast.LENGTH_SHORT).show();
