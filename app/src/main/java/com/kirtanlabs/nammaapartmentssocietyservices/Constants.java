@@ -29,6 +29,7 @@ public class Constants {
     public static final int EDIT_TEXT_EMPTY_LENGTH = 0;
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String COUNTRY_CODE_IN = "+91";
+    public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -81,6 +82,8 @@ public class Constants {
     public static final String FIREBASE_CHILD_CARPENTER = "carpenter";
     public static final String FIREBASE_CHILD_ELECTRICIAN = "electrician";
     public static final String FIREBASE_CHILD_GUARD = "guard";
+    public static final String FIREBASE_CHILD_PRIVILEGES = "privileges";
+    public static final String FIREBASE_CHILD_VERIFIED = "verified";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -102,6 +105,7 @@ public class Constants {
     public static final DatabaseReference SOCIETY_SERVICE_TYPE_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE);
     public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS).child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
+    public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys

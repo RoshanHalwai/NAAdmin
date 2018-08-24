@@ -11,10 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.adapter.ManageUsersAdapter;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
+
+import java.util.Objects;
 
 public class UnapprovedUsersFragment extends Fragment {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private BaseActivity baseActivity;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -34,9 +44,18 @@ public class UnapprovedUsersFragment extends Fragment {
         RecyclerView recyclerViewUnapprovedUsers = view.findViewById(R.id.recyclerViewUnapprovedUsers);
         recyclerViewUnapprovedUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        /*Setting Adapter to Recycler view*/
-        ManageUsersAdapter unapprovedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.unapproved_users);
-        recyclerViewUnapprovedUsers.setAdapter(unapprovedUsersAdapter);
+        baseActivity = (BaseActivity) getActivity();
+
+        Objects.requireNonNull(baseActivity).showProgressIndicator();
+
+        new RetrievingNotificationData(getActivity(), "").getUnapprovedUserDataList(unapprovedUsersList -> {
+            if (unapprovedUsersList != null) {
+                /*Setting Adapter to Recycler view*/
+                ManageUsersAdapter unapprovedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.unapproved_users, unapprovedUsersList);
+                recyclerViewUnapprovedUsers.setAdapter(unapprovedUsersAdapter);
+                baseActivity.hideProgressIndicator();
+            }
+        });
     }
 
 }
