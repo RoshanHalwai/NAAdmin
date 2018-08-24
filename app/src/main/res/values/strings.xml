@@ -146,4 +146,9 @@
     <string name="notice_board_success">You have successfully added your notice.</string>
     <string name="notice_board_dialog_title">Notice Message</string>
 
+    <!--Approve Events Activity-->
+    <string name="event_title">Event Title:</string>
+    <string name="event_date">Event Date:</string>
+    <string name="event_slot">Event Slot:</string>
+
 </resources>
