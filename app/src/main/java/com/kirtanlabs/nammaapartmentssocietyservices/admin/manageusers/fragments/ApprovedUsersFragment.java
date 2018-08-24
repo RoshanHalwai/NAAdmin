@@ -35,7 +35,8 @@ public class ApprovedUsersFragment extends Fragment {
         recyclerViewApprovedUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         /*Setting Adapter to Recycler view*/
-        ManageUsersAdapter approvedUsersAdapter = new ManageUsersAdapter(getActivity(),R.string.approved_users);
-        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);
+        //TODO: To UnComment this when we retrieve approved user details.
+        /*ManageUsersAdapter approvedUsersAdapter = new ManageUsersAdapter(getActivity(),R.string.approved_users);
+        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);*/
     }
 }
