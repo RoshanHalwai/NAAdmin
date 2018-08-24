@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
@@ -32,6 +33,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
      * ------------------------------------------------------------- */
 
     private Context mCtx;
+    private BaseActivity baseActivity;
     private int userType;
     private List<NAUser> usersList;
 
@@ -41,6 +43,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
 
     public ManageUsersAdapter(Context mCtx, int userType, List<NAUser> usersList) {
         this.mCtx = mCtx;
+        baseActivity = (BaseActivity) mCtx;
         this.userType = userType;
         this.usersList = usersList;
     }
@@ -166,6 +169,10 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         public void onClick(View v) {
             int position = getLayoutPosition();
             approveUsers(position);
+            baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
+                    mCtx.getString(R.string.approve_user_message),
+                    null);
+
         }
     }
 

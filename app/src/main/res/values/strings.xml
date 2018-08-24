@@ -137,6 +137,8 @@
     <string name="e_mail">E-Mail</string>
     <string name="remove">Remove</string>
     <string name="approve">Approve</string>
+    <string name="approve_user_title">Approve User Message</string>
+    <string name="approve_user_message">User has been Approved.</string>
 
     <!--Add Notice Activity-->
     <string name="title">Title</string>
