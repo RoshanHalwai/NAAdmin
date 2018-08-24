@@ -223,11 +223,11 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
 
             }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
-        } else {
-            /*Mapping UID with societyServiceType*/
-            DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
-            societyTypeReference.child(serviceType).setValue(true);
         }
+
+        /*Mapping UID with societyServiceType*/
+        DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
+        societyTypeReference.child(serviceType).setValue(true);
 
         /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
         DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);

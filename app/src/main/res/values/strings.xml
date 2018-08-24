@@ -127,4 +127,7 @@
         <item>@string/help_desk</item>
     </string-array>
 
+    <!--Staff Activity-->
+    <string name="remove">REMOVE</string>
+
 </resources>
