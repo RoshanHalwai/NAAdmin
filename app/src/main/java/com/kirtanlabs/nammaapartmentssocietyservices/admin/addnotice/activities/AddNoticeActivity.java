@@ -1,6 +1,8 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,7 +11,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.pojo.NoticeBoardPojo;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.pojo.NoticeBoardPojo;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -18,7 +21,7 @@ import java.util.Locale;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTICE_BOARD;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
 
-public class AddNoticeActivity extends BaseActivity {
+public class AddNoticeActivity extends BaseActivity implements View.OnClickListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -62,26 +65,40 @@ public class AddNoticeActivity extends BaseActivity {
         editDescription.setTypeface(Constants.setLatoRegularFont(this));
         buttonAddNotice.setTypeface(Constants.setLatoLightFont(this));
 
-        /*Storing Notice Details Entered by the admin*/
-        storeNoticeDetailsInFirebase();
+        /*Setting events for the views*/
+        buttonAddNotice.setOnClickListener(this);
 
     }
 
+    /* ------------------------------------------------------------- *
+     * Overriding OnClick Listener Methods
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.buttonAddNotice) {
+            /*Storing Notice Details Entered by the admin*/
+            storeNoticeDetailsInFirebase();
+        }
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Methods
+     * ------------------------------------------------------------- */
+
     /**
-     * This method gets invoked when Admin add any notice to the society.
+     * This method gets invoked when Admin adds any notice to the society.
      */
     private void storeNoticeDetailsInFirebase() {
-        /*displaying progress dialog while image is uploading*/
-        showProgressDialog(this,
-                getResources().getString(R.string.notice_dialog_title),
-                getResources().getString(R.string.please_wait_a_moment));
 
+        /*Creating a new parent as noticeBoard  in firebase and setting the uid associated with it */
         DatabaseReference noticeBoardReference = Constants.NOTICE_BOARD_REFERENCE;
         String noticeBoardUID = noticeBoardReference.push().getKey();
-        noticeBoardReference.setValue(noticeBoardUID);
 
+        /*Setting the noticeBoardUid Value under societyservices->admin->noticeBoard*/
         DatabaseReference societyAdminReference = SOCIETY_SERVICES_ADMIN_REFERENCE.child(FIREBASE_CHILD_NOTICE_BOARD);
         societyAdminReference.child(noticeBoardUID).setValue(true);
+
         /*Add Notice record under noticeBoard->noticeBoardUID*/
         String titleValue = editTitle.getText().toString();
         String descriptionValue = editDescription.getText().toString();
@@ -97,19 +114,18 @@ public class AddNoticeActivity extends BaseActivity {
         String formattedDate = new DateFormatSymbols().getMonths()[month].substring(0, 3) + " " + dayOfMonth + ", " + year;
         String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", currentHour, currentMinute);
         String concatenatedDateAndTime = formattedDate + "\t\t" + " " + formattedTime;
-        String nameOfAdmin = "Ashish Jha";
+        String nameOfAdmin = getString(R.string.admin_name);
         NoticeBoardPojo noticeBoardPojo = new NoticeBoardPojo(nameOfAdmin, titleValue, descriptionValue, concatenatedDateAndTime);
 
+        /*Here we are setting value under noticeBoard->noticeBoardUID */
         DatabaseReference noticeBoardDataReference = noticeBoardReference.child(noticeBoardUID);
         noticeBoardDataReference.setValue(noticeBoardPojo);
 
-        /*dismissing the progress dialog*/
-        hideProgressDialog();
-
-        /*Notify users that they have successfully invited their visitor*/
+        /*Notify admin that they have successfully added their notice*/
+        Intent adminHomeIntent = new Intent(AddNoticeActivity.this, SocietyAdminHome.class);
         showNotificationDialog(getResources().getString(R.string.notice_board_dialog_title),
                 getResources().getString(R.string.notice_board_success),
-                null);
-
+                adminHomeIntent);
     }
+
 }

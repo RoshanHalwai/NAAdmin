@@ -1,4 +1,4 @@
-package com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.pojo;
+package com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.pojo;
 
 public class NoticeBoardPojo {
 
