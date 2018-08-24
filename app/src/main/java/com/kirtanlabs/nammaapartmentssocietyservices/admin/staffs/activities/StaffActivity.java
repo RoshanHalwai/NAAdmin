@@ -73,17 +73,19 @@ public class StaffActivity extends BaseActivity {
      */
     private void retrieveStaffDataFromFirebase() {
         DatabaseReference staffUIDsReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE;
+        /*Getting Staff UID here from (societyServices->All->UID) in firebase*/
         staffUIDsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot staffUIDSnapshot : dataSnapshot.getChildren()) {
                         String staffUID = staffUIDSnapshot.getValue(String.class);
-                        new RetrievingNotificationData(StaffActivity.this, staffUID).getSocietyServiceData(societyServiceData -> {
-                            hideProgressIndicator();
-                            staffDataList.add(societyServiceData);
-                            staffAdapter.notifyDataSetChanged();
-                        });
+                        new RetrievingNotificationData(StaffActivity.this, staffUID)
+                                .getSocietyServiceData(societyServiceData -> {
+                                    hideProgressIndicator();
+                                    staffDataList.add(societyServiceData);
+                                    staffAdapter.notifyDataSetChanged();
+                                });
                     }
                 }
             }
