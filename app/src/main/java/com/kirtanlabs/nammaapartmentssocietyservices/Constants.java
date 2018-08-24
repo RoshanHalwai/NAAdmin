@@ -81,6 +81,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_CARPENTER = "carpenter";
     public static final String FIREBASE_CHILD_ELECTRICIAN = "electrician";
     public static final String FIREBASE_CHILD_GUARD = "guard";
+    public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -102,6 +103,7 @@ public class Constants {
     public static final DatabaseReference SOCIETY_SERVICE_TYPE_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE);
     public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS).child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
+    public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys
