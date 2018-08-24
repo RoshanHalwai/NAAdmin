@@ -12,10 +12,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.AddNoticeActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activities.ApproveEventsActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.staffs.activities.StaffActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.AddNoticeActivity;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
@@ -77,6 +78,9 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
                 break;
             case 2:
                 startActivity(new Intent(SocietyAdminHome.this, StaffActivity.class));
+                break;
+            case 3:
+                startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));
                 break;
             case 4:
                 startActivity(new Intent(SocietyAdminHome.this, AddNoticeActivity.class));
