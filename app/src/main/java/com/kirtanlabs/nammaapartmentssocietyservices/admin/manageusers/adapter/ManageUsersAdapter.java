@@ -172,6 +172,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
                     mCtx.getString(R.string.approve_user_message),
                     null);
+            
         }
     }
 
