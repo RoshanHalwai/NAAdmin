@@ -299,6 +299,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void sendEmail(String emailId) {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailId});
         emailIntent.setType("message/rfc822");
         startActivity(emailIntent);
