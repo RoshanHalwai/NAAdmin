@@ -102,7 +102,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="Avinash"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -113,7 +112,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="A-Block"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -124,7 +122,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="A-101"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -135,7 +132,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="DJ Shadow"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -146,7 +142,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="Aug 24, 2018"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -157,7 +152,6 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="2dp"
-                        android:text="12 PM - 4 PM"
                         android:textColor="@color/nmBlack"
                         android:textSize="@dimen/text_view_default_size" />
 
@@ -187,6 +181,7 @@
                     android:background="@color/nmBlack"
                     android:text="@string/accept"
                     android:textColor="@color/nmLightYellow"
+                    android:textSize="@dimen/button_default_size"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -198,6 +193,7 @@
                     android:background="@color/nmBlack"
                     android:text="@string/reject"
                     android:textColor="@color/nmLightYellow"
+                    android:textSize="@dimen/button_default_size"
                     tools:ignore="ButtonStyle" />
 
             </LinearLayout>

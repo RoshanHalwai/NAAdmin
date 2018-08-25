@@ -30,6 +30,7 @@ public class Constants {
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
+    public static final String IN_PROGRESS = "in progress";
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -86,6 +87,8 @@ public class Constants {
     public static final String FIREBASE_CHILD_PRIVILEGES = "privileges";
     public static final String FIREBASE_CHILD_VERIFIED = "verified";
     public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
+    public static final String FIREBASE_CHILD_EVENT_DATE = "eventDate";
+    public static final String FIREBASE_CHILD_EVENT_TITLE = "eventTitle";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
