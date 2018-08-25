@@ -20,6 +20,8 @@ public class SocietyServiceNotification {
     private long timeStamp;
     private String userUID;
     private String endOTP;
+    private String eventDate;
+    private String eventTitle;
 
     /*Variable to indicate if Society Service Person has Accepted or Rejected the Notification*/
     private String societyServiceResponse;
@@ -88,8 +90,16 @@ public class SocietyServiceNotification {
         return endOTP;
     }
 
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public String getEventTitle() {
+        return eventTitle;
+    }
+
     /* ------------------------------------------------------------- *
-     * Getters
+     * Setters
      * ------------------------------------------------------------- */
     public void setSocietyServiceResponse(String societyServiceResponse) {
         this.societyServiceResponse = societyServiceResponse;
@@ -99,4 +109,11 @@ public class SocietyServiceNotification {
         this.naUser = naUser;
     }
 
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
 }

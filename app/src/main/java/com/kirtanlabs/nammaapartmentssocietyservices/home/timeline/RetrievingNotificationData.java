@@ -339,7 +339,7 @@ public class RetrievingNotificationData {
      * @param userUID          whose data is to be retrieved
      * @param userDataCallback callback to return user data
      */
-    private void getUserData(String userUID, UserDataCallback userDataCallback) {
+    public void getUserData(String userUID, UserDataCallback userDataCallback) {
         DatabaseReference usersPrivateReference = PRIVATE_USERS_REFERENCE.child(userUID);
         usersPrivateReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

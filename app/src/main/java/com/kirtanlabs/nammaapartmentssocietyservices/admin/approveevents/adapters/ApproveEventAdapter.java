@@ -6,11 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
+
+import java.util.List;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 
 public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapter.ApproveEventViewHolder> {
@@ -20,13 +29,17 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
      * ------------------------------------------------------------- */
 
     private final Context context;
+    private final BaseActivity baseActivity;
+    private List<SocietyServiceNotification> eventsDataList;
 
     /* ------------------------------------------------------------- *
      * Constructor
      * ------------------------------------------------------------- */
 
-    public ApproveEventAdapter(Context context) {
+    public ApproveEventAdapter(Context context, List<SocietyServiceNotification> eventsDataList) {
         this.context = context;
+        baseActivity = (BaseActivity) context;
+        this.eventsDataList = eventsDataList;
     }
 
     /* ------------------------------------------------------------- *
@@ -42,21 +55,31 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ApproveEventAdapter.ApproveEventViewHolder holder, int position) {
+        /*Creating an instance of Society Service Notification class and retrieving the values from Firebase*/
+        SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
 
+        holder.textEventTitleValue.setText(societyServiceNotification.getEventTitle());
+        holder.textEventDateValue.setText(societyServiceNotification.getEventDate());
+        holder.textEventSlotValue.setText(societyServiceNotification.getTimeSlot());
 
+        /*Retrieving User's Details*/
+        new RetrievingNotificationData(context, "").getUserData(societyServiceNotification.getUserUID(), NAUser -> {
+            holder.textUserNameValue.setText(NAUser.getPersonalDetails().getFullName());
+            holder.textApartmentValue.setText(NAUser.getFlatDetails().getApartmentName());
+            holder.textFlatNoValue.setText(NAUser.getFlatDetails().getFlatNumber());
+        });
     }
 
     @Override
     public int getItemCount() {
-        /*TODO:To Remove Item Count from here and replaced with array list size.*/
-        return 3;
+        return eventsDataList.size();
     }
 
     /* ------------------------------------------------------------- *
      * Staff View Holder Class
      * ------------------------------------------------------------- */
 
-    class ApproveEventViewHolder extends RecyclerView.ViewHolder {
+    class ApproveEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /* ------------------------------------------------------------- *
          * Private Members
@@ -74,6 +97,8 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
         private final TextView textEventTitleValue;
         private final TextView textEventDateValue;
         private final TextView textEventSlotValue;
+        private final Button buttonAccept;
+        private final Button buttonReject;
 
         /* ------------------------------------------------------------- *
          * Constructor
@@ -95,6 +120,8 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
             textEventTitleValue = itemView.findViewById(R.id.textEventTitleValue);
             textEventDateValue = itemView.findViewById(R.id.textEventDateValue);
             textEventSlotValue = itemView.findViewById(R.id.textEventSlotValue);
+            buttonAccept = itemView.findViewById(R.id.buttonAccept);
+            buttonReject = itemView.findViewById(R.id.buttonReject);
 
             /*Setting font for all the views*/
             textUserName.setTypeface(setLatoRegularFont(context));
@@ -109,7 +136,51 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
             textEventTitleValue.setTypeface(setLatoBoldFont(context));
             textEventDateValue.setTypeface(setLatoBoldFont(context));
             textEventSlotValue.setTypeface(setLatoBoldFont(context));
+            buttonAccept.setTypeface(setLatoLightFont(context));
+            buttonReject.setTypeface(setLatoLightFont(context));
+
+            /*Setting event for views*/
+            buttonAccept.setOnClickListener(this);
+            buttonReject.setOnClickListener(this);
         }
+
+        /* ------------------------------------------------------------- *
+         * Overriding On Click Method
+         * ------------------------------------------------------------- */
+
+        @Override
+        public void onClick(View v) {
+            int position = getLayoutPosition();
+            String eventRequestMessage = "";
+            switch (v.getId()) {
+                case R.id.buttonAccept:
+                    responseToUserEventRequest(position, context.getString(R.string.booking_accepted));
+                    eventRequestMessage = context.getString(R.string.event_request_accepted_message);
+                    break;
+                case R.id.buttonReject:
+                    responseToUserEventRequest(position, context.getString(R.string.booking_rejected));
+                    eventRequestMessage = context.getString(R.string.event_request_rejected_message);
+                    break;
+            }
+            baseActivity.showNotificationDialog(context.getString(R.string.event_request_title), eventRequestMessage,
+                    null);
+        }
+    }
+
+    /**
+     * This method is invoked to update to the status the User's Request for Event Management
+     *
+     * @param position of the cardView
+     * @param response to the request that user has made for Event.
+     */
+    private void responseToUserEventRequest(int position, String response) {
+        SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
+        String notificationUID = societyServiceNotification.getNotificationUID();
+
+        DatabaseReference eventsNotificationStatusReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
+                .child(notificationUID).child(Constants.FIREBASE_CHILD_STATUS);
+        /*Updating User's Event Request status*/
+        eventsNotificationStatusReference.setValue(response);
     }
 
 }
