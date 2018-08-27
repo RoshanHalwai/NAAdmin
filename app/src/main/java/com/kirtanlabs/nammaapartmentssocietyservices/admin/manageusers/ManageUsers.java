@@ -18,6 +18,12 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.DEFAULT_MA
 public class ManageUsers extends BaseActivity {
 
     /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private String approvedUsersFragmentTag;
+
+    /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
      * ------------------------------------------------------------- */
 
@@ -46,6 +52,28 @@ public class ManageUsers extends BaseActivity {
 
         /*Setting Unapproved Users Tab as default Tab*/
         manageUsersViewPager.setCurrentItem(DEFAULT_MANAGE_USERS_TAB_POSITION);
+    }
+
+    /* ------------------------------------------------------------- *
+     * Public Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is used to give the tag of Approved Users Fragment
+     *
+     * @return - Approved Users fragment tag
+     */
+    public String getApprovedUsersFragmentTag() {
+        return approvedUsersFragmentTag;
+    }
+
+    /**
+     * This method is used to set Tag for Approved Users Fragment
+     *
+     * @param approvedUsersFragmentTag - tag of Approved Users fragment
+     */
+    public void setApprovedUsersFragmentTag(String approvedUsersFragmentTag) {
+        this.approvedUsersFragmentTag = approvedUsersFragmentTag;
     }
 
     /* ------------------------------------------------------------- *
