@@ -13,8 +13,13 @@ import android.view.ViewGroup;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.adapter.ManageUsersAdapter;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ApprovedUsersFragment extends Fragment {
@@ -24,6 +29,8 @@ public class ApprovedUsersFragment extends Fragment {
      * ------------------------------------------------------------- */
 
     private BaseActivity baseActivity;
+    private List<NAUser> approvedUsersList;
+    private ManageUsersAdapter approvedUsersAdapter;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -43,16 +50,36 @@ public class ApprovedUsersFragment extends Fragment {
         RecyclerView recyclerViewApprovedUsers = view.findViewById(R.id.recyclerViewApprovedUsers);
         recyclerViewApprovedUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        /*Setting Tag for Approved Users Fragment*/
+        String approvedUsersFragmentTag = getTag();
+        ((ManageUsers) Objects.requireNonNull(getActivity())).setApprovedUsersFragmentTag(approvedUsersFragmentTag);
+
         baseActivity = (BaseActivity) getActivity();
-
         Objects.requireNonNull(baseActivity).showProgressIndicator();
+        approvedUsersList = new ArrayList<>();
 
+        /*Setting Adapter to Recycler view*/
+        approvedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.approved_users, approvedUsersList);
+        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);
+
+        /*Retrieving a List of Approved Users*/
+        retrieveApprovedUserDetails();
+    }
+
+    /* ------------------------------------------------------------- *
+     * Public Members
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked to retrieve the list of Approved Users from Firebase
+     */
+    public void retrieveApprovedUserDetails() {
         new RetrievingNotificationData(getActivity(), "")
                 .getApprovedUserDataList(approvedUsersList -> {
                     if (approvedUsersList != null) {
-                        /*Setting Adapter to Recycler view*/
-                        ManageUsersAdapter approvedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.approved_users, approvedUsersList);
-                        recyclerViewApprovedUsers.setAdapter(approvedUsersAdapter);
+                        this.approvedUsersList.clear();
+                        this.approvedUsersList.addAll(approvedUsersList);
+                        approvedUsersAdapter.notifyDataSetChanged();
                         baseActivity.hideProgressIndicator();
                     }
                 });

@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.ApprovedUsersFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 
 import java.util.List;
@@ -181,7 +183,8 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
      * ------------------------------------------------------------- */
 
     /**
-     * This method is invoked to Approve the Users, by changing its verified value to 'true'.
+     * This method is invoked to Approve the Users, by changing its verified value to 'true'
+     * and Update Approved Users and Unapproved Users Tab's List.
      *
      * @param position of card view
      */
@@ -192,6 +195,20 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                 .child(Constants.FIREBASE_CHILD_PRIVILEGES)
                 .child(Constants.FIREBASE_CHILD_VERIFIED);
 
-        userReference.setValue(true);
+        /*Setting User's verified value to true*/
+        userReference.setValue(true).addOnSuccessListener(aVoid -> {
+            /*Updating Unapproved Users List*/
+            usersList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, usersList.size());
+
+            /*Getting Tag of Approved Users Fragment*/
+            String approvedUsersFragmentTag = ((ManageUsers) mCtx).getApprovedUsersFragmentTag();
+            ApprovedUsersFragment approvedUsersFragment = (ApprovedUsersFragment) ((ManageUsers) mCtx).getSupportFragmentManager()
+                    .findFragmentByTag(approvedUsersFragmentTag);
+
+            /*Updating Approved Users List*/
+            approvedUsersFragment.retrieveApprovedUserDetails();
+        });
     }
 }
