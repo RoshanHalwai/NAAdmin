@@ -79,6 +79,27 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
      * Staff View Holder Class
      * ------------------------------------------------------------- */
 
+    /**
+     * This method is invoked to update to the status the User's Request for Event Management
+     *
+     * @param position of the cardView
+     * @param response to the request that user has made for Event.
+     */
+    private void responseToUserEventRequest(int position, String response) {
+        SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
+        String notificationUID = societyServiceNotification.getNotificationUID();
+
+        DatabaseReference eventsNotificationStatusReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
+                .child(notificationUID).child(Constants.FIREBASE_CHILD_STATUS);
+        /*Updating User's Event Request status*/
+        eventsNotificationStatusReference.setValue(response).addOnSuccessListener(aVoid -> {
+            /* Removing User's Event request data from the list, once Admin responds to that request*/
+            eventsDataList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, eventsDataList.size());
+        });
+    }
+
     class ApproveEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /* ------------------------------------------------------------- *
@@ -165,27 +186,6 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
             baseActivity.showNotificationDialog(context.getString(R.string.event_request_title), eventRequestMessage,
                     null);
         }
-    }
-
-    /**
-     * This method is invoked to update to the status the User's Request for Event Management
-     *
-     * @param position of the cardView
-     * @param response to the request that user has made for Event.
-     */
-    private void responseToUserEventRequest(int position, String response) {
-        SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
-        String notificationUID = societyServiceNotification.getNotificationUID();
-
-        DatabaseReference eventsNotificationStatusReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
-                .child(notificationUID).child(Constants.FIREBASE_CHILD_STATUS);
-        /*Updating User's Event Request status*/
-        eventsNotificationStatusReference.setValue(response).addOnSuccessListener(aVoid -> {
-            /* Removing User's Event request data from the list, once Admin responds to that request*/
-            eventsDataList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, eventsDataList.size());
-        });
     }
 
 }

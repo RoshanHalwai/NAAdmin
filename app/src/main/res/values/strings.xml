@@ -158,5 +158,6 @@
     <string name="event_request_title">Approve Event Message</string>
     <string name="event_request_accepted_message">User\'s Request for the Event has been Accepted.</string>
     <string name="event_request_rejected_message">User\'s Request for the Event has been Rejected.</string>
+    <string name="unapproved_events_unavailable">Currently there are no Unapproved Events in your society</string>
 
 </resources>
