@@ -111,8 +111,8 @@
     <!--Admin Home Activity-->
     <string name="society_admin">ADMIN</string>
     <string name="manage_users">Manage Users</string>
-    <string name="register_society_service">Register Society Service</string>
-    <string name="staff">Staff</string>
+    <string name="register_society_service">Register Service</string>
+    <string name="staff">Staffs</string>
     <string name="approve_events">Approve Events</string>
     <string name="add_notice">Add Notice</string>
     <string name="help_desk">Help Desk</string>

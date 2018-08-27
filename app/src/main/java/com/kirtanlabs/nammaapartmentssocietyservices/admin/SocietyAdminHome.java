@@ -125,7 +125,7 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
                 R.drawable.staff,
                 R.drawable.event,
                 R.drawable.notice_board,
-                R.drawable.help_desk
+                R.drawable.chatting
         };
 
         return new SocietyAdminHomeAdapter(this, stringSocietyAdminServices, icons);
