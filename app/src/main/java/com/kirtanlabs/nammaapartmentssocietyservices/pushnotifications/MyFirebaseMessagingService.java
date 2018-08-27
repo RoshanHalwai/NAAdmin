@@ -14,6 +14,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activities.ApproveEventsActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 
 import java.util.Map;
 import java.util.Objects;
@@ -51,6 +53,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT) ||
                 societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION)) {
 
+            Intent intent = null;
+            switch (societyServiceType) {
+                case Constants.FIREBASE_CHILD_EVENT_MANAGEMENT:
+                    intent = new Intent(this, ApproveEventsActivity.class);
+                    break;
+                case Constants.REMOTE_USER_ACCOUNT_NOTIFICATION:
+                    intent = new Intent(this, ManageUsers.class);
+                    break;
+            }
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.NEW_USER_OR_NEW_EVENT_REQUEST_CODE,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             String channelId;
 
@@ -72,6 +87,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentText(message)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setPriority(PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
                     .build();
 
             int mNotificationID = (int) System.currentTimeMillis();
