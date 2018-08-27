@@ -16,7 +16,9 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotifica
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EVENT_MANAGEMENT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.IN_PROGRESS;
 
 public class ApproveEventsActivity extends BaseActivity {
 
@@ -27,6 +29,7 @@ public class ApproveEventsActivity extends BaseActivity {
     private List<SocietyServiceNotification> eventsDataList;
     private ApproveEventAdapter approveEventAdapter;
     private int index = 0;
+    private int childrenCount = 0;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -79,31 +82,29 @@ public class ApproveEventsActivity extends BaseActivity {
         /*Retrieving All Society Service Notification UID from (societyServiceNotifications->all->notificationUID) in firebase*/
         notificationUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot notificationUIdDataSnapshot : dataSnapshot.getChildren()) {
+            public void onDataChange(DataSnapshot notificationUIDs) {
+                if (notificationUIDs.exists()) {
+                    for (DataSnapshot notificationUIdDataSnapshot : notificationUIDs.getChildren()) {
+                        childrenCount++;
                         String notificationUID = notificationUIdDataSnapshot.getKey();
-
                         DatabaseReference eventDetailsReference = notificationUIDReference
                                 .child(notificationUID);
                         /*Getting All Event Management Notification Data and Putting Then in a list.*/
                         eventDetailsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                String serviceType = dataSnapshot.child(Constants.SOCIETY_SERVICE_TYPE).getValue(String.class);
-                                String status = dataSnapshot.child(Constants.FIREBASE_CHILD_STATUS).getValue(String.class);
-                                if (Objects.requireNonNull(serviceType).equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT)
-                                        && Objects.requireNonNull(status).equals(Constants.IN_PROGRESS)) {
-                                    hideProgressIndicator();
-                                    String eventDate = dataSnapshot.child(Constants.FIREBASE_CHILD_EVENT_DATE).getValue(String.class);
-                                    String eventTitle = dataSnapshot.child(Constants.FIREBASE_CHILD_EVENT_TITLE).getValue(String.class);
-
-                                    SocietyServiceNotification societyServiceNotification = dataSnapshot.getValue(SocietyServiceNotification.class);
-                                    Objects.requireNonNull(societyServiceNotification).setEventDate(eventDate);
-                                    societyServiceNotification.setEventTitle(eventTitle);
-
+                                SocietyServiceNotification societyServiceNotification = dataSnapshot.getValue(SocietyServiceNotification.class);
+                                if (societyServiceNotification.getSocietyServiceType().equals(FIREBASE_CHILD_EVENT_MANAGEMENT) &&
+                                        societyServiceNotification.getStatus().equals(IN_PROGRESS)) {
                                     eventsDataList.add(index++, societyServiceNotification);
-                                    approveEventAdapter.notifyDataSetChanged();
+                                }
+                                if (childrenCount == notificationUIDs.getChildrenCount()) {
+                                    hideProgressIndicator();
+                                    if (eventsDataList.isEmpty()) {
+                                        showFeatureUnavailableLayout(R.string.unapproved_events_unavailable);
+                                    } else {
+                                        approveEventAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             }
 

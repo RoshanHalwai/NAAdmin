@@ -60,7 +60,7 @@
     <string name="plumber">Plumber</string>
     <string name="carpenter">Carpenter</string>
     <string name="electrician">Electrician</string>
-    <string name="garbage_management">Garbage Management</string>
+    <string name="garbage_management">Garbage Collector</string>
     <string name="guard">Guard</string>
     <string name="user">User</string>
     <string name="adding_society_service_data">Adding Society Service Data</string>
@@ -111,8 +111,8 @@
     <!--Admin Home Activity-->
     <string name="society_admin">ADMIN</string>
     <string name="manage_users">Manage Users</string>
-    <string name="register_society_service">Register Society Service</string>
-    <string name="staff">Staff</string>
+    <string name="register_society_service">Register Service</string>
+    <string name="staff">Staffs</string>
     <string name="approve_events">Approve Events</string>
     <string name="add_notice">Add Notice</string>
     <string name="help_desk">Help Desk</string>
@@ -139,6 +139,7 @@
     <string name="approve">Approve</string>
     <string name="approve_user_title">Approve User Message</string>
     <string name="approve_user_message">User has been Approved.</string>
+    <string name="unapproved_users_unavailable">Currently there are no Unapproved Users in your society</string>
 
     <!--Add Notice Activity-->
     <string name="title">Title</string>
@@ -157,5 +158,6 @@
     <string name="event_request_title">Approve Event Message</string>
     <string name="event_request_accepted_message">User\'s Request for the Event has been Accepted.</string>
     <string name="event_request_rejected_message">User\'s Request for the Event has been Rejected.</string>
+    <string name="unapproved_events_unavailable">Currently there are no Unapproved Events in your society</string>
 
 </resources>

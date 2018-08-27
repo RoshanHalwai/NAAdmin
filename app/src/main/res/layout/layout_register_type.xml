@@ -15,24 +15,22 @@
 
             <ImageView
                 android:id="@+id/imageRegisterType"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/register_type_description"
-                android:padding="10dp" />
+                android:layout_margin="10dp"
+                android:contentDescription="@string/register_type_description" />
 
             <TextView
                 android:id="@+id/textSocietyServiceType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
+                android:layout_margin="10dp"
                 android:layout_toEndOf="@id/imageRegisterType"
                 android:layout_toRightOf="@id/imageRegisterType"
-                android:padding="10dp"
                 android:textColor="@color/nmBlack"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </RelativeLayout>
 

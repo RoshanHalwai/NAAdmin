@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.ApprovedUsersFragment;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.RemovedUsersFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.UnapprovedUsersFragment;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.DEFAULT_MANAGE_USERS_TAB_POSITION;
@@ -101,8 +100,6 @@ public class ManageUsers extends BaseActivity {
                     return new ApprovedUsersFragment();
                 case 1:
                     return new UnapprovedUsersFragment();
-                case 2:
-                    return new RemovedUsersFragment();
                 default:
                     return null;
             }
@@ -110,7 +107,7 @@ public class ManageUsers extends BaseActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
 }

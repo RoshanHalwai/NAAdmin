@@ -33,6 +33,7 @@ public class RetrievingNotificationData {
     private String societyServiceUID;
     private Context context;
     private int index = 0;
+    private int count = 0;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -151,19 +152,21 @@ public class RetrievingNotificationData {
      */
     public void getUnapprovedUserDataList(UnApprovedUsersDataListCallback unApprovedUsersDataListCallback) {
         getAllUserUidList(userUIDList -> {
-            if (userUIDList != null) {
+            if (!userUIDList.isEmpty()) {
                 List<NAUser> UnapprovedUsersDataList = new ArrayList<>();
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
+                        count++;
                         boolean isVerified = NAUser.getPrivileges().isVerified();
                         if (!isVerified) {
                             UnapprovedUsersDataList.add(index++, NAUser);
                         }
-                        unApprovedUsersDataListCallback.onCallBack(UnapprovedUsersDataList);
+                        if (count == userUIDList.size())
+                            unApprovedUsersDataListCallback.onCallBack(UnapprovedUsersDataList);
                     });
                 }
             } else {
-                unApprovedUsersDataListCallback.onCallBack(null);
+                unApprovedUsersDataListCallback.onCallBack(new ArrayList<>());
             }
         });
     }
@@ -370,7 +373,7 @@ public class RetrievingNotificationData {
                     }
                     userUIDCallback.onCallback(userUIDList);
                 } else {
-                    userUIDCallback.onCallback(null);
+                    userUIDCallback.onCallback(new ArrayList<>());
                 }
             }
 
