@@ -49,11 +49,13 @@ public class UnapprovedUsersFragment extends Fragment {
         Objects.requireNonNull(baseActivity).showProgressIndicator();
 
         new RetrievingNotificationData(getActivity(), "").getUnapprovedUserDataList(unapprovedUsersList -> {
-            if (unapprovedUsersList != null) {
+            baseActivity.hideProgressIndicator();
+            if (unapprovedUsersList.isEmpty()) {
+                baseActivity.showFeatureUnavailableLayout(R.string.unapproved_users_unavailable);
+            } else {
                 /*Setting Adapter to Recycler view*/
                 ManageUsersAdapter unapprovedUsersAdapter = new ManageUsersAdapter(getActivity(), R.string.unapproved_users, unapprovedUsersList);
                 recyclerViewUnapprovedUsers.setAdapter(unapprovedUsersAdapter);
-                baseActivity.hideProgressIndicator();
             }
         });
     }

@@ -139,6 +139,7 @@
     <string name="approve">Approve</string>
     <string name="approve_user_title">Approve User Message</string>
     <string name="approve_user_message">User has been Approved.</string>
+    <string name="unapproved_users_unavailable">Currently there are no Unapproved Users in your society</string>
 
     <!--Add Notice Activity-->
     <string name="title">Title</string>

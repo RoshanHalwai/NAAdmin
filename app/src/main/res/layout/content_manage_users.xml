@@ -33,12 +33,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/unapproved_users" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabRemovedUsers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/removed_users" />
-
         </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
