@@ -41,7 +41,7 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
                 getString(R.string.guard)
         };
 
-        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.garbage_management, R.drawable.security_guard};
+        int[] icons = {R.drawable.plumber, R.drawable.carpenter, R.drawable.electrician, R.drawable.garbage_bag, R.drawable.security_guard};
 
         /*Setting the Adapter to list view*/
         RegistrationCategoriesAdapter adapter = new RegistrationCategoriesAdapter(RegistrationCategories.this, stringRegisterCategories, icons);
