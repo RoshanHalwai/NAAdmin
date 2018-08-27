@@ -180,7 +180,12 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
         DatabaseReference eventsNotificationStatusReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
                 .child(notificationUID).child(Constants.FIREBASE_CHILD_STATUS);
         /*Updating User's Event Request status*/
-        eventsNotificationStatusReference.setValue(response);
+        eventsNotificationStatusReference.setValue(response).addOnSuccessListener(aVoid -> {
+            /* Removing User's Event request data from the list, once Admin responds to that request*/
+            eventsDataList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, eventsDataList.size());
+        });
     }
 
 }
