@@ -89,6 +89,12 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
         SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
         String notificationUID = societyServiceNotification.getNotificationUID();
 
+        /*Setting EventManagement Notification UID to false in firebase(societyServicesNotification->eventManagement->NotificationUID)
+         whenever Admin responds to that request*/
+        DatabaseReference eventManagementNotificationReference = Constants.EVENT_MANAGEMENT_NOTIFICATION_REFERENCE
+                .child(notificationUID);
+        eventManagementNotificationReference.setValue(false);
+
         DatabaseReference eventsNotificationStatusReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
                 .child(notificationUID).child(Constants.FIREBASE_CHILD_STATUS);
         /*Updating User's Event Request status*/

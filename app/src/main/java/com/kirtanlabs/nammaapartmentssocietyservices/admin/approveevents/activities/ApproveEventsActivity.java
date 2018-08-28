@@ -17,9 +17,6 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotifica
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EVENT_MANAGEMENT;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.IN_PROGRESS;
-
 public class ApproveEventsActivity extends BaseActivity {
 
     /* ------------------------------------------------------------- *
@@ -29,7 +26,7 @@ public class ApproveEventsActivity extends BaseActivity {
     private List<SocietyServiceNotification> eventsDataList;
     private ApproveEventAdapter approveEventAdapter;
     private int index = 0;
-    private int childrenCount = 0;
+    private int childrenCount = 0, notificationResponsePendingCount = 0;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -78,42 +75,45 @@ public class ApproveEventsActivity extends BaseActivity {
      * This method is used to Retrieve All Events Requests made by the User from Firebase
      */
     private void retrieveApproveEventsData() {
-        DatabaseReference notificationUIDReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
-        /*Retrieving All Society Service Notification UID from (societyServiceNotifications->all->notificationUID) in firebase*/
-        notificationUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        /*Retrieving All Event Management Notification UID from (societyServiceNotifications->eventManagement->notificationUID) in firebase*/
+        Constants.EVENT_MANAGEMENT_NOTIFICATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot notificationUIDs) {
                 if (notificationUIDs.exists()) {
+                    hideProgressIndicator();
                     for (DataSnapshot notificationUIdDataSnapshot : notificationUIDs.getChildren()) {
                         childrenCount++;
                         String notificationUID = notificationUIdDataSnapshot.getKey();
-                        DatabaseReference eventDetailsReference = notificationUIDReference
-                                .child(notificationUID);
-                        /*Getting All Event Management Notification Data and Putting Then in a list.*/
-                        eventDetailsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                SocietyServiceNotification societyServiceNotification = dataSnapshot.getValue(SocietyServiceNotification.class);
-                                if (societyServiceNotification.getSocietyServiceType().equals(FIREBASE_CHILD_EVENT_MANAGEMENT) &&
-                                        societyServiceNotification.getStatus().equals(IN_PROGRESS)) {
+                        /*Checking if Admin has Responded to that Event Request or Not*/
+                        if (notificationUIdDataSnapshot.getValue(Boolean.class)) {
+                            notificationResponsePendingCount++;
+                            DatabaseReference eventDetailsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
+                                    .child(notificationUID);
+                            /*Getting Event Management Notification Data and Putting Then in a list.*/
+                            eventDetailsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    SocietyServiceNotification societyServiceNotification = dataSnapshot.getValue(SocietyServiceNotification.class);
                                     eventsDataList.add(index++, societyServiceNotification);
-                                }
-                                if (childrenCount == notificationUIDs.getChildrenCount()) {
-                                    hideProgressIndicator();
-                                    if (eventsDataList.isEmpty()) {
-                                        showFeatureUnavailableLayout(R.string.unapproved_events_unavailable);
-                                    } else {
+
+                                    if (childrenCount == notificationUIDs.getChildrenCount()) {
                                         approveEventAdapter.notifyDataSetChanged();
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
+                    if (notificationResponsePendingCount == 0) {
+                        showFeatureUnavailableLayout(R.string.unapproved_events_unavailable);
+                    }
+                } else {
+                    hideProgressIndicator();
+                    showFeatureUnavailableLayout(R.string.unapproved_events_unavailable);
                 }
             }
 
