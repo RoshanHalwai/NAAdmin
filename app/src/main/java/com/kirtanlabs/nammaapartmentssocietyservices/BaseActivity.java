@@ -52,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
     private ProgressDialog progressDialog;
-    private PopupMenu popupMenu;
 
     /* ------------------------------------------------------------- *
      * Abstract Methods
@@ -80,9 +79,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * This method is used to display a pop menu on click of menu icon and performs actions based on click of item in the list.
      */
-    private void setMenuIconListener() {
+    private void setMenuIconListener(String loginType) {
         imageMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(this, imageMenu);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+
+            /*Hiding 'My Profile' and 'History' items from Menu when Login type is Admin*/
+            if (loginType.equals(Constants.FIREBASE_CHILD_ADMIN)) {
+                popupMenu.getMenu().findItem(R.id.myProfile).setVisible(false);
+                popupMenu.getMenu().findItem(R.id.history).setVisible(false);
+            }
+
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.myProfile:
@@ -124,16 +131,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         imageMenu = findViewById(R.id.imageMenu);
         imageMenu.setVisibility(View.VISIBLE);
 
-        popupMenu = new PopupMenu(this, imageMenu);
-
-        /*Hiding 'My Profile' and 'History' items from Menu when Login type is Admin*/
-        if (loginType.equals(Constants.FIREBASE_CHILD_ADMIN)) {
-            popupMenu.getMenu().findItem(R.id.myProfile).setVisible(false);
-            popupMenu.getMenu().findItem(R.id.history).setVisible(false);
-        }
-
         /*Setting Click listener for the items in the menu*/
-        setMenuIconListener();
+        setMenuIconListener(loginType);
     }
 
     /**
