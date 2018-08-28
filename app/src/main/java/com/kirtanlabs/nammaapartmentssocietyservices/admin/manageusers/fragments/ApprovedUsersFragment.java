@@ -76,7 +76,7 @@ public class ApprovedUsersFragment extends Fragment {
     public void retrieveApprovedUserDetails() {
         new RetrievingNotificationData(getActivity(), "")
                 .getApprovedUserDataList(approvedUsersList -> {
-                    if (approvedUsersList != null) {
+                    if (!approvedUsersList.isEmpty()) {
                         this.approvedUsersList.clear();
                         this.approvedUsersList.addAll(approvedUsersList);
                         approvedUsersAdapter.notifyDataSetChanged();

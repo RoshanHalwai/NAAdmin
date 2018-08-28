@@ -105,13 +105,15 @@ public class Constants {
     private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
     public static final DatabaseReference SOCIETY_SERVICES_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES);
     private static final DatabaseReference USERS_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USERS);
+    private static final DatabaseReference SOCIETY_SERVICE_NOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS);
     public static final DatabaseReference SOCIETY_SERVICES_ADMIN_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ADMIN);
     public static final DatabaseReference ALL_SOCIETY_SERVICES_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference SOCIETY_SERVICE_TYPE_REFERENCE = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_SOCIETY_SERVICE_TYPE);
-    public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS).child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference ALL_SOCIETYSERVICENOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
     public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
+    public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values

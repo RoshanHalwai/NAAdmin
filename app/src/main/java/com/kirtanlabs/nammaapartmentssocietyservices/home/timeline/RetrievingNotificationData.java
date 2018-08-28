@@ -161,8 +161,10 @@ public class RetrievingNotificationData {
                         if (!isVerified) {
                             UnapprovedUsersDataList.add(index++, NAUser);
                         }
-                        if (count == userUIDList.size())
+                        if (count == userUIDList.size()) {
                             unApprovedUsersDataListCallback.onCallBack(UnapprovedUsersDataList);
+                            count = 0;
+                        }
                     });
                 }
             } else {
@@ -178,19 +180,23 @@ public class RetrievingNotificationData {
      */
     public void getApprovedUserDataList(ApprovedUsersDataListCallback approvedUsersDataListCallback) {
         getAllUserUidList(userUIDList -> {
-            if (userUIDList != null) {
+            if (!userUIDList.isEmpty()) {
                 List<NAUser> approvedUsersDataList = new ArrayList<>();
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
+                        count++;
                         boolean isVerified = NAUser.getPrivileges().isVerified();
                         if (isVerified) {
                             approvedUsersDataList.add(index++, NAUser);
                         }
-                        approvedUsersDataListCallback.onCallBack(approvedUsersDataList);
+                        if (count == userUIDList.size()) {
+                            approvedUsersDataListCallback.onCallBack(approvedUsersDataList);
+                            count = 0;
+                        }
                     });
                 }
             } else {
-                approvedUsersDataListCallback.onCallBack(null);
+                approvedUsersDataListCallback.onCallBack(new ArrayList<>());
             }
         });
     }
