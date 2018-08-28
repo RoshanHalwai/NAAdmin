@@ -34,8 +34,10 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_UNAVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getBitmapFromFile;
@@ -202,15 +204,14 @@ public class Register extends BaseActivity implements View.OnClickListener {
         String fullName = editFullName.getText().toString();
         String mobileNumber = editMobileNumber.getText().toString();
 
-        /*Storing the Society Service personal details under societyServices->societyServiceType->data->private->societyServiceUID*/
+        /*Storing the Society Service personal details under societyServices->societyServiceType->private->unavailable->societyServiceUID*/
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
-                mobileNumber, societyServiceUID);
+                mobileNumber, societyServiceUID, 0);
 
         if (registrationOf.equals(getString(R.string.guard))) {
             /*Getting the storage reference*/
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType)
                     .child(Constants.FIREBASE_CHILD_PRIVATE)
-                    .child(Constants.FIREBASE_CHILD_DATA)
                     .child(societyServiceUID);
 
             UploadTask uploadTask = storageReference.putBytes(getByteArrayFromFile(Register.this, profilePhotoPath));
