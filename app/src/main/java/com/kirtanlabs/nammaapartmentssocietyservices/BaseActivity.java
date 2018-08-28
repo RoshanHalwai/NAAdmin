@@ -53,7 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Intent callIntent;
     private ProgressDialog progressDialog;
 
-
     /* ------------------------------------------------------------- *
      * Abstract Methods
      * ------------------------------------------------------------- */
