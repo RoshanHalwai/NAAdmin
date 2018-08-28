@@ -52,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent;
     private ProgressDialog progressDialog;
+    private PopupMenu popupMenu;
 
     /* ------------------------------------------------------------- *
      * Abstract Methods
@@ -81,7 +82,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private void setMenuIconListener() {
         imageMenu.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(this, imageMenu);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
@@ -120,9 +120,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * This method is used to display menu icon in title bar wherever its needed.
      */
-    protected void showMenuIcon() {
+    protected void showMenuIcon(String loginType) {
         imageMenu = findViewById(R.id.imageMenu);
         imageMenu.setVisibility(View.VISIBLE);
+
+        popupMenu = new PopupMenu(this, imageMenu);
+
+        /*Hiding 'My Profile' and 'History' items from Menu when Login type is Admin*/
+        if (loginType.equals(Constants.FIREBASE_CHILD_ADMIN)) {
+            popupMenu.getMenu().findItem(R.id.myProfile).setVisible(false);
+            popupMenu.getMenu().findItem(R.id.history).setVisible(false);
+        }
+
+        /*Setting Click listener for the items in the menu*/
         setMenuIconListener();
     }
 

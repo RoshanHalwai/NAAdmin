@@ -48,7 +48,7 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
         hideBackButton();
 
         /*We want to display menu icon in Title bar, so that user can perform various actions from list*/
-        showMenuIcon();
+        showMenuIcon(Constants.FIREBASE_CHILD_ADMIN);
 
         /*Getting Id's for all the views*/
         GridView gridSocietyAdminHome = findViewById(R.id.gridSocietyAdminHome);
