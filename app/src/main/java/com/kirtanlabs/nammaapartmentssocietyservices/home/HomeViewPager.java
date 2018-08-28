@@ -36,6 +36,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TOKEN_ID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_UNAVAILABLE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIRST_TIME;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
@@ -75,6 +76,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
         /* At this point We came to know that user has Successfully Logged In */
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
         Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
+        Boolean loggedInFirstTime = sharedPreferences.getBoolean(FIRST_TIME, true);
 
         String societyServiceUID;
         /*If Society Service is Logged In then take Society Service Uid from Shared Preference*/
@@ -113,6 +115,13 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
 
                     /*Storing society service token_id in firebase so that user can send notification*/
                     storeTokenID();
+
+                    /*If Staff logs in for the first time the add their UID under Available*/
+                    if (loggedInFirstTime) {
+                        changeAvailability(true);
+                        getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE)
+                                .edit().putBoolean(FIRST_TIME, false).apply();
+                    }
 
                     SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
                     mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -165,10 +174,6 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
 
         /*Setting the token Id in data->societyServiceUID*/
         tokenIdReference.child(FIREBASE_CHILD_DATA).child(societyServiceUID).child(FIREBASE_CHILD_TOKEN_ID).setValue(getRefreshedToken());
-
-        /*Adding Token Id and Service Count under Available Society Service Mobile Number*/
-        tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).child(FIREBASE_CHILD_TOKEN_ID).setValue(getRefreshedToken());
-        tokenIdReference.child(Constants.FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber).child(FIREBASE_CHILD_SERVICE_COUNT).setValue(0);
     }
 
     /**
@@ -205,49 +210,22 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
 
             /*Getting the reference of Society Service Mobile Number and placing the data back in 'available' in Firebase,
              * once the Society Service is available. At the same time, the corresponding mobile number and its data is removed from 'unavailable'*/
-            DatabaseReference insertInAvailableReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
-                    .child(FIREBASE_CHILD_UNAVAILABLE).child(societyServiceMobileNumber);
-            insertInAvailableReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    SOCIETY_SERVICES_REFERENCE.child(serviceType)
-                            .child(FIREBASE_CHILD_PRIVATE)
-                            .child(FIREBASE_CHILD_AVAILABLE)
-                            .child(societyServiceMobileNumber)
-                            .setValue(dataSnapshot.getValue()).addOnCompleteListener(task -> insertInAvailableReference.removeValue());
-                }
+            SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_UNAVAILABLE).child(societyServiceUID).removeValue();
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
+            SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_AVAILABLE).child(societyServiceUID).setValue(true);
         } else {
             textActivityTitle.setText(R.string.unavailable);
             layoutBaseActivity.setBackgroundResource(R.color.nmRed);
             tabLayout.setBackgroundResource(R.color.nmRed);
             switchAvailability.setChecked(false);
 
-            /*Getting the reference of Society Service Mobile Number and placing the data in 'unavailable' in Firebase,
-             * once the Society Service is unavailable. At the same time, the corresponding mobile number and its data is removed from 'available'*/
-            DatabaseReference removeFromAvailableReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
-                    .child(FIREBASE_CHILD_AVAILABLE).child(societyServiceMobileNumber);
-            removeFromAvailableReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    SOCIETY_SERVICES_REFERENCE.child(serviceType)
-                            .child(FIREBASE_CHILD_PRIVATE)
-                            .child(FIREBASE_CHILD_UNAVAILABLE)
-                            .child(societyServiceMobileNumber)
-                            .setValue(dataSnapshot.getValue()).addOnCompleteListener(task -> removeFromAvailableReference.removeValue());
-                }
+            SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_AVAILABLE).child(societyServiceUID).removeValue();
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_UNAVAILABLE).child(societyServiceUID).setValue(true);
         }
     }
 
@@ -256,21 +234,21 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
      * ------------------------------------------------------------- */
 
     /**
-     * This method is used to set Tag for Future Fragment
-     *
-     * @param futureFragmentTag - tag of Future fragment
-     */
-    public void setFutureFragmentTag(String futureFragmentTag) {
-        this.futureFragmentTag = futureFragmentTag;
-    }
-
-    /**
      * This method is used to give the tag of Future Fragment
      *
      * @return - future fragment tag
      */
     public String getFutureFragmentTag() {
         return futureFragmentTag;
+    }
+
+    /**
+     * This method is used to set Tag for Future Fragment
+     *
+     * @param futureFragmentTag - tag of Future fragment
+     */
+    public void setFutureFragmentTag(String futureFragmentTag) {
+        this.futureFragmentTag = futureFragmentTag;
     }
 
     /* ------------------------------------------------------------- *

@@ -139,6 +139,7 @@ public class Constants {
     public static final String LOGGED_IN = "loggedIn";
     public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
     public static final String LOGIN_TYPE = "loginType";
+    public static final String FIRST_TIME = "firstTime";
 
     /* ------------------------------------------------------------- *
      * Font Types

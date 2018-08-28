@@ -14,6 +14,7 @@ public class SocietyServiceData {
     private String mobileNumber;
     private String uid;
     private String societyServiceType;
+    private Integer serviceCount;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -23,10 +24,11 @@ public class SocietyServiceData {
 
     }
 
-    public SocietyServiceData(String fullName, String mobileNumber, String uid) {
+    public SocietyServiceData(String fullName, String mobileNumber, String uid, Integer serviceCount) {
         this.fullName = fullName;
         this.mobileNumber = mobileNumber;
         this.uid = uid;
+        this.serviceCount = serviceCount;
     }
 
     /* ------------------------------------------------------------- *
@@ -47,6 +49,10 @@ public class SocietyServiceData {
 
     public String getSocietyServiceType() {
         return societyServiceType;
+    }
+
+    public Integer getServiceCount() {
+        return serviceCount;
     }
 
     /* ------------------------------------------------------------- *
