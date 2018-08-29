@@ -32,9 +32,9 @@ import java.util.regex.Pattern;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLACE_CALL_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SEND_SMS_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoItalicFont;
 
 /**
@@ -50,7 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ImageView backButton, imageMenu;
     private AVLoadingIndicatorView progressIndicator;
-    private Intent callIntent;
+    private Intent callIntent, msgIntent;
     private ProgressDialog progressDialog;
 
     /* ------------------------------------------------------------- *
@@ -163,7 +163,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
-            case END_SERVICE_REQUEST_CODE:
+            case PLACE_CALL_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     startActivity(callIntent);
                 }
@@ -171,6 +171,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             case CAMERA_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     EasyImage.openCamera(this, 0);
+                }
+                break;
+            case SEND_SMS_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    startActivity(msgIntent);
                 }
                 break;
         }
@@ -279,6 +284,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             startActivity(callIntent);
         }
+    }
+
+    /**
+     * We check if permissions are granted to send SMS if granted then we directly start SMS Activity
+     * else we show Request permission dialog to allow users to give access.
+     *
+     * @param mobileNumber - to which message needs to be sent
+     */
+    public void sendTextMessage(String mobileNumber) {
+        msgIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobileNumber, null));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SEND_SMS_PERMISSION_REQUEST_CODE);
+        } else {
+            startActivity(msgIntent);
+        }
+    }
+
+    /**
+     * This message is used to send to user whose E-Mail Id has been Passed.
+     *
+     * @param emailId - to which e-mail needs to be sent
+     */
+    public void sendEmail(String emailId) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailId});
+        emailIntent.setType("message/rfc822");
+        startActivity(emailIntent);
     }
 
     /**

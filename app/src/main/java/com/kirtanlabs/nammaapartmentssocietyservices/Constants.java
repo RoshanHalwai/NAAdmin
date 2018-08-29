@@ -41,6 +41,7 @@ public class Constants {
     public static final int SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE = 3;
     public static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
     public static final int NEW_USER_OR_NEW_EVENT_REQUEST_CODE = 5;
+    static final int SEND_SMS_PERMISSION_REQUEST_CODE = 6;
 
     /* ------------------------------------------------------------- *
      * Login/OTP Constants
