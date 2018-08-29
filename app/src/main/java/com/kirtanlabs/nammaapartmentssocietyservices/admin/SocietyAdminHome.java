@@ -16,7 +16,6 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.activities.
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activities.ApproveEventsActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
-import com.kirtanlabs.nammaapartmentssocietyservices.admin.staffs.activities.StaffActivity;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
@@ -74,10 +73,14 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
                 startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
                 break;
             case 1:
-                startActivity(new Intent(SocietyAdminHome.this, RegistrationCategories.class));
+                Intent intentRegisterSocietyService = new Intent(SocietyAdminHome.this, RegistrationCategories.class);
+                intentRegisterSocietyService.putExtra(Constants.SCREEN_TITLE, R.string.register_society_service);
+                startActivity(intentRegisterSocietyService);
                 break;
             case 2:
-                startActivity(new Intent(SocietyAdminHome.this, StaffActivity.class));
+                Intent intentStaff = new Intent(SocietyAdminHome.this, RegistrationCategories.class);
+                intentStaff.putExtra(Constants.SCREEN_TITLE, R.string.staff);
+                startActivity(intentStaff);
                 break;
             case 3:
                 startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));

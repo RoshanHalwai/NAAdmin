@@ -55,7 +55,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         SocietyServiceData societyServiceData = staffDataList.get(position);
         String serviceType = societyServiceData.getSocietyServiceType();
         holder.textStaffName.setText(societyServiceData.getFullName());
-        holder.textStaffType.setText(serviceType);
         holder.textStaffMobileNumber.setText(societyServiceData.getMobileNumber());
 
         switch (serviceType) {
@@ -69,7 +68,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 holder.staffProfilePic.setImageResource(R.drawable.electrician);
                 break;
             case FIREBASE_CHILD_GARBAGE_MANAGEMENT:
-                holder.staffProfilePic.setImageResource(R.drawable.garbage_management);
+                holder.staffProfilePic.setImageResource(R.drawable.garbage_bag);
                 break;
             case FIREBASE_CHILD_GUARD:
                 holder.staffProfilePic.setImageResource(R.drawable.security_guard);
@@ -93,7 +92,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
          * ------------------------------------------------------------- */
 
         private final TextView textStaffName;
-        private final TextView textStaffType;
         private final TextView textStaffMobileNumber;
         private final TextView textStaffRemove;
         private final ImageView staffProfilePic;
@@ -108,14 +106,12 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             /*Getting Id's for all the views*/
             staffProfilePic = itemView.findViewById(R.id.staffProfilePic);
             textStaffName = itemView.findViewById(R.id.textStaffName);
-            textStaffType = itemView.findViewById(R.id.textStaffType);
             textStaffMobileNumber = itemView.findViewById(R.id.textStaffMobileNumber);
             textStaffRemove = itemView.findViewById(R.id.textStaffRemove);
 
             /*Setting font for all the views*/
-            textStaffName.setTypeface(Constants.setLatoRegularFont(context));
-            textStaffType.setTypeface(Constants.setLatoRegularFont(context));
-            textStaffMobileNumber.setTypeface(Constants.setLatoRegularFont(context));
+            textStaffName.setTypeface(Constants.setLatoBoldFont(context));
+            textStaffMobileNumber.setTypeface(Constants.setLatoBoldFont(context));
             textStaffRemove.setTypeface(Constants.setLatoLightFont(context));
         }
     }
