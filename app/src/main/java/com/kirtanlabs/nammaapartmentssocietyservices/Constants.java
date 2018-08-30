@@ -20,7 +20,6 @@ public class Constants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String SOCIETY_SERVICE_TYPE = "societyServiceType";
     public static final String NOTIFICATION_ID = "notificationID";
-    public static final String REGISTRATION_OF = "registrationOf";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -140,6 +139,16 @@ public class Constants {
     public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
     public static final String LOGIN_TYPE = "loginType";
     public static final String FIRST_TIME = "firstTime";
+
+    /* ------------------------------------------------------------- *
+     * Society Service Type
+     * ------------------------------------------------------------- */
+
+    public static final String PLUMBER = "Plumber";
+    public static final String CARPENTER = "Carpenter";
+    public static final String ELECTRICIAN = "Electrician";
+    public static final String GARBAGE_COLLECTOR = "Garbage Collector";
+    public static final String GUARD = "Guard";
 
     /* ------------------------------------------------------------- *
      * Font Types
