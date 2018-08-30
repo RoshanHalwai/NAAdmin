@@ -15,10 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -33,7 +30,6 @@ import java.util.Objects;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVICE_COUNT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TOKEN_ID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_UNAVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIRST_TIME;
@@ -54,6 +50,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     private String societyServiceMobileNumber;
     private Switch switchAvailability;
     private String futureFragmentTag;
+    private String servingFragmentTag;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -201,12 +198,18 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
      * @param isSocietyServiceAvailable - availability status of Society Service
      */
     private void changeAvailability(boolean isSocietyServiceAvailable) {
+        /*Getting Tag of Serving Fragment*/
+        String servingFragmentTag = (HomeViewPager.this).getServingFragmentTag();
+        ServingFragment servingFragment = (ServingFragment) HomeViewPager.this.getSupportFragmentManager().findFragmentByTag(servingFragmentTag);
 
         if (isSocietyServiceAvailable) {
             textActivityTitle.setText(R.string.available);
             layoutBaseActivity.setBackgroundResource(R.color.nmGreen);
             tabLayout.setBackgroundResource(R.color.nmGreen);
             switchAvailability.setChecked(true);
+
+            /*Hiding The UnAvailable Layout if society service switches back to Available*/
+            servingFragment.hideUnAvailableLayout();
 
             /*Getting the reference of Society Service Mobile Number and placing the data back in 'available' in Firebase,
              * once the Society Service is available. At the same time, the corresponding mobile number and its data is removed from 'unavailable'*/
@@ -220,6 +223,9 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
             layoutBaseActivity.setBackgroundResource(R.color.nmRed);
             tabLayout.setBackgroundResource(R.color.nmRed);
             switchAvailability.setChecked(false);
+
+            /*Showing The UnAvailable Layout if society service switches from available to unavailable */
+            servingFragment.showUnAvailableLayout();
 
             SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
                     .child(FIREBASE_CHILD_AVAILABLE).child(societyServiceUID).removeValue();
@@ -250,6 +256,26 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     public void setFutureFragmentTag(String futureFragmentTag) {
         this.futureFragmentTag = futureFragmentTag;
     }
+
+    /**
+     * This method is used to give the tag of Serving Fragment
+     *
+     * @return - serving fragment tag
+     */
+    public String getServingFragmentTag() {
+        return servingFragmentTag;
+    }
+
+    /**
+     * This method is used to set Tag for Serving Fragment
+     *
+     * @param servingFragmentTag - tag of Serving Fragment
+     */
+    public void setServingFragmentTag(String servingFragmentTag) {
+        this.servingFragmentTag = servingFragmentTag;
+    }
+
+
 
     /* ------------------------------------------------------------- *
      * SectionPagerAdapter Class

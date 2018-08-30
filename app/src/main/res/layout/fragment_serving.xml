@@ -52,4 +52,33 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layoutUnAvailable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageSocietyService"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/feature_unavailable_image_desc"
+            android:src="@drawable/feature_unavailable" />
+
+        <TextView
+            android:id="@+id/textServiceUnavailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageSocietyService"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="@string/unavailable_layout_message"
+            android:textColor="@color/nmBlack"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -43,7 +43,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
      * ------------------------------------------------------------- */
 
     private BaseActivity baseActivity;
-    private RelativeLayout layoutAwaitingResponse, layoutAcceptedUserDetails;
+    private RelativeLayout layoutAwaitingResponse, layoutAcceptedUserDetails, layoutUnAvailable;
     private TextView textResidentNameValue;
     private TextView textApartmentValue;
     private TextView textFlatNumberValue;
@@ -72,6 +72,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         /*Getting Id's for all the views*/
         layoutAwaitingResponse = view.findViewById(R.id.layoutAwaitingResponse);
         layoutAcceptedUserDetails = view.findViewById(R.id.layoutAcceptedUserDetails);
+        layoutUnAvailable = view.findViewById(R.id.layoutUnAvailable);
         TextView textAwaitingResponse = view.findViewById(R.id.textAwaitingResponse);
         TextView textResidentName = view.findViewById(R.id.textResidentName);
         TextView textApartment = view.findViewById(R.id.textApartment);
@@ -114,6 +115,11 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         buttonEndService.setOnClickListener(this);
 
         updateUIWithServingData();
+
+        /*Setting Tag of Serving Fragment*/
+        String servingFragmentTag = getTag();
+        ((HomeViewPager) Objects.requireNonNull(getActivity())).setServingFragmentTag(servingFragmentTag);
+
     }
 
 
@@ -245,4 +251,39 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         new Dialog(getActivity());
         dialog.show();
     }
+
+    /**
+     * This method invokes when society service switches to unavailable and we show them appropriate layout.
+     */
+    public void showUnAvailableLayout() {
+        layoutAcceptedUserDetails.setVisibility(View.GONE);
+        layoutAwaitingResponse.setVisibility(View.GONE);
+        layoutUnAvailable.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method hides the unavailable layout shown when society service switches back to available.
+     */
+    public void hideUnAvailableLayout() {
+        retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
+        retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
+            if (societyServiceNotification != null) {
+                endOTP = societyServiceNotification.getEndOTP();
+                textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
+                textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
+                textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
+                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
+                textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
+                layoutAwaitingResponse.setVisibility(View.GONE);
+                layoutUnAvailable.setVisibility(View.GONE);
+                layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
+            } else {
+                layoutAwaitingResponse.setVisibility(View.VISIBLE);
+                layoutAcceptedUserDetails.setVisibility(View.GONE);
+                layoutUnAvailable.setVisibility(View.GONE);
+            }
+        });
+    }
+
 }
