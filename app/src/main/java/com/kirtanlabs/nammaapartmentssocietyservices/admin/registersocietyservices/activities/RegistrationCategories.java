@@ -10,8 +10,15 @@ import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.adapter.RegistrationCategoriesAdapter;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.staffs.activities.StaffActivity;
 
 public class RegistrationCategories extends BaseActivity implements AdapterView.OnItemClickListener {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private int screenTitle;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -24,7 +31,12 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
 
     @Override
     protected int getActivityTitle() {
-        return R.string.category;
+        if (getIntent().getIntExtra(Constants.SCREEN_TITLE, 0) == R.string.register_society_service) {
+            screenTitle = R.string.category;
+        } else {
+            screenTitle = R.string.staff_categories;
+        }
+        return screenTitle;
     }
 
     @Override
@@ -57,22 +69,27 @@ public class RegistrationCategories extends BaseActivity implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(RegistrationCategories.this, Register.class);
+        Intent intent;
+        if (screenTitle == R.string.category) {
+            intent = new Intent(RegistrationCategories.this, Register.class);
+        } else {
+            intent = new Intent(RegistrationCategories.this, StaffActivity.class);
+        }
         switch (position) {
             case 0:
-                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.plumber));
+                intent.putExtra(Constants.SOCIETY_SERVICE_TYPE, getString(R.string.plumber));
                 break;
             case 1:
-                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.carpenter));
+                intent.putExtra(Constants.SOCIETY_SERVICE_TYPE, getString(R.string.carpenter));
                 break;
             case 2:
-                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.electrician));
+                intent.putExtra(Constants.SOCIETY_SERVICE_TYPE, getString(R.string.electrician));
                 break;
             case 3:
-                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.garbage_management));
+                intent.putExtra(Constants.SOCIETY_SERVICE_TYPE, getString(R.string.garbage_management));
                 break;
             case 4:
-                intent.putExtra(Constants.REGISTRATION_OF, getString(R.string.guard));
+                intent.putExtra(Constants.SOCIETY_SERVICE_TYPE, getString(R.string.guard));
                 break;
         }
         startActivity(intent);

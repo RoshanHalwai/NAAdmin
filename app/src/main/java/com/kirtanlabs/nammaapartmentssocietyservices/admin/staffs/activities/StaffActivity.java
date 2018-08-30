@@ -26,6 +26,8 @@ public class StaffActivity extends BaseActivity {
 
     private StaffAdapter staffAdapter;
     private List<SocietyServiceData> staffDataList;
+    private String staffType;
+    private int screenTitle;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -38,7 +40,25 @@ public class StaffActivity extends BaseActivity {
 
     @Override
     protected int getActivityTitle() {
-        return R.string.staff;
+        staffType = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_TYPE);
+        switch (staffType) {
+            case Constants.PLUMBER:
+                screenTitle = R.string.plumbers;
+                break;
+            case Constants.CARPENTER:
+                screenTitle = R.string.carpenters;
+                break;
+            case Constants.ELECTRICIAN:
+                screenTitle = R.string.electricians;
+                break;
+            case Constants.GARBAGE_COLLECTOR:
+                screenTitle = R.string.garbageCollectors;
+                break;
+            case Constants.GUARD:
+                screenTitle = R.string.guards;
+                break;
+        }
+        return screenTitle;
     }
 
     @Override
@@ -72,14 +92,22 @@ public class StaffActivity extends BaseActivity {
      * This method is invoked to get Details of Admin's Staff from (societyServices->serviceType->SocietyServiceUID) in firebase.
      */
     private void retrieveStaffDataFromFirebase() {
-        DatabaseReference staffUIDsReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE;
-        /*Getting Staff UID here from (societyServices->All->UID) in firebase*/
+        String societyServiceType = staffType.toLowerCase();
+        if (staffType.equals(getString(R.string.garbage_management))) {
+            societyServiceType = Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
+        }
+
+        DatabaseReference staffUIDsReference = Constants.SOCIETY_SERVICES_REFERENCE
+                .child(societyServiceType)
+                .child(Constants.FIREBASE_CHILD_PRIVATE)
+                .child(Constants.FIREBASE_CHILD_DATA);
+        /*Getting Staff UID here from (societyServices->Society Service Type->Private->Data->UID) in firebase*/
         staffUIDsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot staffUIDSnapshot : dataSnapshot.getChildren()) {
-                        String staffUID = staffUIDSnapshot.getValue(String.class);
+                        String staffUID = staffUIDSnapshot.getKey();
                         new RetrievingNotificationData(StaffActivity.this, staffUID)
                                 .getSocietyServiceData(societyServiceData -> {
                                     hideProgressIndicator();

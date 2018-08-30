@@ -20,7 +20,6 @@ public class Constants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String SOCIETY_SERVICE_TYPE = "societyServiceType";
     public static final String NOTIFICATION_ID = "notificationID";
-    public static final String REGISTRATION_OF = "registrationOf";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -31,6 +30,10 @@ public class Constants {
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
     public static final String IN_PROGRESS = "in progress";
+    public static final String MORNING = "8AM - 12PM";
+    public static final String NOON = "12PM - 4PM";
+    public static final String EVENING = "4PM - 8PM";
+    public static final String NIGHT = "8PM - 12PM";
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -115,6 +118,7 @@ public class Constants {
     public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
+    public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values
@@ -141,6 +145,16 @@ public class Constants {
     public static final String SOCIETY_SERVICE_UID = "societyServiceUid";
     public static final String LOGIN_TYPE = "loginType";
     public static final String FIRST_TIME = "firstTime";
+
+    /* ------------------------------------------------------------- *
+     * Society Service Type
+     * ------------------------------------------------------------- */
+
+    public static final String PLUMBER = "Plumber";
+    public static final String CARPENTER = "Carpenter";
+    public static final String ELECTRICIAN = "Electrician";
+    public static final String GARBAGE_COLLECTOR = "Garbage Collector";
+    public static final String GUARD = "Guard";
 
     /* ------------------------------------------------------------- *
      * Font Types

@@ -34,10 +34,8 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_UNAVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getBitmapFromFile;
@@ -99,7 +97,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
         buttonNo.setTypeface(Constants.setLatoLightFont(this));
         buttonRegister.setTypeface(Constants.setLatoLightFont(this));
 
-        registrationOf = getIntent().getStringExtra(Constants.REGISTRATION_OF);
+        registrationOf = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_TYPE);
         serviceType = registrationOf.toLowerCase();
 
         if (registrationOf.equals(getString(R.string.guard))) {

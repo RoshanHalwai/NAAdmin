@@ -159,5 +159,17 @@
     <string name="event_request_accepted_message">User\'s Request for the Event has been Accepted.</string>
     <string name="event_request_rejected_message">User\'s Request for the Event has been Rejected.</string>
     <string name="unapproved_events_unavailable">Currently there are no Unapproved Events in your society</string>
+    <string name="slot_one">Slot 1</string>
+    <string name="slot_two">Slot 2</string>
+    <string name="slot_three">Slot 3</string>
+    <string name="slot_four">Slot 4</string>
+
+    <!--Staffs-->
+    <string name="staff_categories">Staff Categories</string>
+    <string name="plumbers">Plumbers</string>
+    <string name="carpenters">Carpenters</string>
+    <string name="electricians">Electricians</string>
+    <string name="garbageCollectors">Garbage Collectors</string>
+    <string name="guards">Guards</string>
 
 </resources>
