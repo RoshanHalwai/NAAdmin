@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -204,18 +205,42 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/buttonApproveUser"
+            <LinearLayout
+                android:id="@+id/layoutButtons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/layoutIcons"
-                android:layout_marginTop="10dp"
-                android:background="@color/nmBlack"
-                android:text="@string/approve"
-                android:textAllCaps="true"
-                android:textColor="@color/nmLightYellow"
-                android:textSize="@dimen/button_default_size"
-                android:visibility="gone" />
+                android:layout_below="@+id/line"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/buttonApproveUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/nmBlack"
+                    android:text="@string/approve"
+                    android:textAllCaps="true"
+                    android:textColor="@color/nmLightYellow"
+                    android:textSize="@dimen/button_default_size"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/buttonDeclineUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/nmBlack"
+                    android:text="@string/decline"
+                    android:textAllCaps="true"
+                    android:textColor="@color/nmLightYellow"
+                    android:textSize="@dimen/button_default_size"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

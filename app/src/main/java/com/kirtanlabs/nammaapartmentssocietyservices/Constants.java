@@ -92,6 +92,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
     public static final String FIREBASE_CHILD_EVENT_DATE = "eventDate";
     public static final String FIREBASE_CHILD_EVENT_TITLE = "eventTitle";
+    public static final String FIREBASE_CHILD_USER_DATA = "userData";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -118,6 +119,7 @@ public class Constants {
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
+    public static final DatabaseReference PRIVATE_USER_DATA_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USER_DATA).child(FIREBASE_CHILD_PRIVATE);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values
