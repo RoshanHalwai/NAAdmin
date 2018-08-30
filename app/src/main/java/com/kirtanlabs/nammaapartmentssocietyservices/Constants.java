@@ -31,6 +31,10 @@ public class Constants {
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
     public static final String IN_PROGRESS = "in progress";
+    public static final String MORNING = "8AM - 12PM";
+    public static final String NOON = "12PM - 4PM";
+    public static final String EVENING = "4PM - 8PM";
+    public static final String NIGHT = "8PM - 12PM";
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -114,6 +118,7 @@ public class Constants {
     public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
+    public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values
