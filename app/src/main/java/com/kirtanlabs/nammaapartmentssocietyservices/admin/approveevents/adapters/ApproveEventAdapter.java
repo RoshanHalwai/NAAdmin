@@ -16,7 +16,11 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
@@ -88,6 +92,8 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
     private void responseToUserEventRequest(int position, String response) {
         SocietyServiceNotification societyServiceNotification = eventsDataList.get(position);
         String notificationUID = societyServiceNotification.getNotificationUID();
+        String eventDate = societyServiceNotification.getEventDate();
+        String eventTimeSlot = societyServiceNotification.getTimeSlot();
 
         /*Setting EventManagement Notification UID to false in firebase(societyServicesNotification->eventManagement->NotificationUID)
          whenever Admin responds to that request*/
@@ -104,6 +110,49 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, eventsDataList.size());
         });
+
+        /*Removing Time slot of particular event date from firebase if admin rejects user's event request*/
+        if (response.equals(context.getString(R.string.booking_rejected))) {
+            removeBookedTimeSlot(eventDate, eventTimeSlot);
+        }
+    }
+
+    /**
+     * This method is used to remove time slot which was booked for particular event date
+     *
+     * @param date     of event
+     * @param timeSlot of booked for event
+     */
+    private void removeBookedTimeSlot(String date, String timeSlot) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+        Date formattedDate = null;
+        try {
+            formattedDate = simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        date = simpleDateFormat.format(formattedDate);
+
+        switch (timeSlot) {
+            case Constants.MORNING:
+                timeSlot = context.getString(R.string.slot_one);
+                break;
+            case Constants.NOON:
+                timeSlot = context.getString(R.string.slot_two);
+                break;
+            case Constants.EVENING:
+                timeSlot = context.getString(R.string.slot_three);
+                break;
+            case Constants.NIGHT:
+                timeSlot = context.getString(R.string.slot_four);
+                break;
+        }
+        /*Removing Time Slot from (eventManagement->eventDate->eventTimeSlot) in firebase*/
+        DatabaseReference eventTimeSlotReference = Constants.EVENT_MANAGEMENT_TIME_SLOT_REFERENCE
+                .child(date)
+                .child(timeSlot);
+        eventTimeSlotReference.removeValue();
     }
 
     class ApproveEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
