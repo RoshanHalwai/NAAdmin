@@ -161,6 +161,9 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
 
             /*Setting onClickListener for view*/
             buttonApproveUser.setOnClickListener(this);
+            textCall.setOnClickListener(this);
+            textMessage.setOnClickListener(this);
+            textEmail.setOnClickListener(this);
         }
 
         /* ------------------------------------------------------------- *
@@ -170,10 +173,25 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
-            approveUsers(position);
-            baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
-                    mCtx.getString(R.string.approve_user_message),
-                    null);
+            NAUser naUser = usersList.get(position);
+            String userMobileNumber = naUser.getPersonalDetails().getPhoneNumber();
+            switch (v.getId()) {
+                case R.id.textCall:
+                    baseActivity.makePhoneCall(userMobileNumber);
+                    break;
+                case R.id.textMessage:
+                    baseActivity.sendTextMessage(userMobileNumber);
+                    break;
+                case R.id.textEmail:
+                    baseActivity.sendEmail(naUser.getPersonalDetails().getEmail());
+                    break;
+                case R.id.buttonApproveUser:
+                    approveUsers(position);
+                    baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
+                            mCtx.getString(R.string.approve_user_message),
+                            null);
+                    break;
+            }
 
         }
     }
