@@ -21,7 +21,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_USERS_
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_NOT_APPROVED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_PENDING;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE_REFERENCE;
@@ -159,8 +159,8 @@ public class RetrievingNotificationData {
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
                         count++;
-                        int verified = NAUser.getPrivileges().getVerified();
-                        if (verified==FIREBASE_CHILD_VERIFIED_NOT_APPROVED) {
+                        int verified = NAUser.getPrivileges().getUserVerifiedStatus();
+                        if (verified == FIREBASE_CHILD_VERIFIED_PENDING) {
                             UnapprovedUsersDataList.add(index++, NAUser);
                         }
                         if (count == userUIDList.size()) {
@@ -187,8 +187,8 @@ public class RetrievingNotificationData {
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
                         count++;
-                        int verified = NAUser.getPrivileges().getVerified();
-                        if (verified==FIREBASE_CHILD_VERIFIED_APPROVED) {
+                        int verified = NAUser.getPrivileges().getUserVerifiedStatus();
+                        if (verified == FIREBASE_CHILD_VERIFIED_APPROVED) {
                             approvedUsersDataList.add(index++, NAUser);
                         }
                         if (count == userUIDList.size()) {

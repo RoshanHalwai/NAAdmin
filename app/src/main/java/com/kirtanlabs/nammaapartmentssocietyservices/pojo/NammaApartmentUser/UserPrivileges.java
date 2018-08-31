@@ -36,7 +36,7 @@ public class UserPrivileges {
         return grantedAccess;
     }
 
-    public int getVerified() {
+    public int getUserVerifiedStatus() {
         return verified;
     }
 }

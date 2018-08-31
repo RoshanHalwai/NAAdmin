@@ -102,7 +102,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
      * ------------------------------------------------------------- */
 
     /**
-     * This method is invoked to Approve the Users, by changing its verified value to 'true'
+     * This method is invoked to Approve the Users, by changing its verified value to '1'
      * and Update Approved Users and Unapproved Users Tab's List.
      *
      * @param position of card view
@@ -132,7 +132,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
     }
 
     /**
-     * This method is invoked to Decline the Users, by changing its verified value to 'declined'
+     * This method is invoked to Decline the Users, by changing its verified value to '2'
      * and Update Unapproved Users Tab's List.
      *
      * @param position of card view.
@@ -157,7 +157,6 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         usersList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, usersList.size());
-
     }
 
     /* ------------------------------------------------------------- *
@@ -238,7 +237,6 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall.setOnClickListener(this);
             textMessage.setOnClickListener(this);
             textEmail.setOnClickListener(this);
-
         }
 
         /* ------------------------------------------------------------- *
