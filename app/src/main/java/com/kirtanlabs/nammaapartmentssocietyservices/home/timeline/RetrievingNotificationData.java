@@ -159,7 +159,7 @@ public class RetrievingNotificationData {
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
                         count++;
-                        int verified = NAUser.getPrivileges().getUserVerifiedStatus();
+                        int verified = NAUser.getPrivileges().getVerified();
                         if (verified == FIREBASE_CHILD_VERIFIED_PENDING) {
                             UnapprovedUsersDataList.add(index++, NAUser);
                         }
@@ -187,7 +187,7 @@ public class RetrievingNotificationData {
                 for (String userUID : userUIDList) {
                     getUserData(userUID, NAUser -> {
                         count++;
-                        int verified = NAUser.getPrivileges().getUserVerifiedStatus();
+                        int verified = NAUser.getPrivileges().getVerified();
                         if (verified == FIREBASE_CHILD_VERIFIED_APPROVED) {
                             approvedUsersDataList.add(index++, NAUser);
                         }
