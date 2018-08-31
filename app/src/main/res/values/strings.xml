@@ -139,7 +139,6 @@
     <string name="remove">Remove</string>
     <string name="approve">Approve</string>
     <string name="decline">Decline</string>
-    <string name="declined">declined</string>
     <string name="approve_user_title">Approve User Message</string>
     <string name="approve_user_message">User has been Approved.</string>
     <string name="decline_user_title">Decline User Message</string>
