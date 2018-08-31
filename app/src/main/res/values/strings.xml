@@ -30,6 +30,7 @@
     <string name="stay_on_duty">STAY ON DUTY</string>
     <string name="go_off_duty">GO OFF DUTY</string>
     <string name="my_profile">My Profile</string>
+    <string name="unavailable_layout_message">You are currently unavailable. Move the switch towards right to go on duty.</string>
 
     <!--Custom Notification -->
     <string name="accept">Accept</string>

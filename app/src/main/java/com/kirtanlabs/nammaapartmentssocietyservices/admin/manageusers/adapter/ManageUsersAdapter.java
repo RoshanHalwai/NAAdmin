@@ -24,6 +24,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_DECLINED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USER_DATA_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldItalicFont;
@@ -40,6 +42,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
     private BaseActivity baseActivity;
     private int userType;
     private List<NAUser> usersList;
+    private DatabaseReference userReference;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -106,13 +109,13 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
      */
     private void approveUsers(int position) {
         NAUser naUser = usersList.get(position);
-        DatabaseReference userReference = Constants.PRIVATE_USERS_REFERENCE
+        userReference = Constants.PRIVATE_USERS_REFERENCE
                 .child(naUser.getUID())
                 .child(Constants.FIREBASE_CHILD_PRIVILEGES)
                 .child(Constants.FIREBASE_CHILD_VERIFIED);
 
-        /*Setting User's verified value to true*/
-        userReference.setValue(true).addOnSuccessListener(aVoid -> {
+        /*Setting User's verified value to 1 (i.e User has been verified)*/
+        userReference.setValue(FIREBASE_CHILD_VERIFIED_APPROVED).addOnSuccessListener(aVoid -> {
             /*Updating Unapproved Users List*/
             usersList.remove(position);
             notifyItemRemoved(position);
@@ -143,6 +146,13 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                 .child(userFlatDetails.getApartmentName())
                 .child(userFlatDetails.getFlatNumber());
         userDataReference.removeValue();
+
+        userReference = Constants.PRIVATE_USERS_REFERENCE
+                .child(naUser.getUID())
+                .child(Constants.FIREBASE_CHILD_PRIVILEGES)
+                .child(Constants.FIREBASE_CHILD_VERIFIED);
+        /*Setting User's verified value to 2 (i.e User has been declined)*/
+        userReference.setValue(FIREBASE_CHILD_VERIFIED_DECLINED);
 
         usersList.remove(position);
         notifyItemRemoved(position);
@@ -225,6 +235,10 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             /*Setting onClickListener for view*/
             buttonApproveUser.setOnClickListener(this);
             buttonDeclineUser.setOnClickListener(this);
+            textCall.setOnClickListener(this);
+            textMessage.setOnClickListener(this);
+            textEmail.setOnClickListener(this);
+
         }
 
         /* ------------------------------------------------------------- *
@@ -234,7 +248,18 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
+            NAUser naUser = usersList.get(position);
+            String userMobileNumber = naUser.getPersonalDetails().getPhoneNumber();
             switch (v.getId()) {
+                case R.id.textCall:
+                    baseActivity.makePhoneCall(userMobileNumber);
+                    break;
+                case R.id.textMessage:
+                    baseActivity.sendTextMessage(userMobileNumber);
+                    break;
+                case R.id.textEmail:
+                    baseActivity.sendEmail(naUser.getPersonalDetails().getEmail());
+                    break;
                 case R.id.buttonApproveUser:
                     approveUsers(position);
                     baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
