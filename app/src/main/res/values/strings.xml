@@ -138,8 +138,11 @@
     <string name="e_mail">E-Mail</string>
     <string name="remove">Remove</string>
     <string name="approve">Approve</string>
+    <string name="decline">Decline</string>
     <string name="approve_user_title">Approve User Message</string>
     <string name="approve_user_message">User has been Approved.</string>
+    <string name="decline_user_title">Decline User Message</string>
+    <string name="decline_user_message">User has been Declined.</string>
     <string name="unapproved_users_unavailable">Currently there are no Unapproved Users in your society</string>
 
     <!--Add Notice Activity-->

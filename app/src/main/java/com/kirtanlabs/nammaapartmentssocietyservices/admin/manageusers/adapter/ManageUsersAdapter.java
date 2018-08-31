@@ -18,11 +18,15 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments.ApprovedUsersFragment;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.UserFlatDetails;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_DECLINED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USER_DATA_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldItalicFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
@@ -38,6 +42,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
     private BaseActivity baseActivity;
     private int userType;
     private List<NAUser> usersList;
+    private DatabaseReference userReference;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -79,7 +84,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                 holder.layoutIcons.setVisibility(View.VISIBLE);
                 break;
             case R.string.unapproved_users:
-                holder.buttonApproveUser.setVisibility(View.VISIBLE);
+                holder.layoutButtons.setVisibility(View.VISIBLE);
                 break;
             case R.string.removed_users:
                 holder.line.setVisibility(View.GONE);
@@ -90,6 +95,68 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
     @Override
     public int getItemCount() {
         return usersList.size();
+    }
+
+    /* ------------------------------------------------------------- *
+     * Private Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked to Approve the Users, by changing its verified value to '1'
+     * and Update Approved Users and Unapproved Users Tab's List.
+     *
+     * @param position of card view
+     */
+    private void approveUsers(int position) {
+        NAUser naUser = usersList.get(position);
+        userReference = Constants.PRIVATE_USERS_REFERENCE
+                .child(naUser.getUID())
+                .child(Constants.FIREBASE_CHILD_PRIVILEGES)
+                .child(Constants.FIREBASE_CHILD_VERIFIED);
+
+        /*Setting User's verified value to 1 (i.e User has been verified)*/
+        userReference.setValue(FIREBASE_CHILD_VERIFIED_APPROVED).addOnSuccessListener(aVoid -> {
+            /*Updating Unapproved Users List*/
+            usersList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, usersList.size());
+
+            /*Getting Tag of Approved Users Fragment*/
+            String approvedUsersFragmentTag = ((ManageUsers) mCtx).getApprovedUsersFragmentTag();
+            ApprovedUsersFragment approvedUsersFragment = (ApprovedUsersFragment) ((ManageUsers) mCtx).getSupportFragmentManager()
+                    .findFragmentByTag(approvedUsersFragmentTag);
+
+            /*Updating Approved Users List*/
+            approvedUsersFragment.retrieveApprovedUserDetails();
+        });
+    }
+
+    /**
+     * This method is invoked to Decline the Users, by changing its verified value to '2'
+     * and Update Unapproved Users Tab's List.
+     *
+     * @param position of card view.
+     */
+    private void declineUsers(int position) {
+        NAUser naUser = usersList.get(position);
+        UserFlatDetails userFlatDetails = naUser.getFlatDetails();
+        DatabaseReference userDataReference = PRIVATE_USER_DATA_REFERENCE
+                .child(userFlatDetails.getCity())
+                .child(userFlatDetails.getSocietyName())
+                .child(userFlatDetails.getApartmentName())
+                .child(userFlatDetails.getFlatNumber());
+        userDataReference.removeValue();
+
+        userReference = Constants.PRIVATE_USERS_REFERENCE
+                .child(naUser.getUID())
+                .child(Constants.FIREBASE_CHILD_PRIVILEGES)
+                .child(Constants.FIREBASE_CHILD_VERIFIED);
+        /*Setting User's verified value to 2 (i.e User has been declined)*/
+        userReference.setValue(FIREBASE_CHILD_VERIFIED_DECLINED);
+
+        usersList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, usersList.size());
     }
 
     /* ------------------------------------------------------------- *
@@ -116,8 +183,10 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         private TextView textEmail;
         private TextView textRemove;
         private LinearLayout layoutIcons;
+        private LinearLayout layoutButtons;
         private View line;
         private Button buttonApproveUser;
+        private Button buttonDeclineUser;
 
         /* ------------------------------------------------------------- *
          * Constructor
@@ -141,8 +210,10 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textEmail = itemView.findViewById(R.id.textEmail);
             textRemove = itemView.findViewById(R.id.textRemove);
             layoutIcons = itemView.findViewById(R.id.layoutIcons);
+            layoutButtons = itemView.findViewById(R.id.layoutButtons);
             line = itemView.findViewById(R.id.line);
             buttonApproveUser = itemView.findViewById(R.id.buttonApproveUser);
+            buttonDeclineUser = itemView.findViewById(R.id.buttonDeclineUser);
 
             /*Setting fonts to the views*/
             textUserName.setTypeface(setLatoRegularFont(mCtx));
@@ -158,9 +229,11 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textEmail.setTypeface(setLatoBoldItalicFont(mCtx));
             textRemove.setTypeface(setLatoBoldItalicFont(mCtx));
             buttonApproveUser.setTypeface(setLatoLightFont(mCtx));
+            buttonDeclineUser.setTypeface(setLatoLightFont(mCtx));
 
             /*Setting onClickListener for view*/
             buttonApproveUser.setOnClickListener(this);
+            buttonDeclineUser.setOnClickListener(this);
             textCall.setOnClickListener(this);
             textMessage.setOnClickListener(this);
             textEmail.setOnClickListener(this);
@@ -191,42 +264,14 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                             mCtx.getString(R.string.approve_user_message),
                             null);
                     break;
+                case R.id.buttonDeclineUser:
+                    declineUsers(position);
+                    baseActivity.showNotificationDialog(mCtx.getString(R.string.decline_user_title),
+                            mCtx.getString(R.string.decline_user_message),
+                            null);
+                    break;
             }
-
         }
     }
 
-    /* ------------------------------------------------------------- *
-     * Private Methods
-     * ------------------------------------------------------------- */
-
-    /**
-     * This method is invoked to Approve the Users, by changing its verified value to 'true'
-     * and Update Approved Users and Unapproved Users Tab's List.
-     *
-     * @param position of card view
-     */
-    private void approveUsers(int position) {
-        NAUser naUser = usersList.get(position);
-        DatabaseReference userReference = Constants.PRIVATE_USERS_REFERENCE
-                .child(naUser.getUID())
-                .child(Constants.FIREBASE_CHILD_PRIVILEGES)
-                .child(Constants.FIREBASE_CHILD_VERIFIED);
-
-        /*Setting User's verified value to true*/
-        userReference.setValue(true).addOnSuccessListener(aVoid -> {
-            /*Updating Unapproved Users List*/
-            usersList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, usersList.size());
-
-            /*Getting Tag of Approved Users Fragment*/
-            String approvedUsersFragmentTag = ((ManageUsers) mCtx).getApprovedUsersFragmentTag();
-            ApprovedUsersFragment approvedUsersFragment = (ApprovedUsersFragment) ((ManageUsers) mCtx).getSupportFragmentManager()
-                    .findFragmentByTag(approvedUsersFragmentTag);
-
-            /*Updating Approved Users List*/
-            approvedUsersFragment.retrieveApprovedUserDetails();
-        });
-    }
 }
