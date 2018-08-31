@@ -51,6 +51,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     private Switch switchAvailability;
     private String futureFragmentTag;
     private String servingFragmentTag;
+    private Boolean loggedInFirstTime;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -73,7 +74,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
         /* At this point We came to know that user has Successfully Logged In */
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.NAMMA_APARTMENTS_SOCIETY_SERVICES_PREFERENCE, MODE_PRIVATE);
         Boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false);
-        Boolean loggedInFirstTime = sharedPreferences.getBoolean(FIRST_TIME, true);
+        loggedInFirstTime = sharedPreferences.getBoolean(FIRST_TIME, true);
 
         String societyServiceUID;
         /*If Society Service is Logged In then take Society Service Uid from Shared Preference*/
@@ -209,7 +210,9 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
             switchAvailability.setChecked(true);
 
             /*Hiding The UnAvailable Layout if society service switches back to Available*/
-            servingFragment.hideUnAvailableLayout();
+            if (!loggedInFirstTime) {
+                servingFragment.hideUnAvailableLayout();
+            }
 
             /*Getting the reference of Society Service Mobile Number and placing the data back in 'available' in Firebase,
              * once the Society Service is available. At the same time, the corresponding mobile number and its data is removed from 'unavailable'*/
