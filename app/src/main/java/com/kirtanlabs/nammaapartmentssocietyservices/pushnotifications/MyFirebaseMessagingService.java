@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.RingtoneManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -144,6 +146,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             remoteViews.setOnClickPendingIntent(R.id.buttonReject, rejectPendingIntent);
 
             Objects.requireNonNull(notificationManager).notify(mNotificationID, notification);
+
+            Handler h = new Handler(Looper.getMainLooper());
+            long delayInMilliseconds = 15000;
+            h.postDelayed(() -> notificationManager.cancel(mNotificationID), delayInMilliseconds);
         }
     }
 }
