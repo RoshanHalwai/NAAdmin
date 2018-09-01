@@ -33,6 +33,7 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ADMIN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
@@ -220,6 +221,14 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
                 societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_ADMIN).setValue(isAdmin);
                 societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
+
+                /*We want to map Admin Guard with UID to ensure all User Security Notifications are sent only to this Guard
+                * This will ensure we do not iterate over each of the Guard's UID and find the Admin, hence making this
+                * operation time complexity to O(1)*/
+                if(isAdmin) {
+                    SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                            .child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
+                }
 
             }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
         }
