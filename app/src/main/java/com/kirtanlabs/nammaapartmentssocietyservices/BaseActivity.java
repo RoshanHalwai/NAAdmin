@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private ImageView backButton, imageMenu;
+    private ImageView backButton, imageMenu, imageTODOIcon;
     private AVLoadingIndicatorView progressIndicator;
     private Intent callIntent, msgIntent;
     private ProgressDialog progressDialog;
@@ -145,6 +145,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method shows the to do icon.
+     */
+    protected void showTODOIcon() {
+        imageTODOIcon.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method hides the to do icon.
+     */
+    protected void hideTODOIcon() {
+        imageTODOIcon.setVisibility(View.GONE);
+    }
+
     /* ------------------------------------------------------------- *
      * Overriding AppCompatActivity Methods
      * ------------------------------------------------------------- */
@@ -154,6 +168,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
         backButton = findViewById(R.id.backButton);
+        imageTODOIcon = findViewById(R.id.imageTODOIcon);
         setActivityTitle(getActivityTitle());
         setBackButtonListener();
     }

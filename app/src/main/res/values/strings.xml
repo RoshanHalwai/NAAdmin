@@ -3,6 +3,8 @@
 
     <!--Base Activity-->
     <string name="back_button_description">Back button to navigate previous activity</string>
+    <string name="todo_button_description">TODO Button which describes pending lists.</string>
+    <string name="menu_icon_description">Menu Icon which will display menu items</string>
 
     <!--Namma Apartments Society Services Home Activity-->
     <string name="available">AVAILABLE</string>
@@ -120,6 +122,9 @@
     <string name="add_notice">Add Notice</string>
     <string name="help_desk">Help Desk</string>
     <string name="image_society_admin_service_desc">Image Services that Society Admin will do</string>
+    <string name="pending_list_dialog_title">List of all pending tasks</string>
+    <string name="pending_user_list">Unapproved Users</string>
+    <string name="pending_event_list">Unapproved Events</string>
 
     <string-array name="society_admin_services">
         <item>@string/manage_users</item>
@@ -128,6 +133,11 @@
         <item>@string/approve_events</item>
         <item>@string/add_notice</item>
         <item>@string/help_desk</item>
+    </string-array>
+
+    <string-array name="pending_tasks">
+        <item>@string/pending_user_list</item>
+        <item>@string/pending_event_list</item>
     </string-array>
 
     <!--Manage Users Activity-->
