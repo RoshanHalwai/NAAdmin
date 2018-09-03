@@ -87,7 +87,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_PLUMBER = "plumber";
     public static final String FIREBASE_CHILD_CARPENTER = "carpenter";
     public static final String FIREBASE_CHILD_ELECTRICIAN = "electrician";
-    public static final String FIREBASE_CHILD_GUARD = "guard";
+    public static final String FIREBASE_CHILD_GUARDS = "guards";
     public static final String FIREBASE_CHILD_PRIVILEGES = "privileges";
     public static final String FIREBASE_CHILD_VERIFIED = "verified";
     public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
@@ -124,7 +124,7 @@ public class Constants {
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference PRIVATE_USER_DATA_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USER_DATA).child(FIREBASE_CHILD_PRIVATE);
-    private static final DatabaseReference GUARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_GUARD);
+    private static final DatabaseReference GUARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_GUARDS);
     public static final DatabaseReference ALL_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
 

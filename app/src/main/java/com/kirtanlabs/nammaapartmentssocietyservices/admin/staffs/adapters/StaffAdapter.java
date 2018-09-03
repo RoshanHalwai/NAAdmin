@@ -18,7 +18,7 @@ import java.util.List;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_CARPENTER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ELECTRICIAN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GUARD;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GUARDS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PLUMBER;
 
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
@@ -70,7 +70,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             case FIREBASE_CHILD_GARBAGE_MANAGEMENT:
                 holder.staffProfilePic.setImageResource(R.drawable.garbage_bag);
                 break;
-            case FIREBASE_CHILD_GUARD:
+            case FIREBASE_CHILD_GUARDS:
                 holder.staffProfilePic.setImageResource(R.drawable.security_guard);
                 break;
         }
