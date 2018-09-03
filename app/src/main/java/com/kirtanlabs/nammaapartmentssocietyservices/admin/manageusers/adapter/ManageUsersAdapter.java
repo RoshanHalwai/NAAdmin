@@ -3,6 +3,7 @@ package com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,9 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.fragments
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.UserFlatDetails;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -78,6 +81,13 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         holder.textUserApartmentNameValue.setText(naUser.getFlatDetails().getApartmentName());
         holder.textUserFlatNumberValue.setText(naUser.getFlatDetails().getFlatNumber());
         holder.textUserMobileNumberValue.setText(naUser.getPersonalDetails().getPhoneNumber());
+        long timestamp = naUser.getTimestamp();
+
+        /*Decoding Time Stamp to Date*/
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(timestamp);
+        String date = DateFormat.format("MMM dd, yyyy", calendar).toString();
+        holder.textUserCreatedDateValue.setText(date);
 
         switch (userType) {
             case R.string.approved_users:
@@ -174,10 +184,12 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         private TextView textUserApartmentName;
         private TextView textTextUserFlatNumber;
         private TextView textUserMobileNumber;
+        private TextView textUserCreatedDate;
         private TextView textUserNameValue;
         private TextView textUserApartmentNameValue;
         private TextView textUserFlatNumberValue;
         private TextView textUserMobileNumberValue;
+        private TextView textUserCreatedDateValue;
         private TextView textCall;
         private TextView textMessage;
         private TextView textEmail;
@@ -201,10 +213,12 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textUserApartmentName = itemView.findViewById(R.id.textUserApartmentName);
             textTextUserFlatNumber = itemView.findViewById(R.id.textTextUserFlatNumber);
             textUserMobileNumber = itemView.findViewById(R.id.textUserMobileNumber);
+            textUserCreatedDate = itemView.findViewById(R.id.textUserCreatedDate);
             textUserNameValue = itemView.findViewById(R.id.textUserNameValue);
             textUserApartmentNameValue = itemView.findViewById(R.id.textUserApartmentNameValue);
             textUserFlatNumberValue = itemView.findViewById(R.id.textUserFlatNumberValue);
             textUserMobileNumberValue = itemView.findViewById(R.id.textUserMobileNumberValue);
+            textUserCreatedDateValue = itemView.findViewById(R.id.textUserCreatedDateValue);
             textCall = itemView.findViewById(R.id.textCall);
             textMessage = itemView.findViewById(R.id.textMessage);
             textEmail = itemView.findViewById(R.id.textEmail);
@@ -220,10 +234,12 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textUserApartmentName.setTypeface(setLatoRegularFont(mCtx));
             textTextUserFlatNumber.setTypeface(setLatoRegularFont(mCtx));
             textUserMobileNumber.setTypeface(setLatoRegularFont(mCtx));
+            textUserCreatedDate.setTypeface(setLatoRegularFont(mCtx));
             textUserNameValue.setTypeface(setLatoBoldFont(mCtx));
             textUserApartmentNameValue.setTypeface(setLatoBoldFont(mCtx));
             textUserFlatNumberValue.setTypeface(setLatoBoldFont(mCtx));
             textUserMobileNumberValue.setTypeface(setLatoBoldFont(mCtx));
+            textUserCreatedDateValue.setTypeface(setLatoBoldFont(mCtx));
             textCall.setTypeface(setLatoBoldItalicFont(mCtx));
             textMessage.setTypeface(setLatoBoldItalicFont(mCtx));
             textEmail.setTypeface(setLatoBoldItalicFont(mCtx));

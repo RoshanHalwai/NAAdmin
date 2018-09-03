@@ -97,6 +97,8 @@ public class Constants {
     public static final int FIREBASE_CHILD_VERIFIED_APPROVED = 1;
     public static final int FIREBASE_CHILD_VERIFIED_DECLINED = 2;
     private static final String FIREBASE_CHILD_USER_DATA = "userData";
+    public static final String FIREBASE_CHILD_OTHER_DETAILS = "otherDetails";
+    public static final String FIREBASE_CHILD_TIMESTAMP = "timestamp";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

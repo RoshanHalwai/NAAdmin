@@ -44,6 +44,17 @@
         android:track="@drawable/circular_switch_track"
         android:visibility="gone" />
 
+
+    <ImageView
+        android:id="@+id/imageTODOIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/todolist"
+        android:contentDescription="@string/todo_button_description"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/imageMenu"
         android:layout_width="wrap_content"
@@ -51,6 +62,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/ic_menu"
+        android:contentDescription="@string/menu_icon_description"
         android:visibility="gone" />
 
 </LinearLayout>
