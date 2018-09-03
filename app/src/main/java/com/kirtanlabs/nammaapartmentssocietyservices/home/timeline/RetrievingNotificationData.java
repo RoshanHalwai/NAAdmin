@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
@@ -355,7 +356,10 @@ public class RetrievingNotificationData {
         usersPrivateReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userDataCallback.onCallBack(dataSnapshot.getValue(NAUser.class));
+                NAUser naUser = dataSnapshot.getValue(NAUser.class);
+                long timestamp = dataSnapshot.child(Constants.FIREBASE_CHILD_OTHER_DETAILS).child(Constants.FIREBASE_CHILD_TIMESTAMP).getValue(Long.class);
+                naUser.setTimestamp(timestamp);
+                userDataCallback.onCallBack(naUser);
             }
 
             @Override
