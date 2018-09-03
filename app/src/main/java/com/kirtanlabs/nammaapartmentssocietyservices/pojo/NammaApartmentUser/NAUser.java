@@ -12,6 +12,7 @@ public class NAUser implements Serializable {
     private UserPersonalDetails personalDetails;
     private UserPrivileges privileges;
     private String uid;
+    private long timestamp;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -45,6 +46,18 @@ public class NAUser implements Serializable {
 
     public String getUID() {
         return uid;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    /* ------------------------------------------------------------- *
+     * Setters
+     * ------------------------------------------------------------- */
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 }

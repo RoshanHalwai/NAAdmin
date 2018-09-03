@@ -135,6 +135,7 @@
     <string name="unapproved_users">UNAPPROVED</string>
     <string name="removed_users">REMOVED</string>
     <string name="mobile">Mobile:</string>
+    <string name="created_on">Created on:</string>
     <string name="call">Call</string>
     <string name="message">Message</string>
     <string name="e_mail">E-Mail</string>
