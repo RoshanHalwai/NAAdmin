@@ -124,6 +124,9 @@ public class Constants {
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference PRIVATE_USER_DATA_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USER_DATA).child(FIREBASE_CHILD_PRIVATE);
+    private static final DatabaseReference GUARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_GUARD);
+    public static final DatabaseReference ALL_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_ALL);
+    public static final DatabaseReference PRIVATE_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values

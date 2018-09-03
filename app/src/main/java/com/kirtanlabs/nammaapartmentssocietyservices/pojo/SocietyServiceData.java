@@ -24,11 +24,10 @@ public class SocietyServiceData {
 
     }
 
-    public SocietyServiceData(String fullName, String mobileNumber, String uid, Integer serviceCount) {
+    public SocietyServiceData(String fullName, String mobileNumber, String uid) {
         this.fullName = fullName;
         this.mobileNumber = mobileNumber;
         this.uid = uid;
-        this.serviceCount = serviceCount;
     }
 
     /* ------------------------------------------------------------- *
@@ -61,5 +60,9 @@ public class SocietyServiceData {
 
     public void setSocietyServiceType(String societyServiceType) {
         this.societyServiceType = societyServiceType;
+    }
+
+    public void setServiceCount(Integer serviceCount) {
+        this.serviceCount = serviceCount;
     }
 }

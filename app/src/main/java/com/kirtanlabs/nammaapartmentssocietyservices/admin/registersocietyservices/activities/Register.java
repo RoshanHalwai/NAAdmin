@@ -191,23 +191,23 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 getString(R.string.adding_society_service_data),
                 getString(R.string.please_wait_a_moment));
 
-        /*Getting the reference of 'Data' child under 'societyServices'*/
-        DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
-                .child(FIREBASE_CHILD_DATA);
-
-        /*Generating the societyServiceUID and creating a reference for it*/
+        /*Generating the societyServiceUID */
         String societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
 
         /*Getting the data of the Society Service entered by Admin*/
         String fullName = editFullName.getText().toString();
         String mobileNumber = editMobileNumber.getText().toString();
 
-        /*Storing the Society Service personal details under societyServices->societyServiceType->private->unavailable->societyServiceUID*/
+        /*Storing the Society Service personal details */
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
-                mobileNumber, societyServiceUID, 0);
+                mobileNumber, societyServiceUID);
 
         if (registrationOf.equals(getString(R.string.guard))) {
+            /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
+            DatabaseReference securityGuardDetailsReference = Constants.PRIVATE_GUARD_REFERENCE
+                    .child(Constants.FIREBASE_CHILD_DATA)
+                    .child(societyServiceUID);
+
             /*Getting the storage reference*/
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType)
                     .child(Constants.FIREBASE_CHILD_PRIVATE)
@@ -218,35 +218,55 @@ public class Register extends BaseActivity implements View.OnClickListener {
             /*Adding the profile photo to storage reference and Guard Data to real time database */
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 /*creating the upload object to store uploaded image details and guard data*/
-                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
-                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_ADMIN).setValue(isAdmin);
-                societyServiceDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
+                securityGuardDetailsReference.child(Constants.FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+                securityGuardDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
 
                 /*We want to map Admin Guard with UID to ensure all User Security Notifications are sent only to this Guard
-                * This will ensure we do not iterate over each of the Guard's UID and find the Admin, hence making this
-                * operation time complexity to O(1)*/
-                if(isAdmin) {
-                    SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
-                            .child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
+                 * This will ensure we do not iterate over each of the Guard's UID and find the Admin, hence making this
+                 * operation time complexity to O(1)*/
+                if (isAdmin) {
+                    Constants.PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
                 }
 
             }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
+
+            /*Mapping Security Guard mobile number with security guard UID under guard->all*/
+            DatabaseReference securityGuardAllReference = Constants.ALL_GUARD_REFERENCE.child(mobileNumber);
+            securityGuardAllReference.setValue(societyServiceUID);
+
+            /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
+            securityGuardDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
+                hideProgressDialog();
+                showNotificationDialog(getString(R.string.security_guard_added_title),
+                        getString(R.string.security_guard_added_message),
+                        null);
+            });
+
+        } else {
+            /*Getting the reference of 'Data' child under 'societyServices'*/
+            DatabaseReference societyServicesReference = SOCIETY_SERVICES_REFERENCE.child(serviceType).child(FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_DATA);
+            DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
+
+            /*Mapping societyServiceUID with societyServiceType*/
+            DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
+            societyTypeReference.child(serviceType).setValue(true);
+
+            /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
+            DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
+            societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
+
+            /*Setting Society Service Service Count to its Default value at the time of registration */
+            societyServiceData.setServiceCount(0);
+
+            /*Storing the Society Service personal details under societyServices->societyServiceType->private->unavailable->societyServiceUID*/
+            societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
+                hideProgressDialog();
+                showNotificationDialog(getString(R.string.society_service_added_title),
+                        getString(R.string.society_service_added_message),
+                        null);
+            });
         }
-
-        /*Mapping UID with societyServiceType*/
-        DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
-        societyTypeReference.child(serviceType).setValue(true);
-
-        /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
-        DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
-        societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
-
-        societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
-            hideProgressDialog();
-            showNotificationDialog(getString(R.string.society_service_added_title),
-                    getString(R.string.society_service_added_message),
-                    null);
-        });
     }
 
     /**
