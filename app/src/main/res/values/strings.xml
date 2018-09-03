@@ -68,6 +68,8 @@
     <string name="please_wait_a_moment">Please wait a moment</string>
     <string name="society_service_added_title">Society Service Added</string>
     <string name="society_service_added_message">Society Service Registration is completed.</string>
+    <string name="security_guard_added_title">Security Guard Added</string>
+    <string name="security_guard_added_message">Security Guard Registration is completed.</string>
     <string name="register_type_description">Image of Register Type</string>
     <string name="admin">Admin:</string>
     <string name="yes">Yes</string>
