@@ -1,11 +1,14 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -17,9 +20,17 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activit
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
 
-public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItemClickListener {
+public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+
+    /* ------------------------------------------------------------- *
+     * Private Members
+     * ------------------------------------------------------------- */
+
+    private AlertDialog pendingListDialog;
+    private ImageView imageTODOIcon;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Methods
@@ -49,8 +60,12 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
         /*We want to display menu icon in Title bar, so that user can perform various actions from list*/
         showMenuIcon(Constants.FIREBASE_CHILD_ADMIN);
 
+        /*We want to display a to do list icon in Title bar, so that admin can go through the pending tasks*/
+        showTODOIcon();
+
         /*Getting Id's for all the views*/
         GridView gridSocietyAdminHome = findViewById(R.id.gridSocietyAdminHome);
+        imageTODOIcon = findViewById(R.id.imageTODOIcon);
 
         /*Setting the adapter to grid view*/
         gridSocietyAdminHome.setAdapter(getAdapter());
@@ -60,8 +75,20 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
 
         /*Setting onItemClickListener for view*/
         gridSocietyAdminHome.setOnItemClickListener(this);
+        imageTODOIcon.setOnClickListener(this);
+
+        // createPendingListDialog();
     }
 
+    /* ------------------------------------------------------------- *
+     * Overriding On Click Method
+     * ------------------------------------------------------------- */
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.imageTODOIcon) {
+            createMenuIconListener();
+        }
+    }
     /* ------------------------------------------------------------- *
      * Overriding On Item Click Method
      * ------------------------------------------------------------- */
@@ -74,12 +101,12 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
                 break;
             case 1:
                 Intent intentRegisterSocietyService = new Intent(SocietyAdminHome.this, RegistrationCategories.class);
-                intentRegisterSocietyService.putExtra(Constants.SCREEN_TITLE, R.string.register_society_service);
+                intentRegisterSocietyService.putExtra(SCREEN_TITLE, R.string.register_society_service);
                 startActivity(intentRegisterSocietyService);
                 break;
             case 2:
                 Intent intentStaff = new Intent(SocietyAdminHome.this, RegistrationCategories.class);
-                intentStaff.putExtra(Constants.SCREEN_TITLE, R.string.staff);
+                intentStaff.putExtra(SCREEN_TITLE, R.string.staff);
                 startActivity(intentStaff);
                 break;
             case 3:
@@ -146,4 +173,48 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
         adminTokenIdReference.setValue(getRefreshedToken());
     }
 
+    /**
+     * This method invokes to create a dialog with a list of pending tasks.
+     */
+    private void createPendingListDialog() {
+        /*Custom DialogBox with list of all pending tasks*/
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String[] pendingTasks = getResources().getStringArray(R.array.pending_tasks);
+        builder.setTitle(R.string.pending_list_dialog_title);
+        builder.setItems(pendingTasks, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
+                    break;
+                case 1:
+                    startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));
+                    break;
+            }
+        });
+        pendingListDialog = builder.create();
+    }
+
+    private void createMenuIconListener() {
+        PopupMenu popupMenu = new PopupMenu(this, imageTODOIcon);
+        popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+
+        popupMenu.getMenu().findItem(R.id.myProfile).setVisible(false);
+        popupMenu.getMenu().findItem(R.id.history).setVisible(false);
+        popupMenu.getMenu().findItem(R.id.logout).setVisible(false);
+        popupMenu.getMenu().findItem(R.id.unApprovedUsers).setVisible(true);
+        popupMenu.getMenu().findItem(R.id.unApprovedEvents).setVisible(true);
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.unApprovedUsers:
+                    startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
+                    break;
+                case R.id.unApprovedEvents:
+                    startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));
+                    break;
+            }
+            return super.onOptionsItemSelected(item);
+        });
+        popupMenu.show();
+    }
 }

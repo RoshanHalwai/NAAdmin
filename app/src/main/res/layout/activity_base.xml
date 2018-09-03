@@ -44,6 +44,16 @@
         android:track="@drawable/circular_switch_track"
         android:visibility="gone" />
 
+
+    <ImageView
+        android:id="@+id/imageTODOIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/todolist"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/imageMenu"
         android:layout_width="wrap_content"
