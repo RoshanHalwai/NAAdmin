@@ -1,6 +1,5 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
      * Private Members
      * ------------------------------------------------------------- */
 
-    private AlertDialog pendingListDialog;
     private ImageView imageTODOIcon;
 
     /* ------------------------------------------------------------- *
@@ -77,7 +75,6 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
         gridSocietyAdminHome.setOnItemClickListener(this);
         imageTODOIcon.setOnClickListener(this);
 
-        // createPendingListDialog();
     }
 
     /* ------------------------------------------------------------- *
@@ -174,33 +171,18 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
     }
 
     /**
-     * This method invokes to create a dialog with a list of pending tasks.
+     * This method creates a menu with list of pending tasks.
      */
-    private void createPendingListDialog() {
-        /*Custom DialogBox with list of all pending tasks*/
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        String[] pendingTasks = getResources().getStringArray(R.array.pending_tasks);
-        builder.setTitle(R.string.pending_list_dialog_title);
-        builder.setItems(pendingTasks, (dialog, which) -> {
-            switch (which) {
-                case 0:
-                    startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
-                    break;
-                case 1:
-                    startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));
-                    break;
-            }
-        });
-        pendingListDialog = builder.create();
-    }
-
     private void createMenuIconListener() {
         PopupMenu popupMenu = new PopupMenu(this, imageTODOIcon);
         popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
 
+        /*Hiding the unwanted icons in the menu*/
         popupMenu.getMenu().findItem(R.id.myProfile).setVisible(false);
         popupMenu.getMenu().findItem(R.id.history).setVisible(false);
         popupMenu.getMenu().findItem(R.id.logout).setVisible(false);
+
+        /*Displaying Appropriate Icons*/
         popupMenu.getMenu().findItem(R.id.unApprovedUsers).setVisible(true);
         popupMenu.getMenu().findItem(R.id.unApprovedEvents).setVisible(true);
 

@@ -3,6 +3,8 @@
 
     <!--Base Activity-->
     <string name="back_button_description">Back button to navigate previous activity</string>
+    <string name="todo_button_description">TODO Button which describes pending lists.</string>
+    <string name="menu_icon_description">Menu Icon which will display menu items</string>
 
     <!--Namma Apartments Society Services Home Activity-->
     <string name="available">AVAILABLE</string>

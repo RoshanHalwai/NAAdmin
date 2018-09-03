@@ -145,10 +145,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method shows the to do icon.
+     */
     protected void showTODOIcon() {
         imageTODOIcon.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * This method hides the to do icon.
+     */
     protected void hideTODOIcon() {
         imageTODOIcon.setVisibility(View.GONE);
     }
