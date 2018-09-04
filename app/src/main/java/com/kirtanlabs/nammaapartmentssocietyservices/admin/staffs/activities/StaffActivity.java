@@ -28,6 +28,7 @@ public class StaffActivity extends BaseActivity {
     private List<SocietyServiceData> staffDataList;
     private String staffType;
     private int screenTitle;
+    private int count = 0;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -80,8 +81,13 @@ public class StaffActivity extends BaseActivity {
 
         showProgressIndicator();
 
-        /*To Retrieve Staff Detail from firebase*/
-        retrieveStaffDataFromFirebase();
+        if (screenTitle == R.string.guards) {
+            /*To Retrieve Security Guards Details from firebase*/
+            retrieveSecurityGuardsDataFromFirebase();
+        } else {
+            /*To Retrieve Staff Details from firebase*/
+            retrieveStaffDataFromFirebase();
+        }
     }
 
     /* ------------------------------------------------------------- *
@@ -93,7 +99,7 @@ public class StaffActivity extends BaseActivity {
      */
     private void retrieveStaffDataFromFirebase() {
         String societyServiceType = staffType.toLowerCase();
-        if (staffType.equals(getString(R.string.garbage_management))) {
+        if (screenTitle == R.string.garbageCollectors) {
             societyServiceType = Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
         }
 
@@ -107,13 +113,59 @@ public class StaffActivity extends BaseActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot staffUIDSnapshot : dataSnapshot.getChildren()) {
+                        count++;
                         String staffUID = staffUIDSnapshot.getKey();
                         new RetrievingNotificationData(StaffActivity.this, staffUID)
                                 .getSocietyServiceData(societyServiceData -> {
                                     hideProgressIndicator();
                                     staffDataList.add(societyServiceData);
-                                    staffAdapter.notifyDataSetChanged();
+                                    if (count == dataSnapshot.getChildrenCount()) {
+                                        staffAdapter.notifyDataSetChanged();
+                                    }
                                 });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * This method is invoked to get Security Guard Details from (guards->private->data->guardUID) in firebase.
+     */
+    private void retrieveSecurityGuardsDataFromFirebase() {
+        DatabaseReference guardsDetailsReference = Constants.GUARDS_DATA_REFERENCE;
+        /*Retrieving Guards UID from (guards->private->data)*/
+        guardsDetailsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot guardsUIDSnapshot) {
+                if (guardsUIDSnapshot.exists()) {
+                    hideProgressIndicator();
+                    for (DataSnapshot dataSnapshot : guardsUIDSnapshot.getChildren()) {
+                        String guardUID = dataSnapshot.getKey();
+                        /*Getting Security Guard Data and Put then in a List*/
+                        guardsDetailsReference.child(guardUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                count++;
+                                SocietyServiceData societyServiceData = dataSnapshot.getValue(SocietyServiceData.class);
+                                societyServiceData.setSocietyServiceType(Constants.FIREBASE_CHILD_GUARDS);
+                                staffDataList.add(societyServiceData);
+                                if (count == guardsUIDSnapshot.getChildrenCount()) {
+                                    staffAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
                 }
             }

@@ -129,6 +129,7 @@ public class Constants {
     private static final DatabaseReference GUARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_GUARDS);
     public static final DatabaseReference ALL_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
+    public static final DatabaseReference GUARDS_DATA_REFERENCE = PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_DATA);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values
