@@ -39,8 +39,7 @@ public class MyProfile extends BaseActivity {
     private TextView textMonthlyAcceptedCount, textMonthlyRejectedCount, textMonthlyTotalCount;
     private TextView textSocietyServiceRatingValue;
     private CircleImageView imageSocietyService;
-    private int totalAcceptedCount, totalRejectedCount, totalCount,
-            monthlyAcceptedCount, monthlyRejectedCount, monthlyTotalCount;
+    int totalAcceptedCount, totalRejectedCount, monthlyAcceptedCount, monthlyRejectedCount, monthlyTotalCount;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -153,7 +152,7 @@ public class MyProfile extends BaseActivity {
         /*Getting No. of Accepted, Rejected and Total request for monthly and till date for particular society service*/
         retrievingNotificationData.getHistoryNotificationDataList(historyNotificationDataList -> {
             /*Getting Total no. of request came till date to that society service*/
-            totalCount = historyNotificationDataList.size();
+            int totalCount = historyNotificationDataList.size();
 
             for (SocietyServiceNotification societyServiceNotification : historyNotificationDataList) {
                 String status = societyServiceNotification.getSocietyServiceResponse();
