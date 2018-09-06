@@ -131,7 +131,7 @@ public class MyProfile extends BaseActivity {
             textSocietyServiceName.setText(societyServiceName);
             textSocietyServiceMobileNumber.setText(societyServiceMobile);
             textSocietyServiceType.setText(capitalizeString(societyServiceType));
-            textSocietyServiceRatingValue.setText("" + societyServiceRating);
+            textSocietyServiceRatingValue.setText(String.valueOf(societyServiceRating));
 
             switch (societyServiceType) {
                 case FIREBASE_CHILD_PLUMBER:
@@ -180,13 +180,13 @@ public class MyProfile extends BaseActivity {
                 }
             }
 
-            textMonthlyAcceptedCount.setText("" + monthlyAcceptedCount);
-            textMonthlyRejectedCount.setText("" + monthlyRejectedCount);
-            textMonthlyTotalCount.setText("" + monthlyTotalCount);
+            textMonthlyAcceptedCount.setText(String.valueOf(monthlyAcceptedCount));
+            textMonthlyRejectedCount.setText(String.valueOf(monthlyRejectedCount));
+            textMonthlyTotalCount.setText(String.valueOf(monthlyTotalCount));
 
-            textTotalCount.setText("" + totalCount);
-            textTotalAcceptedCount.setText("" + totalAcceptedCount);
-            textTotalRejectedCount.setText("" + totalRejectedCount);
+            textTotalCount.setText(String.valueOf(totalCount));
+            textTotalAcceptedCount.setText(String.valueOf(totalAcceptedCount));
+            textTotalRejectedCount.setText(String.valueOf(totalRejectedCount));
         });
     }
 }
