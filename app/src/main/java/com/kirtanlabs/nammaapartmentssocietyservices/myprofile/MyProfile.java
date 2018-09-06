@@ -39,7 +39,7 @@ public class MyProfile extends BaseActivity {
     private TextView textMonthlyAcceptedCount, textMonthlyRejectedCount, textMonthlyTotalCount;
     private TextView textSocietyServiceRatingValue;
     private CircleImageView imageSocietyService;
-    int totalAcceptedCount, totalRejectedCount, monthlyAcceptedCount, monthlyRejectedCount, monthlyTotalCount;
+    private int totalAcceptedCount, totalRejectedCount, monthlyAcceptedCount, monthlyRejectedCount, monthlyTotalCount;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
