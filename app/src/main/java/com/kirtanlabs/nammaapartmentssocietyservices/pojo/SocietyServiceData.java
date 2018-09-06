@@ -15,6 +15,7 @@ public class SocietyServiceData {
     private String uid;
     private String societyServiceType;
     private Integer serviceCount;
+    private Integer rating;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -54,6 +55,10 @@ public class SocietyServiceData {
         return serviceCount;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
     /* ------------------------------------------------------------- *
      * Setters
      * ------------------------------------------------------------- */
@@ -64,5 +69,9 @@ public class SocietyServiceData {
 
     public void setServiceCount(Integer serviceCount) {
         this.serviceCount = serviceCount;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }

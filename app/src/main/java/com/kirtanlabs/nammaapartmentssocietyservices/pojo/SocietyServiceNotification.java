@@ -17,7 +17,7 @@ public class SocietyServiceNotification {
     private String societyServiceType;
     private String status;
     private String timeSlot;
-    private long timeStamp;
+    private long timestamp;
     private String userUID;
     private String endOTP;
     private String eventDate;
@@ -35,13 +35,13 @@ public class SocietyServiceNotification {
 
     }
 
-    public SocietyServiceNotification(String notificationUID, String problem, String societyServiceType, String status, String timeSlot, long timeStamp, String userUID, String endOTP) {
+    public SocietyServiceNotification(String notificationUID, String problem, String societyServiceType, String status, String timeSlot, long timestamp, String userUID, String endOTP) {
         this.notificationUID = notificationUID;
         this.problem = problem;
         this.societyServiceType = societyServiceType;
         this.status = status;
         this.timeSlot = timeSlot;
-        this.timeStamp = timeStamp;
+        this.timestamp = timestamp;
         this.userUID = userUID;
         this.endOTP = endOTP;
     }
@@ -71,7 +71,7 @@ public class SocietyServiceNotification {
     }
 
     public long getTimeStamp() {
-        return timeStamp;
+        return timestamp;
     }
 
     public String getUserUID() {

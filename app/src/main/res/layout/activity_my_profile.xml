@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".myprofile.MyProfile">
 
         <include
@@ -89,15 +90,36 @@
                                 android:textColor="@color/nmBlack"
                                 android:textSize="@dimen/text_view_default_size" />
 
-                            <TextView
-                                android:id="@+id/textSocietyServiceRating"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="10dp"
-                                android:text="Rating: 3"
-                                android:textColor="@color/nmBlack"
-                                android:textSize="17sp" />
+                                android:orientation="horizontal"
+                                android:weightSum="1">
+
+                                <TextView
+                                    android:id="@+id/textSocietyServiceRating"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_weight="0.55"
+                                    android:gravity="right"
+                                    android:text="@string/rating"
+                                    android:textColor="@color/nmBlack"
+                                    android:textSize="17sp"
+                                    tools:ignore="RtlHardcoded" />
+
+                                <TextView
+                                    android:id="@+id/textSocietyServiceRatingValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_weight="0.45"
+                                    android:textColor="@color/nmBlack"
+                                    android:textSize="17sp" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -114,143 +136,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profileLayout"
             android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textWeekly"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="center"
-                        android:text="@string/weekly"
-                        android:textColor="@color/nmDarkBlue"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
-
-                        <android.support.v7.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textWeeklyAcceptedCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="10"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:id="@+id/textWeeklyAccepted"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="@string/accepted"
-                                    android:textColor="@color/nmDarkBlue"
-                                    android:textSize="18sp" />
-
-                            </LinearLayout>
-
-                        </android.support.v7.widget.CardView>
-
-                        <android.support.v7.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textWeeklyRejectedCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="1"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:id="@+id/textWeeklyRejected"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="@string/rejected"
-                                    android:textColor="@color/nmDarkBlue"
-                                    android:textSize="18sp" />
-
-                            </LinearLayout>
-
-                        </android.support.v7.widget.CardView>
-
-                        <android.support.v7.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textWeeklyTotalCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="11"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:id="@+id/textWeeklyTotal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:padding="3dp"
-                                    android:text="@string/total"
-                                    android:textColor="@color/nmDarkBlue"
-                                    android:textSize="18sp" />
-
-                            </LinearLayout>
-
-                        </android.support.v7.widget.CardView>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -295,7 +180,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="40"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 
@@ -330,7 +214,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="2"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 
@@ -365,7 +248,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="42"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 
@@ -432,7 +314,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="50"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 
@@ -467,7 +348,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="3"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 
@@ -502,7 +382,6 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="53"
                                     android:textColor="@android:color/black"
                                     android:textSize="18sp" />
 

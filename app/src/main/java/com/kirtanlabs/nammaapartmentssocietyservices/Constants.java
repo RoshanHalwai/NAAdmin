@@ -99,6 +99,7 @@ public class Constants {
     private static final String FIREBASE_CHILD_USER_DATA = "userData";
     public static final String FIREBASE_CHILD_OTHER_DETAILS = "otherDetails";
     public static final String FIREBASE_CHILD_TIMESTAMP = "timestamp";
+    public static final String FIREBASE_CHILD_RATING = "rating";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

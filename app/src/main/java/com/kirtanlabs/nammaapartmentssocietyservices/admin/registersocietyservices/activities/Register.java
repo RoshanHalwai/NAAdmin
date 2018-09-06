@@ -256,8 +256,9 @@ public class Register extends BaseActivity implements View.OnClickListener {
             DatabaseReference societyServicesAllReference = SOCIETY_SERVICES_REFERENCE.child(FIREBASE_CHILD_ALL);
             societyServicesAllReference.child(mobileNumber).setValue(societyServiceUID);
 
-            /*Setting Society Service Service Count to its Default value at the time of registration */
+            /*Setting Society Service Service Count and Rating to its Default value at the time of registration */
             societyServiceData.setServiceCount(0);
+            societyServiceData.setRating(0);
 
             /*Storing the Society Service personal details under societyServices->societyServiceType->private->unavailable->societyServiceUID*/
             societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
