@@ -67,6 +67,7 @@ public class RetrievingNotificationData {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     SocietyServiceData societyServiceData = dataSnapshot.getValue(SocietyServiceData.class);
                     Objects.requireNonNull(societyServiceData).setSocietyServiceType(serviceType);
+                    societyServiceData.setRating(dataSnapshot.child(Constants.FIREBASE_CHILD_RATING).getValue(Integer.class));
                     societyServiceDataCallback.onCallback(societyServiceData);
                 }
 

@@ -106,12 +106,10 @@
     <string name="future_detail_message">Future Service Details will be shown here</string>
 
     <!--My Profile Activity-->
-    <string name="service_history">Service History</string>
-    <string name="today">Today</string>
-    <string name="weekly">WEEKLY</string>
     <string name="monthly">MONTHLY</string>
     <string name="till_date">TILL DATE</string>
     <string name="total">Total</string>
+    <string name="rating">Rating:</string>
 
     <!--Admin Home Activity-->
     <string name="society_admin">ADMIN</string>
