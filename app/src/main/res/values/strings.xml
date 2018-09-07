@@ -187,4 +187,12 @@
     <string name="garbageCollectors">Garbage Collectors</string>
     <string name="guards">Guards</string>
 
+    <!--Help Desk Activity-->
+    <string name="helpdesk_unavailable">Currently there is no issue raised by the Residents of the Society</string>
+    <string name="raised_by">Raised By:</string>
+    <string name="help_service_category">Category:</string>
+    <string name="help_service_type">Type:</string>
+    <string name="help_description">Description:</string>
+    <string name="whatsapp">Whatsapp</string>
+
 </resources>

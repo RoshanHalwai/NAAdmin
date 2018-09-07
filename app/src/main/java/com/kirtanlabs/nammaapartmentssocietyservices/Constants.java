@@ -66,6 +66,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_ADMIN = "admin";
     private static final String FIREBASE_CHILD_SOCIETY_SERVICE_TYPE = "societyServiceType";
     private static final String FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS = "societyServiceNotifications";
+    private static final String FIREBASE_CHILD_SUPPORT = "support";
     public static final String FIREBASE_CHILD_AVAILABLE = "available";
     public static final String FIREBASE_CHILD_UNAVAILABLE = "unavailable";
     public static final String FIREBASE_CHILD_ALL = "all";
@@ -74,6 +75,8 @@ public class Constants {
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
+    public static final String FIREBASE_CHILD_PERSONAL_DETAILS = "personalDetails";
+    public static final String FIREBASE_CHILD_PHONE_NUMBER = "phoneNumber";
     public static final String FIREBASE_CHILD_GARBAGE_MANAGEMENT = "garbageManagement";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
@@ -131,6 +134,7 @@ public class Constants {
     public static final DatabaseReference ALL_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference PRIVATE_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
     public static final DatabaseReference GUARDS_DATA_REFERENCE = PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_DATA);
+    public static final DatabaseReference SUPPORT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SUPPORT);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values

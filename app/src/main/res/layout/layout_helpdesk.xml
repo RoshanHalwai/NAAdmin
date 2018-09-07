@@ -1,84 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="10dp">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_margin="10dp">
 
-        <TextView
-            android:id="@+id/textComplainDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text=""
-            android:textColor="@color/nmBlack"
-            android:textSize="16sp" />
-
-        <View
-            android:id="@+id/dateLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/textComplainDate"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:background="@color/nmBlack" />
-
-        <TextView
-            android:id="@+id/textOwnerName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dateLine"
-            android:layout_margin="10dp"
-            android:text=""
-            android:textColor="@color/nmBlack"
-            android:textSize="14sp" />
+            android:orientation="vertical">
 
-        <View
-            android:id="@+id/userNameLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/textOwnerName"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:background="@color/nmBlack" />
+            <TextView
+                android:id="@+id/textComplainDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/nmBlack"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textComplainCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/userNameLine"
-            android:layout_margin="10dp"
-            android:text=""
-            android:textColor="@color/nmBlack"
-            android:textSize="@dimen/text_view_default_size" />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/textComplainCategory"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:background="@color/nmBlack" />
+            <RelativeLayout
+                android:id="@+id/layoutHelpDesk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
-        <TextView
-            android:id="@+id/textComplainDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line"
-            android:layout_margin="10dp"
-            android:text=""
-            android:textColor="@color/nmBlack"
-            android:textSize="14sp" />
+                <LinearLayout
+                    android:id="@+id/row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:weightSum="2">
 
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+                    <LinearLayout
+                        android:id="@+id/layoutHelpDeskTitles"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textRaisedBy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/raised_by"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textOwnerApartmentName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/apartment"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textOwnerFlatNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/flat"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/help_service_category"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/help_service_type"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/textProblemDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:text="@string/help_description"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutEventDetailsValues"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textRaisedByValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textApartmentValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textFlatNumberValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textCategoryValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textTypeValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                        <TextView
+                            android:id="@+id/textDescriptionValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:textColor="@color/nmBlack"
+                            android:textSize="@dimen/text_view_default_size" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/row1"
+                    android:background="@android:color/black" />
+
+                <LinearLayout
+                    android:id="@+id/layoutIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/textCall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/call"
+                        android:gravity="center"
+                        android:text="@string/call"
+                        android:textColor="@color/nmBlack" />
+
+                    <TextView
+                        android:id="@+id/textMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/message"
+                        android:gravity="center"
+                        android:text="@string/message"
+                        android:textColor="@color/nmBlack" />
+
+                    <TextView
+                        android:id="@+id/textWhatsapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/whatsapp_contact"
+                        android:gravity="center"
+                        android:text="@string/whatsapp"
+                        android:textColor="@color/nmBlack" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -6,10 +6,13 @@ public class HelpDeskPojo {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private String dateAndTime;
+    private long timestamp;
     private String userName;
     private String serviceCategory;
-    private String description;
+    private String serviceType;
+    private String problemDescription;
+    private String uid;
+    private String userUID;
 
     /* ------------------------------------------------------------- *
      * Constructors
@@ -19,11 +22,15 @@ public class HelpDeskPojo {
 
     }
 
-    public HelpDeskPojo(String dateAndTime, String userName, String serviceCategory, String description) {
-        this.dateAndTime = dateAndTime;
+    public HelpDeskPojo(long timestamp, String userName, String serviceCategory, String serviceType,
+                        String problemDescription, String uid, String userUID) {
+        this.timestamp = timestamp;
         this.userName = userName;
         this.serviceCategory = serviceCategory;
-        this.description = description;
+        this.serviceType = serviceType;
+        this.problemDescription = problemDescription;
+        this.uid = uid;
+        this.userUID = userUID;
     }
 
     /* ------------------------------------------------------------- *
@@ -34,15 +41,24 @@ public class HelpDeskPojo {
         return userName;
     }
 
-    public String getDateAndTime() {
-        return dateAndTime;
+    public long getTimestamp() {
+        return timestamp;
     }
 
     public String getServiceCategory() {
         return serviceCategory;
     }
 
-    public String getDescription() {
-        return description;
+    public String getProblemDescription() { return problemDescription; }
+
+    public String getUid() { return uid; }
+
+    public String getUserUID() {
+        return userUID;
     }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
 }
