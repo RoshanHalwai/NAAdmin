@@ -4,7 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.helpdesk.adapter.HelpDeskAdapter;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.helpdesk.pojo.HelpDeskPojo;
@@ -20,6 +25,7 @@ public class HelpDeskActivity extends BaseActivity {
 
     private List<HelpDeskPojo> helpDeskList;
     private HelpDeskAdapter helpDeskAdapter;
+    private int index = 0;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -44,6 +50,9 @@ public class HelpDeskActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        /*We need Progress Indicator in this screen*/
+        showProgressIndicator();
+
         /*Initialising Array List*/
         helpDeskList = new ArrayList<>();
 
@@ -51,5 +60,58 @@ public class HelpDeskActivity extends BaseActivity {
         helpDeskAdapter = new HelpDeskAdapter(helpDeskList, this);
         /* Setting the GridView Adapter*/
         recyclerView.setAdapter(helpDeskAdapter);
+
+        /*Retrieving Help Desk data raised by the user's*/
+        retrieveHelpDeskData();
     }
+
+    /* ------------------------------------------------------------- *
+     * Private Methods
+     * ------------------------------------------------------------- */
+
+    /**
+     * This method is invoked while retrieving all the support issues raised by user's of the Society
+     */
+    private void retrieveHelpDeskData() {
+        /*Getting 'Support' reference to get the unique UID generated after an issue has been raised*/
+        DatabaseReference helpDeskReference = Constants.SUPPORT_REFERENCE;
+        helpDeskReference.keepSynced(true);
+        helpDeskReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    hideProgressIndicator();
+                    showFeatureUnavailableLayout(R.string.helpdesk_unavailable);
+                } else {
+                    hideProgressIndicator();
+                    /*Iterating through all issue's raised by the user*/
+                    for (DataSnapshot helpDeskDataSnapshot : dataSnapshot.getChildren()) {
+                        String helpDeskUID = helpDeskDataSnapshot.getKey();
+                        DatabaseReference helpDeskUIDReference = helpDeskReference.child(helpDeskUID);
+                        helpDeskUIDReference.keepSynced(true);
+                        helpDeskUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                HelpDeskPojo helpDeskPojo = dataSnapshot.getValue(HelpDeskPojo.class);
+                                helpDeskList.add(index++, helpDeskPojo);
+                                helpDeskAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
