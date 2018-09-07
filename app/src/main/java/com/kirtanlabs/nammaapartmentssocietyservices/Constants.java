@@ -74,7 +74,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_DATA = "data";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
-    public static final String FIREBASE_CHILD_GARBAGE_MANAGEMENT = "garbageManagement";
+    public static final String FIREBASE_CHILD_GARBAGE_COLLECTION = "garbageCollection";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
     private static final String FIREBASE_CHILD_USERS = "users";

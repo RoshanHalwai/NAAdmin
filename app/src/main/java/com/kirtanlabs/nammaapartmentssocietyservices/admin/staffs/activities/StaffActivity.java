@@ -100,7 +100,7 @@ public class StaffActivity extends BaseActivity {
     private void retrieveStaffDataFromFirebase() {
         String societyServiceType = staffType.toLowerCase();
         if (screenTitle == R.string.garbageCollectors) {
-            societyServiceType = Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
+            societyServiceType = Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
         }
 
         DatabaseReference staffUIDsReference = Constants.SOCIETY_SERVICES_REFERENCE

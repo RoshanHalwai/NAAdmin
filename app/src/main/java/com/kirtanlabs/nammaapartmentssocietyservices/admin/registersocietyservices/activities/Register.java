@@ -105,7 +105,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
             profilePic.setVisibility(View.VISIBLE);
             layoutYesNo.setVisibility(View.VISIBLE);
         } else if (registrationOf.equals(getString(R.string.garbage_management))) {
-            serviceType = Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
+            serviceType = Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
         }
 
         /*Setting Listeners for views*/
