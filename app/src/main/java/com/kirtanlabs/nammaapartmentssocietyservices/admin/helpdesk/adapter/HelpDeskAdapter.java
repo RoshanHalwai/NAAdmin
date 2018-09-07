@@ -54,6 +54,7 @@ public class HelpDeskAdapter extends RecyclerView.Adapter<HelpDeskAdapter.HelpDe
 
     @Override
     public int getItemCount() {
+        //TODO: Item count to be updated with the size of the list
         return 1;
     }
 
@@ -78,7 +79,6 @@ public class HelpDeskAdapter extends RecyclerView.Adapter<HelpDeskAdapter.HelpDe
 
         HelpDeskViewHolder(View itemView) {
             super(itemView);
-
             /*Getting id's for all the views on cardview*/
             textComplainDate = itemView.findViewById(R.id.textComplainDate);
             textOwnerName = itemView.findViewById(R.id.textOwnerName);
@@ -90,7 +90,6 @@ public class HelpDeskAdapter extends RecyclerView.Adapter<HelpDeskAdapter.HelpDe
             textOwnerName.setTypeface(setLatoBoldFont(mCtx));
             textComplainCategory.setTypeface(setLatoBoldFont(mCtx));
             textComplainDescription.setTypeface(setLatoRegularFont(mCtx));
-
         }
     }
 }

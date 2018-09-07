@@ -45,6 +45,4 @@ public class HelpDeskPojo {
     public String getDescription() {
         return description;
     }
-
-
 }
