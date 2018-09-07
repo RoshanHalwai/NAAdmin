@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_CARPENTER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ELECTRICIAN;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_MANAGEMENT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PLUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
@@ -143,50 +143,52 @@ public class MyProfile extends BaseActivity {
                 case FIREBASE_CHILD_ELECTRICIAN:
                     imageSocietyService.setImageResource(R.drawable.electrician);
                     break;
-                case FIREBASE_CHILD_GARBAGE_MANAGEMENT:
-                    imageSocietyService.setImageResource(R.drawable.garbage_management);
+                case FIREBASE_CHILD_GARBAGE_COLLECTION:
+                    imageSocietyService.setImageResource(R.drawable.garbage_bag);
                     break;
             }
         });
 
         /*Getting No. of Accepted, Rejected and Total request for monthly and till date for particular society service*/
         retrievingNotificationData.getHistoryNotificationDataList(historyNotificationDataList -> {
-            /*Getting Total no. of request came till date to that society service*/
-            int totalCount = historyNotificationDataList.size();
+            if (historyNotificationDataList != null) {
+                /*Getting Total no. of request came till date to that society service*/
+                int totalCount = historyNotificationDataList.size();
 
-            for (SocietyServiceNotification societyServiceNotification : historyNotificationDataList) {
-                String status = societyServiceNotification.getSocietyServiceResponse();
+                for (SocietyServiceNotification societyServiceNotification : historyNotificationDataList) {
+                    String status = societyServiceNotification.getSocietyServiceResponse();
 
-                /*Getting Total no. of Accepted and Rejected Request for that particular society service Till Date*/
-                if (status.equals(getString(R.string.accepted))) {
-                    totalAcceptedCount++;
-                } else {
-                    totalRejectedCount++;
-                }
-
-                /*Decoding Time Stamp to Month*/
-                long timestamp = societyServiceNotification.getTimeStamp();
-                calendar.setTimeInMillis(timestamp);
-                String notificationMonth = DateFormat.format("MMM", calendar).toString();
-
-                /*Getting No. of Accepted, Rejected and Total request came to that particular society service in current month*/
-                if (currentMonth.equals(notificationMonth)) {
-                    monthlyTotalCount++;
+                    /*Getting Total no. of Accepted and Rejected Request for that particular society service Till Date*/
                     if (status.equals(getString(R.string.accepted))) {
-                        monthlyAcceptedCount++;
+                        totalAcceptedCount++;
                     } else {
-                        monthlyRejectedCount++;
+                        totalRejectedCount++;
+                    }
+
+                    /*Decoding Time Stamp to Month*/
+                    long timestamp = societyServiceNotification.getTimeStamp();
+                    calendar.setTimeInMillis(timestamp);
+                    String notificationMonth = DateFormat.format("MMM", calendar).toString();
+
+                    /*Getting No. of Accepted, Rejected and Total request came to that particular society service in current month*/
+                    if (currentMonth.equals(notificationMonth)) {
+                        monthlyTotalCount++;
+                        if (status.equals(getString(R.string.accepted))) {
+                            monthlyAcceptedCount++;
+                        } else {
+                            monthlyRejectedCount++;
+                        }
                     }
                 }
+
+                textMonthlyAcceptedCount.setText(String.valueOf(monthlyAcceptedCount));
+                textMonthlyRejectedCount.setText(String.valueOf(monthlyRejectedCount));
+                textMonthlyTotalCount.setText(String.valueOf(monthlyTotalCount));
+
+                textTotalCount.setText(String.valueOf(totalCount));
+                textTotalAcceptedCount.setText(String.valueOf(totalAcceptedCount));
+                textTotalRejectedCount.setText(String.valueOf(totalRejectedCount));
             }
-
-            textMonthlyAcceptedCount.setText(String.valueOf(monthlyAcceptedCount));
-            textMonthlyRejectedCount.setText(String.valueOf(monthlyRejectedCount));
-            textMonthlyTotalCount.setText(String.valueOf(monthlyTotalCount));
-
-            textTotalCount.setText(String.valueOf(totalCount));
-            textTotalAcceptedCount.setText(String.valueOf(totalAcceptedCount));
-            textTotalRejectedCount.setText(String.valueOf(totalRejectedCount));
         });
     }
 }

@@ -77,11 +77,10 @@ public class Constants {
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
     public static final String FIREBASE_CHILD_PERSONAL_DETAILS = "personalDetails";
     public static final String FIREBASE_CHILD_PHONE_NUMBER = "phoneNumber";
-    public static final String FIREBASE_CHILD_GARBAGE_MANAGEMENT = "garbageManagement";
+    public static final String FIREBASE_CHILD_GARBAGE_COLLECTION = "garbageCollection";
     public static final String FIREBASE_CHILD_NOTIFICATIONS = "notifications";
     public static final String FIREBASE_CHILD_TAKEN_BY = "takenBy";
     private static final String FIREBASE_CHILD_USERS = "users";
-    public static final String FIREBASE_CHILD_SERVICE_COUNT = "serviceCount";
     public static final String FIREBASE_CHILD_SERVING = "serving";
     public static final String FIREBASE_CHILD_FUTURE = "future";
     public static final String FIREBASE_CHILD_HISTORY = "history";
@@ -94,8 +93,6 @@ public class Constants {
     public static final String FIREBASE_CHILD_PRIVILEGES = "privileges";
     public static final String FIREBASE_CHILD_VERIFIED = "verified";
     public static final String FIREBASE_CHILD_NOTICE_BOARD = "noticeBoard";
-    public static final String FIREBASE_CHILD_EVENT_DATE = "eventDate";
-    public static final String FIREBASE_CHILD_EVENT_TITLE = "eventTitle";
     public static final int FIREBASE_CHILD_VERIFIED_PENDING = 0;
     public static final int FIREBASE_CHILD_VERIFIED_APPROVED = 1;
     public static final int FIREBASE_CHILD_VERIFIED_DECLINED = 2;
