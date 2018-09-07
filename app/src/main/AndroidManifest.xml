@@ -113,6 +113,11 @@
             android:name=".admin.addnotice.activities.AddNoticeActivity"
             android:screenOrientation="portrait" />
 
+        <!-- HelpDesk Screen -->
+        <activity
+            android:name=".admin.helpdesk.activities.HelpDeskActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
