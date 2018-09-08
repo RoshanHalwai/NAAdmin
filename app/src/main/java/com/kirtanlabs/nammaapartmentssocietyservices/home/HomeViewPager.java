@@ -96,6 +96,9 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
         /*We want to display menu icon in Title bar, so that user can perform various actions from list*/
         showMenuIcon(Constants.FIREBASE_CHILD_SOCIETY_SERVICES);
 
+        /*This method is called to get the current latitude and longitude of Society Service*/
+        enableLocationService();
+
         /*Getting Id's for all the views*/
         ViewPager mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabs);
