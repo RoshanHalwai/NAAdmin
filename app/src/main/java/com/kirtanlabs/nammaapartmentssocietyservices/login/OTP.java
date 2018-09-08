@@ -269,8 +269,8 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                                                     finish();
                                                 } else {
                                                     //New member has logged in whose mobile number is not yet registered
-                                                    //TODO: Add UI Layout with the below message
-                                                    Toast.makeText(OTP.this, "Mobile Number not found, Request Admin to add Mobile Number", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(OTP.this, SignIn.class);
+                                                    showNotificationDialog(getString(R.string.login_error_message), getString(R.string.mobile_number_found), intent);
                                                 }
                                             }
 
