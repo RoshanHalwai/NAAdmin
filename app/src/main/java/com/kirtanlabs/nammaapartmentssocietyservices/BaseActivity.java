@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
 import com.kirtanlabs.nammaapartmentssocietyservices.myprofile.MyProfile;
+import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.regex.Pattern;
@@ -32,17 +37,22 @@ import java.util.regex.Pattern;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ENABLE_LOCATION_PERMISSION_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_LATITUDE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_LONGITUDE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PHONE_NUMBER_MAX_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLACE_CALL_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SEND_SMS_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoItalicFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 
 /**
  * Root activity for most of the Activities of this project.
  * Responsible for creating toolbar by getting title from the activity
  * and implementing events on back button.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements LocationListener {
 
     /* ------------------------------------------------------------- *
      * Private Members
@@ -152,13 +162,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         imageTODOIcon.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * This method hides the to do icon.
-     */
-    protected void hideTODOIcon() {
-        imageTODOIcon.setVisibility(View.GONE);
-    }
-
     /* ------------------------------------------------------------- *
      * Overriding AppCompatActivity Methods
      * ------------------------------------------------------------- */
@@ -193,7 +196,50 @@ public abstract class BaseActivity extends AppCompatActivity {
                     startActivity(msgIntent);
                 }
                 break;
+            case ENABLE_LOCATION_PERMISSION_CODE:
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    getLocation();
+                }
+                break;
         }
+    }
+
+
+    /* ------------------------------------------------------------- *
+     * Overriding Location Listener Methods
+     * ------------------------------------------------------------- */
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
+        String serviceType = societyServiceData.getSocietyServiceType();
+
+        /*Setting the value of Latitude and Longitude under (societyServices->serviceType->private->data->societyServiceUID)*/
+        DatabaseReference societyServiceLocationReference = Constants.SOCIETY_SERVICES_REFERENCE
+                .child(serviceType)
+                .child(Constants.FIREBASE_CHILD_PRIVATE)
+                .child(FIREBASE_CHILD_DATA)
+                .child(societyServiceUID);
+        societyServiceLocationReference.child(FIREBASE_CHILD_LATITUDE).setValue(latitude);
+        societyServiceLocationReference.child(FIREBASE_CHILD_LONGITUDE).setValue(longitude);
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
     }
 
     /* ------------------------------------------------------------- *
@@ -338,6 +384,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public boolean isValidPhone(String phone) {
         return !Pattern.matches("[a-zA-Z]+", phone) && phone.length() == PHONE_NUMBER_MAX_LENGTH;
+    }
+
+    /**
+     * We check if permissions are granted to access location of the user, if granted user's longitude and longitude can be fetched
+     * else we show Request permission dialog to allow users to give access.
+     */
+    public void enableLocationService() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //TODO: if user "Deny" the location permission display a dialog box or exit from the application
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ENABLE_LOCATION_PERMISSION_CODE);
+        } else {
+            getLocation();
+        }
+    }
+
+    /**
+     * We are using the Location Manager class to get the latitude and longitude coordinates of the user
+     */
+    private void getLocation() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
     }
 
 }

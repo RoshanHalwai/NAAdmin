@@ -45,6 +45,7 @@ public class Constants {
     public static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
     public static final int NEW_USER_OR_NEW_EVENT_REQUEST_CODE = 5;
     static final int SEND_SMS_PERMISSION_REQUEST_CODE = 6;
+    static final int ENABLE_LOCATION_PERMISSION_CODE = 7;
 
     /* ------------------------------------------------------------- *
      * Login/OTP Constants
@@ -100,6 +101,8 @@ public class Constants {
     public static final String FIREBASE_CHILD_OTHER_DETAILS = "otherDetails";
     public static final String FIREBASE_CHILD_TIMESTAMP = "timestamp";
     public static final String FIREBASE_CHILD_RATING = "rating";
+    public static final String FIREBASE_CHILD_LATITUDE = "latitude";
+    public static final String FIREBASE_CHILD_LONGITUDE = "longitude";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
