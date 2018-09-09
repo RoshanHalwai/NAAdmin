@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
@@ -39,6 +41,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getBitmapFromFile;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getByteArrayFromFile;
 import static pl.aprilapps.easyphotopicker.EasyImageConfig.REQ_TAKE_PICTURE;
@@ -52,7 +55,8 @@ public class Register extends BaseActivity implements View.OnClickListener {
     private EditText editFullName, editMobileNumber;
     private Button buttonYes, buttonNo;
     private CircleImageView profilePic;
-    private String serviceType, registrationOf;
+    private TextView textErrorProfilePic;
+    private String serviceType, registrationOf, mobileNumber;
     private File profilePhotoPath;
     private boolean isAdmin = false;
 
@@ -86,14 +90,15 @@ public class Register extends BaseActivity implements View.OnClickListener {
         buttonYes = findViewById(R.id.buttonYes);
         buttonNo = findViewById(R.id.buttonNo);
         LinearLayout layoutYesNo = findViewById(R.id.layoutYesNo);
+        textErrorProfilePic = findViewById(R.id.textErrorProfilePic);
 
         /*Setting font for all the views*/
         textMobileNumber.setTypeface(Constants.setLatoBoldFont(this));
         textFullName.setTypeface(Constants.setLatoBoldFont(this));
         textCountryCode.setTypeface(Constants.setLatoBoldFont(this));
         textAdmin.setTypeface(Constants.setLatoBoldFont(this));
-        editFullName.setTypeface(Constants.setLatoRegularFont(this));
-        editMobileNumber.setTypeface(Constants.setLatoRegularFont(this));
+        editFullName.setTypeface(setLatoRegularFont(this));
+        editMobileNumber.setTypeface(setLatoRegularFont(this));
         buttonYes.setTypeface(Constants.setLatoLightFont(this));
         buttonNo.setTypeface(Constants.setLatoLightFont(this));
         buttonRegister.setTypeface(Constants.setLatoLightFont(this));
@@ -104,6 +109,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
         if (registrationOf.equals(getString(R.string.guard))) {
             profilePic.setVisibility(View.VISIBLE);
             layoutYesNo.setVisibility(View.VISIBLE);
+            textErrorProfilePic.setTypeface(setLatoRegularFont(this));
         } else if (registrationOf.equals(getString(R.string.garbage_management))) {
             serviceType = Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
         }
@@ -123,11 +129,13 @@ public class Register extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonRegister:
-                String mobileNumber = editMobileNumber.getText().toString().trim();
-                Intent intent = new Intent(Register.this, OTP.class);
-                intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
-                intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
-                startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                mobileNumber = editMobileNumber.getText().toString().trim();
+                if (validateFields()) {
+                    Intent intent = new Intent(Register.this, OTP.class);
+                    intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
+                    intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                    startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                }
                 break;
             case R.id.buttonYes:
                 isAdmin = true;
@@ -202,6 +210,9 @@ public class Register extends BaseActivity implements View.OnClickListener {
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
                 mobileNumber, societyServiceUID);
 
+        Intent adminHomeIntent = new Intent(Register.this, SocietyAdminHome.class);
+        adminHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         if (registrationOf.equals(getString(R.string.guard))) {
             /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
             DatabaseReference securityGuardDetailsReference = Constants.PRIVATE_GUARD_REFERENCE
@@ -239,7 +250,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 hideProgressDialog();
                 showNotificationDialog(getString(R.string.security_guard_added_title),
                         getString(R.string.security_guard_added_message),
-                        null);
+                        adminHomeIntent);
             });
 
         } else {
@@ -265,7 +276,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 hideProgressDialog();
                 showNotificationDialog(getString(R.string.society_service_added_title),
                         getString(R.string.society_service_added_message),
-                        null);
+                        adminHomeIntent);
             });
         }
     }
@@ -279,5 +290,42 @@ public class Register extends BaseActivity implements View.OnClickListener {
         else {
             EasyImage.openCamera(Register.this, 0);
         }
+    }
+
+    /**
+     * This method gets invoked to check all the validation fields of editTexts
+     */
+    private boolean validateFields() {
+        String fullName = editFullName.getText().toString().trim();
+        boolean fieldsFilled = isAllFieldsFilled(new EditText[]{editFullName, editMobileNumber});
+
+        if (profilePhotoPath == null && (registrationOf.equals(getString(R.string.guard)))) {
+            textErrorProfilePic.setVisibility(View.VISIBLE);
+            textErrorProfilePic.requestFocus();
+            return false;
+        } else {
+            textErrorProfilePic.setVisibility(View.GONE);
+        }
+
+        if (!fieldsFilled) {
+            if (TextUtils.isEmpty(fullName)) {
+                editFullName.setError(getString(R.string.name_validation));
+                return false;
+            }
+            if (TextUtils.isEmpty(mobileNumber)) {
+                editMobileNumber.setError(getString(R.string.mobile_number_validation));
+                return false;
+            }
+        } else {
+            if (isPersonNameValid(fullName)) {
+                editFullName.setError(getString(R.string.accept_alphabets));
+                return false;
+            }
+            if (!isValidPhone(mobileNumber)) {
+                editMobileNumber.setError(getString(R.string.mobile_number_validation));
+                return false;
+            }
+        }
+        return true;
     }
 }
