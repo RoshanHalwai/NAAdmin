@@ -247,6 +247,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
      * ------------------------------------------------------------- */
 
     /**
+     * This method gets invoked when user is trying to enter improper format of entering name.
+     *
+     * @param name contains that particular editText of name
+     * @throws NumberFormatException because if user tries to enter number in place of name.
+     */
+    protected boolean isPersonNameValid(String name) throws NumberFormatException {
+        return !Pattern.matches("[a-zA-Z0-9.@() ]+", name);
+    }
+
+    /**
      * This method checks if all the editTexts are filled or not.
      *
      * @param fields consists of array of EditTexts.

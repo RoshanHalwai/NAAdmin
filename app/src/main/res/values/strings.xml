@@ -76,6 +76,9 @@
     <string name="admin">Admin:</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="name_validation">Please Enter Name</string>
+    <string name="accept_alphabets">Accept Alphabets Only.</string>
+    <string name="upload_image">Please Upload Image</string>
 
     <string-array name="service_list">
         <item>@string/select_service</item>
