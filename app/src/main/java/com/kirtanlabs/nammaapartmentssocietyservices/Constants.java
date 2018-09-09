@@ -101,6 +101,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_OTHER_DETAILS = "otherDetails";
     public static final String FIREBASE_CHILD_TIMESTAMP = "timestamp";
     public static final String FIREBASE_CHILD_RATING = "rating";
+    public static final String FIREBASE_CHILD_EMERGENCY = "emergency";
     public static final String FIREBASE_CHILD_LATITUDE = "latitude";
     public static final String FIREBASE_CHILD_LONGITUDE = "longitude";
 
