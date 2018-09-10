@@ -160,6 +160,10 @@
     <string name="decline_user_title">Decline User Message</string>
     <string name="decline_user_message">User has been Declined.</string>
     <string name="unapproved_users_unavailable">Currently there are no Unapproved Users in your society</string>
+    <string name="maintenanceCostDescription">Please enter Maintenance Cost for this User</string>
+    <string name="add">Add</string>
+    <string name="indian_rupee_symbol">\u20B9</string>
+    <string name="please_enter_amount">Please enter valid amount</string>
 
     <!--Add Notice Activity-->
     <string name="title">Title</string>
