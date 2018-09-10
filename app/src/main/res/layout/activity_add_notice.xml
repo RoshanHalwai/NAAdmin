@@ -53,7 +53,9 @@
         android:layout_margin="10dp"
         android:inputType="textMultiLine"
         android:textColor="@color/nmBlack"
+        android:background="@drawable/button_not_selected"
         android:textSize="@dimen/edit_text_default_size"
+        android:maxLines="180"
         tools:ignore="LabelFor" />
 
     <TextView
@@ -64,7 +66,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingStart="10dp"
-        android:text="@string/admin_name"
         android:textColor="@color/nmBlack"
         android:textSize="@dimen/text_view_default_size" />
 

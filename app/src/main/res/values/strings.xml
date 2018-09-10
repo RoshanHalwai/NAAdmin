@@ -168,7 +168,6 @@
     <!--Add Notice Activity-->
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="admin_name">Ashish Jha</string>
     <string name="designation">Society Manager</string>
     <string name="notice_board_success">You have successfully added your notice.</string>
     <string name="notice_board_dialog_title">Notice Message</string>

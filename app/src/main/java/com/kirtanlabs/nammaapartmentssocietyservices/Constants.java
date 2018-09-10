@@ -105,6 +105,7 @@ public class Constants {
     static final String FIREBASE_CHILD_LATITUDE = "latitude";
     static final String FIREBASE_CHILD_LONGITUDE = "longitude";
     public static final String FIREBASE_CHILD_MAINTENANCE_COST = "maintenanceCost";
+    public static final String FIREBASE_CHILD_FULLNAME = "fullName";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
