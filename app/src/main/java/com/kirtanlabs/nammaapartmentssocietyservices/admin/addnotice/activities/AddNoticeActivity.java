@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -18,6 +21,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_FULLNAME;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTICE_BOARD;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
 
@@ -27,7 +31,9 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
      * Private Members
      * ------------------------------------------------------------- */
 
+    private TextView textSocietyServiceAdminName;
     private EditText editTitle, editDescription;
+    private String nameOfAdmin;
 
     /* ------------------------------------------------------------- *
      * Overriding BaseActivity Objects
@@ -50,7 +56,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
         /*Getting Id's for all the views*/
         TextView textNoticeTitle = findViewById(R.id.textNoticeTitle);
         TextView textNoticeDescription = findViewById(R.id.textNoticeDescription);
-        TextView textSocietyServiceAdminName = findViewById(R.id.textSocietyServiceAdminName);
+        textSocietyServiceAdminName = findViewById(R.id.textSocietyServiceAdminName);
         TextView textSocietyServiceDesignation = findViewById(R.id.textSocietyServiceDesignation);
         editTitle = findViewById(R.id.editTitle);
         editDescription = findViewById(R.id.editDescription);
@@ -65,6 +71,8 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
         editDescription.setTypeface(Constants.setLatoRegularFont(this));
         buttonAddNotice.setTypeface(Constants.setLatoLightFont(this));
 
+        /*This method retrieves admin Name from Firebase*/
+        retrieveAdminName();
         /*Setting events for the views*/
         buttonAddNotice.setOnClickListener(this);
 
@@ -114,7 +122,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
         String formattedDate = new DateFormatSymbols().getMonths()[month].substring(0, 3) + " " + dayOfMonth + ", " + year;
         String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", currentHour, currentMinute);
         String concatenatedDateAndTime = formattedDate + "\t\t" + " " + formattedTime;
-        String nameOfAdmin = getString(R.string.admin_name);
+
         NoticeBoardPojo noticeBoardPojo = new NoticeBoardPojo(nameOfAdmin, titleValue, descriptionValue, concatenatedDateAndTime);
 
         /*Here we are setting value under noticeBoard->noticeBoardUID */
@@ -128,4 +136,22 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
                 adminHomeIntent);
     }
 
+    /**
+     * This method retrieves the admin name well  before to display in UI.
+     */
+    private void retrieveAdminName() {
+        DatabaseReference adminNameReference = SOCIETY_SERVICES_ADMIN_REFERENCE.child(FIREBASE_CHILD_FULLNAME);
+        adminNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nameOfAdmin = dataSnapshot.getValue(String.class);
+                textSocietyServiceAdminName.setText(nameOfAdmin);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
