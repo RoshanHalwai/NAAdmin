@@ -252,7 +252,6 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         private TextView textCall;
         private TextView textMessage;
         private TextView textEmail;
-        private TextView textRemove;
         private LinearLayout layoutIcons;
         private LinearLayout layoutButtons;
         private View line;
@@ -281,7 +280,6 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall = itemView.findViewById(R.id.textCall);
             textMessage = itemView.findViewById(R.id.textMessage);
             textEmail = itemView.findViewById(R.id.textEmail);
-            textRemove = itemView.findViewById(R.id.textRemove);
             layoutIcons = itemView.findViewById(R.id.layoutIcons);
             layoutButtons = itemView.findViewById(R.id.layoutButtons);
             line = itemView.findViewById(R.id.line);
@@ -302,7 +300,6 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall.setTypeface(setLatoBoldItalicFont(mCtx));
             textMessage.setTypeface(setLatoBoldItalicFont(mCtx));
             textEmail.setTypeface(setLatoBoldItalicFont(mCtx));
-            textRemove.setTypeface(setLatoBoldItalicFont(mCtx));
             buttonApproveUser.setTypeface(setLatoLightFont(mCtx));
             buttonDeclineUser.setTypeface(setLatoLightFont(mCtx));
 
