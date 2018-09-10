@@ -1,13 +1,16 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -169,6 +172,62 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         notifyItemRangeChanged(position, usersList.size());
     }
 
+    /**
+     * This method is invoked to display dialog box where it ask Society Admin to add maintenance cost
+     * for user.
+     *
+     * @param position of the user in the list
+     */
+    private void showMaintenanceCostDialog(int position) {
+        View maintenanceCostDialog = View.inflate(mCtx, R.layout.layout_maintenance_cost_dialog, null);
+
+        /*Getting Id's for all the views*/
+        TextView textMaintenanceCostDescription = maintenanceCostDialog.findViewById(R.id.textMaintenanceCostDescription);
+        TextView textIndianRupeeSymbol = maintenanceCostDialog.findViewById(R.id.textIndianRupeeSymbol);
+        EditText editMaintenanceCost = maintenanceCostDialog.findViewById(R.id.editMaintenanceCost);
+        Button buttonAddMaintenanceCost = maintenanceCostDialog.findViewById(R.id.buttonAddMaintenanceCost);
+
+        /*Setting font for all the views*/
+        textMaintenanceCostDescription.setTypeface(setLatoBoldFont(mCtx));
+        textIndianRupeeSymbol.setTypeface(setLatoBoldFont(mCtx));
+        editMaintenanceCost.setTypeface(setLatoRegularFont(mCtx));
+        buttonAddMaintenanceCost.setTypeface(setLatoLightFont(mCtx));
+
+        AlertDialog.Builder alertValidationDialog = new AlertDialog.Builder(mCtx);
+        alertValidationDialog.setView(maintenanceCostDialog);
+        AlertDialog dialog = alertValidationDialog.create();
+
+        new Dialog(mCtx);
+        dialog.show();
+
+        /*Setting On Click Listener for view*/
+        buttonAddMaintenanceCost.setOnClickListener(v -> {
+            if (baseActivity.isAllFieldsFilled(new EditText[]{editMaintenanceCost})) {
+                String maintenanceCost = editMaintenanceCost.getText().toString().trim();
+
+                NAUser naUser = usersList.get(position);
+                UserFlatDetails userFlatDetails = naUser.getFlatDetails();
+                DatabaseReference userDataReference = PRIVATE_USER_DATA_REFERENCE
+                        .child(userFlatDetails.getCity())
+                        .child(userFlatDetails.getSocietyName())
+                        .child(userFlatDetails.getApartmentName())
+                        .child(userFlatDetails.getFlatNumber())
+                        .child(Constants.FIREBASE_CHILD_MAINTENANCE_COST);
+
+                /*Setting Maintenance Cost for User in (userData->userCity->userSociety->userApartment->userFlat->maintenanceCost) in firebase*/
+                userDataReference.setValue(Integer.parseInt(maintenanceCost)).addOnSuccessListener(aVoid -> {
+                    approveUsers(position);
+                    baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
+                            mCtx.getString(R.string.approve_user_message),
+                            null);
+                    dialog.cancel();
+                });
+            } else {
+                editMaintenanceCost.setError(mCtx.getText(R.string.please_enter_amount));
+            }
+        });
+    }
+
     /* ------------------------------------------------------------- *
      * Manage User View Holder class
      * ------------------------------------------------------------- */
@@ -275,10 +334,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                     baseActivity.sendEmail(naUser.getPersonalDetails().getEmail());
                     break;
                 case R.id.buttonApproveUser:
-                    approveUsers(position);
-                    baseActivity.showNotificationDialog(mCtx.getString(R.string.approve_user_title),
-                            mCtx.getString(R.string.approve_user_message),
-                            null);
+                    showMaintenanceCostDialog(position);
                     break;
                 case R.id.buttonDeclineUser:
                     declineUsers(position);

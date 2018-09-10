@@ -262,7 +262,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
      * @param fields consists of array of EditTexts.
      * @return consists of boolean variable based on the context.
      */
-    protected boolean isAllFieldsFilled(EditText[] fields) {
+    public boolean isAllFieldsFilled(EditText[] fields) {
         for (EditText currentField : fields) {
             if (TextUtils.isEmpty(currentField.getText().toString())) {
                 currentField.requestFocus();
