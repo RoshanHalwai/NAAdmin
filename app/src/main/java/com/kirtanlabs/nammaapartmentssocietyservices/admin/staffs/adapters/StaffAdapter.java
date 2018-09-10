@@ -93,7 +93,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         private final TextView textStaffName;
         private final TextView textStaffMobileNumber;
-        private final TextView textStaffRemove;
         private final ImageView staffProfilePic;
 
         /* ------------------------------------------------------------- *
@@ -107,12 +106,10 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             staffProfilePic = itemView.findViewById(R.id.staffProfilePic);
             textStaffName = itemView.findViewById(R.id.textStaffName);
             textStaffMobileNumber = itemView.findViewById(R.id.textStaffMobileNumber);
-            textStaffRemove = itemView.findViewById(R.id.textStaffRemove);
 
             /*Setting font for all the views*/
             textStaffName.setTypeface(Constants.setLatoBoldFont(context));
             textStaffMobileNumber.setTypeface(Constants.setLatoBoldFont(context));
-            textStaffRemove.setTypeface(Constants.setLatoLightFont(context));
         }
     }
 }
