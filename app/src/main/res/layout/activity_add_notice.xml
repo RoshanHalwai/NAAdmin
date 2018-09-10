@@ -59,6 +59,7 @@
         android:maxLength="180"
         android:padding="5dp"
         android:textColor="@color/nmBlack"
+        android:textSize="@dimen/edit_text_default_size"
         tools:ignore="LabelFor" />
 
     <TextView
