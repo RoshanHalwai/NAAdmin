@@ -5,6 +5,7 @@
     <string name="back_button_description">Back button to navigate previous activity</string>
     <string name="todo_button_description">TODO Button which describes pending lists.</string>
     <string name="menu_icon_description">Menu Icon which will display menu items</string>
+    <string name="cancel">Cancel</string>
 
     <!--Namma Apartments Society Services Home Activity-->
     <string name="available">AVAILABLE</string>
@@ -33,6 +34,8 @@
     <string name="go_off_duty">GO OFF DUTY</string>
     <string name="my_profile">My Profile</string>
     <string name="unavailable_layout_message">You are currently unavailable. Move the switch towards right to go on duty.</string>
+    <string name="location_error_title">"Location Error Message"</string>
+    <string name="location_error_message">It\'s mandatory to enable your \'Location\' to use this app. Press \'OK\' to go to the Location permission screen.</string>
 
     <!--Custom Notification -->
     <string name="accept">Accept</string>
