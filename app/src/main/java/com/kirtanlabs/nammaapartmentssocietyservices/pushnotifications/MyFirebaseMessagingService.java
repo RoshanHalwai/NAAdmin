@@ -19,6 +19,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activities.ApproveEventsActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +33,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATI
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REJECT_BUTTON_CLICKED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_CANCELLED_SERVICE_REQUEST;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_SOCIETY_SERVICE_TYPE;
@@ -56,7 +58,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT) ||
                 societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION) ||
-                societyServiceType.equals(FIREBASE_CHILD_EMERGENCY)) {
+                societyServiceType.equals(FIREBASE_CHILD_EMERGENCY) ||
+                societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST)) {
 
             Intent intent = null;
             switch (societyServiceType) {
@@ -68,6 +71,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     break;
                 case FIREBASE_CHILD_EMERGENCY:
                     intent = new Intent(this, SocietyAdminHome.class);
+                    break;
+                case REMOTE_CANCELLED_SERVICE_REQUEST:
+                    intent = new Intent(this, HomeViewPager.class);
+                    break;
             }
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.NEW_USER_OR_NEW_EVENT_REQUEST_CODE,

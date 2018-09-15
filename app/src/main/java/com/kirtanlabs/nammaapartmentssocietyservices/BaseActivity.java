@@ -127,18 +127,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     }
 
     /**
-     * We are using the Location Manager class to get the latitude and longitude coordinates of the user
-     */
-    private void getLocation() {
-        try {
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * This method is invoked to display a dialog box when user user click on "Deny"
      * button in location permission dialog for the App.
      */
@@ -441,6 +429,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ENABLE_LOCATION_PERMISSION_CODE);
         } else {
             getLocation();
+        }
+    }
+
+    /**
+     * We are using the Location Manager class to get the latitude and longitude coordinates of the user
+     */
+    public void getLocation() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
     }
 
