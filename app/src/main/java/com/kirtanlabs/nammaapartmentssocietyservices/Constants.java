@@ -3,10 +3,20 @@ package com.kirtanlabs.nammaapartmentssocietyservices;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class Constants {
+
+    /* ------------------------------------------------------------- *
+     * Environment
+     * ------------------------------------------------------------- */
+
+    static final String BETA_ENV = "beta_env";
+    static final String DEV_ENV = "dev_env";
 
     /* ------------------------------------------------------------- *
      * Intent Keys
@@ -29,7 +39,6 @@ public class Constants {
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
-    public static final String IN_PROGRESS = "in progress";
     public static final String MORNING = "8AM - 12PM";
     public static final String NOON = "12PM - 4PM";
     public static final String EVENING = "4PM - 8PM";
@@ -119,7 +128,10 @@ public class Constants {
      * Firebase Database References
      * ------------------------------------------------------------- */
 
-    private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
+    private static final FirebaseApp FIREBASE_APP = FirebaseApp.getInstance(DEV_ENV);
+    private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance(FIREBASE_APP);
+    public static final FirebaseStorage FIREBASE_STORAGE = FirebaseStorage.getInstance(FIREBASE_APP);
+    public static final FirebaseAuth FIREBASE_AUTH = FirebaseAuth.getInstance(FIREBASE_APP);
     public static final DatabaseReference SOCIETY_SERVICES_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETY_SERVICES);
     private static final DatabaseReference USERS_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USERS);
     private static final DatabaseReference SOCIETY_SERVICE_NOTIFICATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SOCIETYSERVICENOTIFICATIONS);
