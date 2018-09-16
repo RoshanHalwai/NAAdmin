@@ -15,9 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
@@ -35,10 +33,12 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ADMIN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_STORAGE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
@@ -200,7 +200,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 getString(R.string.please_wait_a_moment));
 
         /*Generating the societyServiceUID */
-        String societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        String societyServiceUID = Objects.requireNonNull(FIREBASE_AUTH.getCurrentUser()).getUid();
 
         /*Getting the data of the Society Service entered by Admin*/
         String fullName = editFullName.getText().toString();
@@ -220,7 +220,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                     .child(societyServiceUID);
 
             /*Getting the storage reference*/
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(serviceType)
+            StorageReference storageReference = FIREBASE_STORAGE.getReference(serviceType)
                     .child(Constants.FIREBASE_CHILD_PRIVATE)
                     .child(societyServiceUID);
 

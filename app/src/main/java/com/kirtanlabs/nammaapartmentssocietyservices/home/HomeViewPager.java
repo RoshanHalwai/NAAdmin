@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
@@ -27,6 +26,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import java.util.Objects;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
@@ -47,7 +47,6 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     private TabLayout tabLayout;
     private TextView textActivityTitle;
     private String serviceType;
-    private String societyServiceMobileNumber;
     private Switch switchAvailability;
     private String futureFragmentTag;
     private String servingFragmentTag;
@@ -81,7 +80,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
         if (isLoggedIn) {
             societyServiceUID = sharedPreferences.getString(Constants.SOCIETY_SERVICE_UID, null);
         } else {
-            societyServiceUID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            societyServiceUID = Objects.requireNonNull(FIREBASE_AUTH.getCurrentUser()).getUid();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(Constants.LOGGED_IN, true);
             editor.putString(Constants.LOGIN_TYPE, Constants.FIREBASE_CHILD_SOCIETY_SERVICES);
@@ -166,7 +165,6 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
     private void storeTokenID() {
         SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
         serviceType = societyServiceData.getSocietyServiceType();
-        societyServiceMobileNumber = societyServiceData.getMobileNumber();
 
         /*Getting the token Id reference*/
         DatabaseReference tokenIdReference = Constants.SOCIETY_SERVICES_REFERENCE
