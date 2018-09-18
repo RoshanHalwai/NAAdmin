@@ -16,7 +16,6 @@ import java.util.Objects;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_AVAILABLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_FUTURE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_HISTORY;
@@ -91,22 +90,30 @@ public class ActionButtonListener extends BroadcastReceiver {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             DatabaseReference notificationTabReference;
+                            DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
                             /*If no UID exists in 'Serving', the request will to 'serving'*/
                             if (!dataSnapshot.exists()) {
                                 notificationTabReference = notificationsReference.child(FIREBASE_CHILD_SERVING);
+                                notificationTabReference.child(notificationUID).setValue(status).addOnSuccessListener(aVoid ->
+                                        settingNotificationData(context, societyServiceNotificationsReference, societyServiceUID));
                             }
                             /*If a UID exists in 'serving', the new request will move to 'future'*/
                             else {
                                 notificationTabReference = notificationsReference.child(FIREBASE_CHILD_FUTURE);
+                                societyServiceNotificationsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        long timestamp = (long) dataSnapshot.child(Constants.FIREBASE_CHILD_TIMESTAMP).getValue();
+                                        notificationTabReference.child(String.valueOf(timestamp)).setValue(notificationUID).addOnSuccessListener(aVoid ->
+                                                settingNotificationData(context, societyServiceNotificationsReference, societyServiceUID));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
-                            notificationTabReference.child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
-                                DatabaseReference societyServiceNotificationsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(notificationUID);
-                                societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-                                societyServiceNotificationsReference.child("endOTP").setValue(generateOTP());
-                                Intent homeIntent = new Intent(context, HomeViewPager.class);
-                                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(homeIntent);
-                            });
                         }
 
                         @Override
@@ -116,9 +123,8 @@ public class ActionButtonListener extends BroadcastReceiver {
                     });
 
                 } else {
-                    notificationsReference.child(FIREBASE_CHILD_HISTORY).child(notificationUID).setValue(status).addOnSuccessListener(aVoid -> {
-                        context.startActivity(new Intent(context, HomeViewPager.class));
-                    });
+                    notificationsReference.child(FIREBASE_CHILD_HISTORY).child(notificationUID).setValue(status).addOnSuccessListener(aVoid ->
+                            context.startActivity(new Intent(context, HomeViewPager.class)));
                 }
             }
 
@@ -128,5 +134,21 @@ public class ActionButtonListener extends BroadcastReceiver {
             }
         });
 
+    }
+
+    /**
+     * This method is invoked to add End OTP and Taken By in firebase(notification->all->notificationUID) for that particular
+     * notification which society service has accepted.
+     *
+     * @param context                              of the application
+     * @param societyServiceNotificationsReference database reference of notification data where end otp and takenBy to e added
+     * @param societyServiceUID                    of that particular society service
+     */
+    private void settingNotificationData(final Context context, final DatabaseReference societyServiceNotificationsReference, final String societyServiceUID) {
+        societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
+        societyServiceNotificationsReference.child(Constants.END_OTP).setValue(generateOTP());
+        Intent homeIntent = new Intent(context, HomeViewPager.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(homeIntent);
     }
 }

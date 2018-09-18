@@ -60,7 +60,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         holder.textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
         holder.textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
         holder.imageActionTaken.setVisibility(View.VISIBLE);
-        if (societyServiceNotification.getSocietyServiceResponse().equals("Accepted"))
+        if (societyServiceNotification.getSocietyServiceResponse().equals(Constants.FIREBASE_CHILD_ACCEPTED))
             holder.imageActionTaken.setImageResource(R.drawable.accepted);
         else
             holder.imageActionTaken.setImageResource(R.drawable.rejected);
