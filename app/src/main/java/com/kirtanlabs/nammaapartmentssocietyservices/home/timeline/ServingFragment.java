@@ -179,13 +179,15 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         /*Remove the first Notification UID under Future and put them under Serving*/
         retrievingNotificationData.getFutureUIDMap(futureUIDMap -> {
             if (futureUIDMap != null) {
+                String futureUIDMapKey = (String) futureUIDMap.keySet().toArray()[0];
+                String futureNotificationUID = futureUIDMap.get(futureUIDMapKey);
                 ((SocietyServiceGlobal) ServingFragment.this.getActivity().getApplicationContext())
                         .getServingNotificationReference()
-                        .child(futureUIDMap.entrySet().iterator().next().getKey())
+                        .child(futureNotificationUID)
                         .setValue(FIREBASE_CHILD_ACCEPTED).addOnSuccessListener(aVoid -> {
                     ((SocietyServiceGlobal) Objects.requireNonNull(ServingFragment.this.getActivity()).getApplicationContext())
                             .getFutureNotificationReference()
-                            .child(futureUIDMap.entrySet().iterator().next().getKey())
+                            .child(futureUIDMapKey)
                             .removeValue();
 
                     /*Getting Tag of Future Fragment*/

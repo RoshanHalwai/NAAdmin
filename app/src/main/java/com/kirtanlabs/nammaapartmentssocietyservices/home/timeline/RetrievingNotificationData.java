@@ -129,12 +129,12 @@ public class RetrievingNotificationData {
     public void getFutureNotificationDataList(FutureNotificationDataListCallback futureNotificationDataListCallback) {
         getFutureUIDMap(futureUIDMap -> {
             if (futureUIDMap != null) {
-                getNotificationDataList(new ArrayList<>(futureUIDMap.keySet()), societyServiceNotificationList -> {
+                getNotificationDataList(new ArrayList<>(futureUIDMap.values()), societyServiceNotificationList -> {
                     List<SocietyServiceNotification> serviceFutureList = new ArrayList<>();
                     for (SocietyServiceNotification societyServiceNotification : societyServiceNotificationList) {
                         getUserData(societyServiceNotification.getUserUID(), NAUser -> {
                             societyServiceNotification.setNaUser(NAUser);
-                            societyServiceNotification.setSocietyServiceResponse(futureUIDMap.get(societyServiceNotification.getNotificationUID()));
+                            societyServiceNotification.setSocietyServiceResponse(Constants.FIREBASE_CHILD_ACCEPTED);
                             serviceFutureList.add(societyServiceNotification);
 
                             if (societyServiceNotificationList.size() == serviceFutureList.size()) {
