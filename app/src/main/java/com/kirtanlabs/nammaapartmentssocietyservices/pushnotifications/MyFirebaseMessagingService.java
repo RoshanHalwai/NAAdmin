@@ -27,6 +27,7 @@ import java.util.Objects;
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EMERGENCY;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SCRAP_COLLECTION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_MSG;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_TITLE;
@@ -61,7 +62,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION) ||
                 societyServiceType.equals(FIREBASE_CHILD_EMERGENCY) ||
                 societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST) ||
-                societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION)) {
+                societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION) ||
+                societyServiceType.equals(FIREBASE_CHILD_SCRAP_COLLECTION)) {
 
             Intent intent;
             switch (societyServiceType) {
