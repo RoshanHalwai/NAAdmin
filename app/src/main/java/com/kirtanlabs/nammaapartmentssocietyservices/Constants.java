@@ -160,6 +160,7 @@ public class Constants {
     public static final String REMOTE_SOCIETY_SERVICE_TYPE = "societyServiceType";
     public static final String REMOTE_USER_ACCOUNT_NOTIFICATION = "userAccountNotification";
     public static final String REMOTE_CANCELLED_SERVICE_REQUEST = "cancelledServiceRequest";
+    public static final String REMOTE_USER_DONATE_FOOD_NOTIFICATION = "userDonateFoodNotification";
 
     /* ------------------------------------------------------------- *
      * Receiver Action Keys

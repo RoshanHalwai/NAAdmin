@@ -38,6 +38,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_MOB
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_NOTIFICATION_UID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_SOCIETY_SERVICE_TYPE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_USER_ACCOUNT_NOTIFICATION;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.REMOTE_USER_DONATE_FOOD_NOTIFICATION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
 
 /**
@@ -59,9 +60,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT) ||
                 societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION) ||
                 societyServiceType.equals(FIREBASE_CHILD_EMERGENCY) ||
-                societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST)) {
+                societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST) ||
+                societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION)) {
 
-            Intent intent = null;
+            Intent intent;
             switch (societyServiceType) {
                 case Constants.FIREBASE_CHILD_EVENT_MANAGEMENT:
                     intent = new Intent(this, ApproveEventsActivity.class);
@@ -69,12 +71,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 case Constants.REMOTE_USER_ACCOUNT_NOTIFICATION:
                     intent = new Intent(this, ManageUsers.class);
                     break;
-                case FIREBASE_CHILD_EMERGENCY:
-                    intent = new Intent(this, SocietyAdminHome.class);
-                    break;
                 case REMOTE_CANCELLED_SERVICE_REQUEST:
                     intent = new Intent(this, HomeViewPager.class);
                     break;
+                default:
+                    intent = new Intent(this, SocietyAdminHome.class);
             }
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.NEW_USER_OR_NEW_EVENT_REQUEST_CODE,
