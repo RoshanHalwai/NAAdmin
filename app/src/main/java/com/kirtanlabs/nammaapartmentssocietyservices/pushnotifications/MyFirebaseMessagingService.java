@@ -27,6 +27,9 @@ import java.util.Objects;
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EMERGENCY;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EVENT_MANAGEMENT;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SCRAP_COLLECTION;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MESSAGE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_MSG;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_TITLE;
@@ -52,20 +55,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> remoteMessageData = remoteMessage.getData();
 
-        String message = remoteMessageData.get(Constants.MESSAGE);
+        String message = remoteMessageData.get(MESSAGE);
         String mobileNumber = remoteMessageData.get(REMOTE_MOBILE_NUMBER);
         String notificationUID = remoteMessageData.get(REMOTE_NOTIFICATION_UID);
         String societyServiceType = remoteMessageData.get(REMOTE_SOCIETY_SERVICE_TYPE);
 
-        if (societyServiceType.equals(Constants.FIREBASE_CHILD_EVENT_MANAGEMENT) ||
+        if (societyServiceType.equals(FIREBASE_CHILD_EVENT_MANAGEMENT) ||
                 societyServiceType.equals(REMOTE_USER_ACCOUNT_NOTIFICATION) ||
                 societyServiceType.equals(FIREBASE_CHILD_EMERGENCY) ||
                 societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST) ||
-                societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION)) {
+                societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION) ||
+                societyServiceType.equals(FIREBASE_CHILD_SCRAP_COLLECTION)) {
 
             Intent intent;
             switch (societyServiceType) {
-                case Constants.FIREBASE_CHILD_EVENT_MANAGEMENT:
+                case FIREBASE_CHILD_EVENT_MANAGEMENT:
                     intent = new Intent(this, ApproveEventsActivity.class);
                     break;
                 case Constants.REMOTE_USER_ACCOUNT_NOTIFICATION:
