@@ -124,6 +124,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 NotificationChannel mChannel = new NotificationChannel(
                         getString(R.string.default_notification_channel_id), "Namma Apartments Channel", NotificationManager.IMPORTANCE_HIGH);
+                android.media.AudioAttributes attributes = new android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+                mChannel.setSound(android.net.Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.society_service_alarm), attributes);
                 Objects.requireNonNull(notificationManager).createNotificationChannel(mChannel);
                 channelId = mChannel.getId();
                 IntentFilter actionIntents = new IntentFilter();
@@ -140,9 +144,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentText(NOTIFICATION_EXPAND_MSG)
                     .setAutoCancel(true)
                     .setCustomBigContentView(remoteViews)
-                    .setSound(RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND))
                     .setPriority(PRIORITY_DEFAULT)
                     .build();
+
+             /* Setting Push Notification Custom Sound */
+            notification.sound = android.net.Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.society_service_alarm);
 
             int mNotificationID = (int) System.currentTimeMillis();
 
