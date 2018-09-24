@@ -94,6 +94,31 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textGateNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/gate_number"
+        android:textColor="@color/nmBlack"
+        android:textSize="@dimen/text_view_default_size"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/editGateNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="phone"
+        android:maxLength="1"
+        android:textColor="@color/nmBlack"
+        android:textSize="20sp"
+        android:visibility="gone"
+        tools:ignore="LabelFor" />
+
     <LinearLayout
         android:id="@+id/layoutYesNo"
         android:layout_width="match_parent"
