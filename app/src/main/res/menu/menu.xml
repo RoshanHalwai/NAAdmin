@@ -22,10 +22,4 @@
         android:title="@string/pending_user_list"
         android:visible="false"/>
 
-    <item
-        android:id="@+id/unApprovedEvents"
-        android:icon="@drawable/ic_logout"
-        android:title="@string/pending_event_list"
-        android:visible="false"/>
-
 </menu>

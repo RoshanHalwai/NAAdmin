@@ -124,7 +124,7 @@
     <string name="manage_users">Manage Users</string>
     <string name="register_society_service">Register Service</string>
     <string name="staff">Staffs</string>
-    <string name="approve_events">Approve Events</string>
+    <string name="booked_events">Booked Events</string>
     <string name="add_notice">Add Notice</string>
     <string name="help_desk">Help Desk</string>
     <string name="image_society_admin_service_desc">Image Services that Society Admin will do</string>
@@ -136,7 +136,7 @@
         <item>@string/manage_users</item>
         <item>@string/register_society_service</item>
         <item>@string/staff</item>
-        <item>@string/approve_events</item>
+        <item>@string/booked_events</item>
         <item>@string/add_notice</item>
         <item>@string/help_desk</item>
     </string-array>

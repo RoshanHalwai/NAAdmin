@@ -184,15 +184,11 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
 
         /*Displaying Appropriate Icons*/
         popupMenu.getMenu().findItem(R.id.unApprovedUsers).setVisible(true);
-        popupMenu.getMenu().findItem(R.id.unApprovedEvents).setVisible(true);
 
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.unApprovedUsers:
                     startActivity(new Intent(SocietyAdminHome.this, ManageUsers.class));
-                    break;
-                case R.id.unApprovedEvents:
-                    startActivity(new Intent(SocietyAdminHome.this, ApproveEventsActivity.class));
                     break;
             }
             return super.onOptionsItemSelected(item);
