@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
@@ -32,15 +31,27 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_GUARD_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ADMIN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GATE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PROFILE_PHOTO;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_STORAGE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_GUARD_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getBitmapFromFile;
 import static com.kirtanlabs.nammaapartmentssocietyservices.ImagePicker.getByteArrayFromFile;
@@ -52,11 +63,11 @@ public class Register extends BaseActivity implements View.OnClickListener {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private EditText editFullName, editMobileNumber;
+    private EditText editFullName, editMobileNumber, editGateNumber;
     private Button buttonYes, buttonNo;
     private CircleImageView profilePic;
     private TextView textErrorProfilePic;
-    private String serviceType, registrationOf, mobileNumber;
+    private String serviceType, registrationOf, mobileNumber, gateNumber;
     private File profilePhotoPath;
     private boolean isAdmin = false;
 
@@ -84,6 +95,8 @@ public class Register extends BaseActivity implements View.OnClickListener {
         TextView textFullName = findViewById(R.id.textFullName);
         TextView textCountryCode = findViewById(R.id.textCountryCode);
         TextView textAdmin = findViewById(R.id.textAdmin);
+        TextView textGateNumber = findViewById(R.id.textGateNumber);
+        editGateNumber = findViewById(R.id.editGateNumber);
         editFullName = findViewById(R.id.editFullName);
         editMobileNumber = findViewById(R.id.editMobileNumber);
         Button buttonRegister = findViewById(R.id.buttonRegister);
@@ -93,25 +106,29 @@ public class Register extends BaseActivity implements View.OnClickListener {
         textErrorProfilePic = findViewById(R.id.textErrorProfilePic);
 
         /*Setting font for all the views*/
-        textMobileNumber.setTypeface(Constants.setLatoBoldFont(this));
-        textFullName.setTypeface(Constants.setLatoBoldFont(this));
-        textCountryCode.setTypeface(Constants.setLatoBoldFont(this));
-        textAdmin.setTypeface(Constants.setLatoBoldFont(this));
+        textMobileNumber.setTypeface(setLatoBoldFont(this));
+        textFullName.setTypeface(setLatoBoldFont(this));
+        textCountryCode.setTypeface(setLatoBoldFont(this));
+        textAdmin.setTypeface(setLatoBoldFont(this));
+        textGateNumber.setTypeface(setLatoBoldFont(this));
         editFullName.setTypeface(setLatoRegularFont(this));
         editMobileNumber.setTypeface(setLatoRegularFont(this));
-        buttonYes.setTypeface(Constants.setLatoLightFont(this));
-        buttonNo.setTypeface(Constants.setLatoLightFont(this));
-        buttonRegister.setTypeface(Constants.setLatoLightFont(this));
+        editGateNumber.setTypeface(setLatoRegularFont(this));
+        buttonYes.setTypeface(setLatoLightFont(this));
+        buttonNo.setTypeface(setLatoLightFont(this));
+        buttonRegister.setTypeface(setLatoLightFont(this));
 
-        registrationOf = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_TYPE);
+        registrationOf = getIntent().getStringExtra(SOCIETY_SERVICE_TYPE);
         serviceType = registrationOf.toLowerCase();
 
         if (registrationOf.equals(getString(R.string.guard))) {
             profilePic.setVisibility(View.VISIBLE);
             layoutYesNo.setVisibility(View.VISIBLE);
+            textGateNumber.setVisibility(View.VISIBLE);
+            editGateNumber.setVisibility(View.VISIBLE);
             textErrorProfilePic.setTypeface(setLatoRegularFont(this));
         } else if (registrationOf.equals(getString(R.string.garbage_management))) {
-            serviceType = Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
+            serviceType = FIREBASE_CHILD_GARBAGE_COLLECTION;
         }
 
         /*Setting Listeners for views*/
@@ -132,8 +149,8 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 mobileNumber = editMobileNumber.getText().toString().trim();
                 if (validateFields()) {
                     Intent intent = new Intent(Register.this, OTP.class);
-                    intent.putExtra(Constants.SCREEN_TITLE, R.string.register);
-                    intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                    intent.putExtra(SCREEN_TITLE, R.string.register);
+                    intent.putExtra(SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
                     startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
                 }
                 break;
@@ -215,13 +232,13 @@ public class Register extends BaseActivity implements View.OnClickListener {
 
         if (registrationOf.equals(getString(R.string.guard))) {
             /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
-            DatabaseReference securityGuardDetailsReference = Constants.PRIVATE_GUARD_REFERENCE
-                    .child(Constants.FIREBASE_CHILD_DATA)
+            DatabaseReference securityGuardDetailsReference = PRIVATE_GUARD_REFERENCE
+                    .child(FIREBASE_CHILD_DATA)
                     .child(societyServiceUID);
 
             /*Getting the storage reference*/
             StorageReference storageReference = FIREBASE_STORAGE.getReference(serviceType)
-                    .child(Constants.FIREBASE_CHILD_PRIVATE)
+                    .child(FIREBASE_CHILD_PRIVATE)
                     .child(societyServiceUID);
 
             UploadTask uploadTask = storageReference.putBytes(getByteArrayFromFile(Register.this, profilePhotoPath));
@@ -229,20 +246,21 @@ public class Register extends BaseActivity implements View.OnClickListener {
             /*Adding the profile photo to storage reference and Guard Data to real time database */
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 /*creating the upload object to store uploaded image details and guard data*/
-                securityGuardDetailsReference.child(Constants.FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
-                securityGuardDetailsReference.child(Constants.FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
+                securityGuardDetailsReference.child(FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+                securityGuardDetailsReference.child(FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
+                securityGuardDetailsReference.child(FIREBASE_CHILD_GATE_NUMBER).setValue(Integer.parseInt(gateNumber));
 
                 /*We want to map Admin Guard with UID to ensure all User Security Notifications are sent only to this Guard
                  * This will ensure we do not iterate over each of the Guard's UID and find the Admin, hence making this
                  * operation time complexity to O(1)*/
                 if (isAdmin) {
-                    Constants.PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
+                    PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
                 }
 
             }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
 
             /*Mapping Security Guard mobile number with security guard UID under guard->all*/
-            DatabaseReference securityGuardAllReference = Constants.ALL_GUARD_REFERENCE.child(mobileNumber);
+            DatabaseReference securityGuardAllReference = ALL_GUARD_REFERENCE.child(mobileNumber);
             securityGuardAllReference.setValue(societyServiceUID);
 
             /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
@@ -260,7 +278,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
             DatabaseReference societyServiceDetailsReference = societyServicesReference.child(societyServiceUID);
 
             /*Mapping societyServiceUID with societyServiceType*/
-            DatabaseReference societyTypeReference = Constants.SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
+            DatabaseReference societyTypeReference = SOCIETY_SERVICE_TYPE_REFERENCE.child(societyServiceUID);
             societyTypeReference.child(serviceType).setValue(true);
 
             /*Mapping Society Service mobile number with Society Service UID under societyServices->all*/
@@ -297,7 +315,8 @@ public class Register extends BaseActivity implements View.OnClickListener {
      */
     private boolean validateFields() {
         String fullName = editFullName.getText().toString().trim();
-        boolean fieldsFilled = isAllFieldsFilled(new EditText[]{editFullName, editMobileNumber});
+        gateNumber = editGateNumber.getText().toString().trim();
+        boolean fieldsFilled = isAllFieldsFilled(new EditText[]{editFullName, editMobileNumber, editGateNumber});
 
         if (profilePhotoPath == null && (registrationOf.equals(getString(R.string.guard)))) {
             textErrorProfilePic.setVisibility(View.VISIBLE);
@@ -314,6 +333,10 @@ public class Register extends BaseActivity implements View.OnClickListener {
             }
             if (TextUtils.isEmpty(mobileNumber)) {
                 editMobileNumber.setError(getString(R.string.mobile_number_validation));
+                return false;
+            }
+            if (TextUtils.isEmpty(gateNumber) && (registrationOf.equals(getString(R.string.guard)))) {
+                editGateNumber.setError(getString(R.string.gate_number_validation));
                 return false;
             }
         } else {
