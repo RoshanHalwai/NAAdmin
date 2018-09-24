@@ -1,5 +1,6 @@
 package com.kirtanlabs.nammaapartmentssocietyservices;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 
@@ -39,10 +40,6 @@ public class Constants {
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
-    public static final String MORNING = "8AM - 12PM";
-    public static final String NOON = "12PM - 4PM";
-    public static final String EVENING = "4PM - 8PM";
-    public static final String NIGHT = "8PM - 12PM";
 
     /* ------------------------------------------------------------- *
      * Request Code
@@ -129,6 +126,7 @@ public class Constants {
      * Firebase Database References
      * ------------------------------------------------------------- */
 
+    @SuppressLint("StaticFieldLeak")
     private static final FirebaseApp FIREBASE_APP = FirebaseApp.getInstance(DEV_ENV);
     private static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance(FIREBASE_APP);
     public static final FirebaseStorage FIREBASE_STORAGE = FirebaseStorage.getInstance(FIREBASE_APP);
@@ -144,7 +142,6 @@ public class Constants {
     public static final DatabaseReference ALL_USERS_REFERENCE = USERS_REFERENCE.child(FIREBASE_CHILD_ALL);
     public static final DatabaseReference NOTICE_BOARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_NOTICE_BOARD);
     public static final DatabaseReference EVENT_MANAGEMENT_NOTIFICATION_REFERENCE = SOCIETY_SERVICE_NOTIFICATION_REFERENCE.child(FIREBASE_CHILD_EVENT_MANAGEMENT);
-    public static final DatabaseReference EVENT_MANAGEMENT_TIME_SLOT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_EVENT_MANAGEMENT);
     public static final DatabaseReference PRIVATE_USER_DATA_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_USER_DATA).child(FIREBASE_CHILD_PRIVATE);
     private static final DatabaseReference GUARD_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_GUARDS);
     public static final DatabaseReference ALL_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_ALL);

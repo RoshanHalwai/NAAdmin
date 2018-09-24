@@ -9,13 +9,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.adapters.ApproveEventAdapter;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EVENT_MANAGEMENT_NOTIFICATION_REFERENCE;
 
 public class ApproveEventsActivity extends BaseActivity {
 
@@ -39,7 +42,7 @@ public class ApproveEventsActivity extends BaseActivity {
 
     @Override
     protected int getActivityTitle() {
-        return R.string.approve_events;
+        return R.string.booked_events;
     }
 
     @Override
@@ -72,11 +75,11 @@ public class ApproveEventsActivity extends BaseActivity {
      * ------------------------------------------------------------- */
 
     /**
-     * This method is used to Retrieve All Events Requests made by the User from Firebase
+     * This method is used to Retrieve All Events Requests made by the User from Firebase.
      */
     private void retrieveApproveEventsData() {
         /*Retrieving All Event Management Notification UID from (societyServiceNotifications->eventManagement->notificationUID) in firebase*/
-        Constants.EVENT_MANAGEMENT_NOTIFICATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+        EVENT_MANAGEMENT_NOTIFICATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot notificationUIDs) {
                 if (notificationUIDs.exists()) {
@@ -85,11 +88,11 @@ public class ApproveEventsActivity extends BaseActivity {
                         childrenCount++;
                         String notificationUID = notificationUIdDataSnapshot.getKey();
                         /*Checking if Admin has Responded to that Event Request or Not*/
-                        if (notificationUIdDataSnapshot.getValue(Boolean.class)) {
+                        if (Objects.requireNonNull(notificationUIdDataSnapshot.getValue(Boolean.class))) {
                             notificationResponsePendingCount++;
-                            DatabaseReference eventDetailsReference = Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
+                            DatabaseReference eventDetailsReference = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE
                                     .child(notificationUID);
-                            /*Getting Event Management Notification Data and Putting Then in a list.*/
+                            /*Getting Event Management Notification Data and Putting Them in a list.*/
                             eventDetailsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
