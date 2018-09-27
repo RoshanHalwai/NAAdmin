@@ -12,10 +12,8 @@
     <string name="unavailable">UNAVAILABLE</string>
     <string name="awaiting_customer_requirement">Awaiting User Request</string>
     <string name="resident_name">Name:</string>
-    <string name="society">Society:</string>
     <string name="apartment">Apartment:</string>
     <string name="flat">Flat:</string>
-    <string name="date">Date:</string>
     <string name="time_slot">Time Slot:</string>
     <string name="service_type">Service Type:</string>
     <string name="problem_description">Problem:</string>
@@ -59,16 +57,13 @@
     <!-- Register Activity -->
     <string name="register">REGISTER</string>
     <string name="category">Categories</string>
-    <string name="society_service_type">Service Type</string>
     <string name="name">Name:</string>
     <string name="mobile_number">Mobile Number:</string>
-    <string name="select_service">Select Service</string>
     <string name="plumber">Plumber</string>
     <string name="carpenter">Carpenter</string>
     <string name="electrician">Electrician</string>
     <string name="garbage_management">Garbage Collector</string>
     <string name="guard">Guard</string>
-    <string name="user">User</string>
     <string name="adding_society_service_data">Adding Society Service Data</string>
     <string name="please_wait_a_moment">Please wait a moment</string>
     <string name="society_service_added_title">Society Service Added</string>
@@ -84,13 +79,6 @@
     <string name="upload_image">Please Upload Image</string>
     <string name="gate_number">Gate Number:</string>
     <string name="gate_number_validation">Please Enter Gate Number</string>
-
-    <string-array name="service_list">
-        <item>@string/select_service</item>
-        <item>@string/plumber</item>
-        <item>@string/carpenter</item>
-        <item>@string/electrician</item>
-    </string-array>
 
     <!--OTP Screen-->
     <string name="auto_verification_completed">AutoVerification completed. Please wait while we check your Account in our system. . .</string>
@@ -130,9 +118,7 @@
     <string name="add_notice">Add Notice</string>
     <string name="help_desk">Help Desk</string>
     <string name="image_society_admin_service_desc">Image Services that Society Admin will do</string>
-    <string name="pending_list_dialog_title">List of all pending tasks</string>
     <string name="pending_user_list">Unapproved Users</string>
-    <string name="pending_event_list">Unapproved Events</string>
 
     <string-array name="society_admin_services">
         <item>@string/manage_users</item>
@@ -141,11 +127,6 @@
         <item>@string/booked_events</item>
         <item>@string/add_notice</item>
         <item>@string/help_desk</item>
-    </string-array>
-
-    <string-array name="pending_tasks">
-        <item>@string/pending_user_list</item>
-        <item>@string/pending_event_list</item>
     </string-array>
 
     <!--Manage Users Activity-->
@@ -157,7 +138,6 @@
     <string name="call">Call</string>
     <string name="message">Message</string>
     <string name="e_mail">E-Mail</string>
-    <string name="remove">Remove</string>
     <string name="approve">Approve</string>
     <string name="decline">Decline</string>
     <string name="approve_user_title">Approve User Message</string>
@@ -181,16 +161,7 @@
     <string name="event_title">Event Title:</string>
     <string name="event_date">Event Date:</string>
     <string name="event_slot">Event Slot:</string>
-    <string name="booking_accepted">Booking Accepted</string>
-    <string name="booking_rejected">Booking Rejected</string>
-    <string name="event_request_title">Approve Event Message</string>
-    <string name="event_request_accepted_message">User\'s Request for the Event has been Accepted.</string>
-    <string name="event_request_rejected_message">User\'s Request for the Event has been Rejected.</string>
     <string name="unapproved_events_unavailable">Currently there are no Unapproved Events in your society</string>
-    <string name="slot_one">Slot 1</string>
-    <string name="slot_two">Slot 2</string>
-    <string name="slot_three">Slot 3</string>
-    <string name="slot_four">Slot 4</string>
 
     <!--Staffs-->
     <string name="staff_categories">Staff Categories</string>
