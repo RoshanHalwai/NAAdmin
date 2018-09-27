@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kirtanlabs.nammaapartmentssocietyservices">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -18,12 +19,14 @@
 
     <application
         android:name=".SocietyServiceGlobal"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/NammaApartmentsTheme">
+        android:theme="@style/NammaApartmentsTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- Ignore this activity for now -->
         <activity android:name=".MainActivity" />
@@ -67,18 +70,24 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <service android:name=".pushnotifications.MyFirebaseMessagingService">
+        <service
+            android:name=".pushnotifications.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
+        <service
+            android:name=".pushnotifications.MyFirebaseInstanceIdService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".pushnotifications.ActionButtonListener">
+        <receiver
+            android:name=".pushnotifications.ActionButtonListener"
+            android:exported="false">
             <intent-filter>
                 <action android:name="accept_button_clicked" />
                 <action android:name="reject_button_clicked" />

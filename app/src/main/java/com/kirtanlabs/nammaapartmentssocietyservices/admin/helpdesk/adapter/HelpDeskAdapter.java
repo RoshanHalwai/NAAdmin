@@ -117,7 +117,7 @@ public class HelpDeskAdapter extends RecyclerView.Adapter<HelpDeskAdapter.HelpDe
      * This method is invoked when Admin presses on the 'WhatsApp' icon in Card View. Admin will then be able
      * to contact the user via WhatsApp
      */
-    private void redirectUserToWhatsApp(int position, String mobileNumber) {
+    private void redirectUserToWhatsApp(String mobileNumber) {
         PackageManager pm = mCtx.getPackageManager();
         Intent whatsappIntent = new Intent(Intent.ACTION_VIEW);
         try {
@@ -226,7 +226,7 @@ public class HelpDeskAdapter extends RecyclerView.Adapter<HelpDeskAdapter.HelpDe
                             baseActivity.sendTextMessage(phoneNumber);
                             break;
                         case R.id.textWhatsapp:
-                            redirectUserToWhatsApp(position, phoneNumber);
+                            redirectUserToWhatsApp(phoneNumber);
                             break;
                     }
                 }

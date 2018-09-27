@@ -24,7 +24,7 @@ public class ApproveEventAdapter extends RecyclerView.Adapter<ApproveEventAdapte
      * ------------------------------------------------------------- */
 
     private final Context context;
-    private List<SocietyServiceNotification> eventsDataList;
+    private final List<SocietyServiceNotification> eventsDataList;
 
     /* ------------------------------------------------------------- *
      * Constructor

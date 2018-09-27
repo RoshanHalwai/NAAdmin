@@ -18,9 +18,9 @@ public class RegistrationCategoriesAdapter extends BaseAdapter {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private Context mCtx;
-    private String[] stringRegisterCategories;
-    private int[] icons;
+    private final Context mCtx;
+    private final String[] stringRegisterCategories;
+    private final int[] icons;
 
     /* ------------------------------------------------------------- *
      * Constructors

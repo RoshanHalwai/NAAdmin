@@ -44,10 +44,10 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
      * Private Members
      * ------------------------------------------------------------- */
 
-    private Context mCtx;
-    private BaseActivity baseActivity;
-    private int userType;
-    private List<NAUser> usersList;
+    private final Context mCtx;
+    private final BaseActivity baseActivity;
+    private final int userType;
+    private final List<NAUser> usersList;
     private DatabaseReference userReference;
 
     /* ------------------------------------------------------------- *
@@ -238,25 +238,25 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
          * Private Members
          * ------------------------------------------------------------- */
 
-        private CircleImageView usersProfilePic;
-        private TextView textUserName;
-        private TextView textUserApartmentName;
-        private TextView textTextUserFlatNumber;
-        private TextView textUserMobileNumber;
-        private TextView textUserCreatedDate;
-        private TextView textUserNameValue;
-        private TextView textUserApartmentNameValue;
-        private TextView textUserFlatNumberValue;
-        private TextView textUserMobileNumberValue;
-        private TextView textUserCreatedDateValue;
-        private TextView textCall;
-        private TextView textMessage;
-        private TextView textEmail;
-        private LinearLayout layoutIcons;
-        private LinearLayout layoutButtons;
-        private View line;
-        private Button buttonApproveUser;
-        private Button buttonDeclineUser;
+        private final CircleImageView usersProfilePic;
+        private final TextView textUserName;
+        private final TextView textUserApartmentName;
+        private final TextView textTextUserFlatNumber;
+        private final TextView textUserMobileNumber;
+        private final TextView textUserCreatedDate;
+        private final TextView textUserNameValue;
+        private final TextView textUserApartmentNameValue;
+        private final TextView textUserFlatNumberValue;
+        private final TextView textUserMobileNumberValue;
+        private final TextView textUserCreatedDateValue;
+        private final TextView textCall;
+        private final TextView textMessage;
+        private final TextView textEmail;
+        private final LinearLayout layoutIcons;
+        private final LinearLayout layoutButtons;
+        private final View line;
+        private final Button buttonApproveUser;
+        private final Button buttonDeclineUser;
 
         /* ------------------------------------------------------------- *
          * Constructor

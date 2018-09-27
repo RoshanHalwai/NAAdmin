@@ -266,7 +266,7 @@ public class HomeViewPager extends BaseActivity implements View.OnClickListener 
      *
      * @return - serving fragment tag
      */
-    public String getServingFragmentTag() {
+    private String getServingFragmentTag() {
         return servingFragmentTag;
     }
 
