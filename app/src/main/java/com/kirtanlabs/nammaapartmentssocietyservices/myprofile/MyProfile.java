@@ -3,6 +3,8 @@ package com.kirtanlabs.nammaapartmentssocietyservices.myprofile;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
@@ -39,6 +41,7 @@ public class MyProfile extends BaseActivity {
     private TextView textMonthlyAcceptedCount, textMonthlyRejectedCount, textMonthlyTotalCount;
     private TextView textSocietyServiceRatingValue;
     private CircleImageView imageSocietyService;
+    private RelativeLayout layoutMyProfile;
     private int totalAcceptedCount, totalRejectedCount, monthlyAcceptedCount, monthlyRejectedCount, monthlyTotalCount;
 
     /* ------------------------------------------------------------- *
@@ -80,6 +83,7 @@ public class MyProfile extends BaseActivity {
         textMonthlyTotalCount = findViewById(R.id.textMonthlyTotalCount);
         TextView textTotal = findViewById(R.id.textTotal);
         textTotalCount = findViewById(R.id.textTotalCount);
+        layoutMyProfile = findViewById(R.id.layoutMyProfile);
 
         /*Setting font for all the views*/
         textSocietyServiceName.setTypeface(setLatoBoldFont(this));
@@ -101,6 +105,9 @@ public class MyProfile extends BaseActivity {
         textMonthlyTotalCount.setTypeface(setLatoBoldFont(this));
         textTotal.setTypeface(setLatoRegularFont(this));
         textTotalCount.setTypeface(setLatoBoldFont(this));
+
+        /*We need Progress Indicator in this screen*/
+        showProgressIndicator();
 
         /*Getting Details Society Service who is currently logged in*/
         getSocietyServiceDetails();
@@ -188,6 +195,10 @@ public class MyProfile extends BaseActivity {
                 textTotalCount.setText(String.valueOf(totalCount));
                 textTotalAcceptedCount.setText(String.valueOf(totalAcceptedCount));
                 textTotalRejectedCount.setText(String.valueOf(totalRejectedCount));
+
+                /*Displaying My Profile layout after retrieving all details*/
+                hideProgressIndicator();
+                layoutMyProfile.setVisibility(View.VISIBLE);
             }
         });
     }
