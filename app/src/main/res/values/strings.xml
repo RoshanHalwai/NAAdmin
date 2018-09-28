@@ -176,6 +176,8 @@
     <string name="designation">Society Manager</string>
     <string name="notice_board_success">You have successfully added your notice.</string>
     <string name="notice_board_dialog_title">Notice Message</string>
+    <string name="enter_notice_title">Please enter Notice title</string>
+    <string name="enter_notice_description">Please enter Notice description</string>
 
     <!--Approve Events Activity-->
     <string name="event_title">Event Title:</string>
