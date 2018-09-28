@@ -15,12 +15,6 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import java.util.List;
 
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_CARPENTER;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ELECTRICIAN;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GUARDS;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PLUMBER;
-
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
     /* ------------------------------------------------------------- *
@@ -29,14 +23,16 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
     private final Context context;
     private final List<SocietyServiceData> staffDataList;
+    private int screenTitle;
 
     /* ------------------------------------------------------------- *
      * Constructor
      * ------------------------------------------------------------- */
 
-    public StaffAdapter(Context context, List<SocietyServiceData> staffDataList) {
+    public StaffAdapter(Context context, List<SocietyServiceData> staffDataList, int screenTitle) {
         this.context = context;
         this.staffDataList = staffDataList;
+        this.screenTitle = screenTitle;
     }
 
     /* ------------------------------------------------------------- *
@@ -53,24 +49,23 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
     @Override
     public void onBindViewHolder(@NonNull StaffAdapter.StaffViewHolder holder, int position) {
         SocietyServiceData societyServiceData = staffDataList.get(position);
-        String serviceType = societyServiceData.getSocietyServiceType();
         holder.textStaffName.setText(societyServiceData.getFullName());
         holder.textStaffMobileNumber.setText(societyServiceData.getMobileNumber());
 
-        switch (serviceType) {
-            case FIREBASE_CHILD_PLUMBER:
+        switch (screenTitle) {
+            case R.string.plumbers:
                 holder.staffProfilePic.setImageResource(R.drawable.plumber);
                 break;
-            case FIREBASE_CHILD_CARPENTER:
+            case R.string.carpenters:
                 holder.staffProfilePic.setImageResource(R.drawable.carpenter);
                 break;
-            case FIREBASE_CHILD_ELECTRICIAN:
+            case R.string.electricians:
                 holder.staffProfilePic.setImageResource(R.drawable.electrician);
                 break;
-            case FIREBASE_CHILD_GARBAGE_COLLECTION:
+            case R.string.garbageCollectors:
                 holder.staffProfilePic.setImageResource(R.drawable.garbage_bag);
                 break;
-            case FIREBASE_CHILD_GUARDS:
+            case R.string.guards:
                 holder.staffProfilePic.setImageResource(R.drawable.security_guard);
                 break;
         }

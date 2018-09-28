@@ -75,7 +75,7 @@ public class StaffActivity extends BaseActivity {
         staffDataList = new ArrayList<>();
 
         /*Creating the Adapter*/
-        staffAdapter = new StaffAdapter(this, staffDataList);
+        staffAdapter = new StaffAdapter(this, staffDataList, screenTitle);
 
         /*Attaching adapter to the recyclerView */
         recyclerView.setAdapter(staffAdapter);

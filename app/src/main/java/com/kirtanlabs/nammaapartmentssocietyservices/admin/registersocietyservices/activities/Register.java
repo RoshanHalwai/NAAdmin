@@ -331,7 +331,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
                 editFullName.setError(getString(R.string.name_validation));
                 return false;
             }
-            if (TextUtils.isEmpty(mobileNumber)) {
+            if (TextUtils.isEmpty(mobileNumber) || !isValidPhone(mobileNumber)) {
                 editMobileNumber.setError(getString(R.string.mobile_number_validation));
                 return false;
             }
