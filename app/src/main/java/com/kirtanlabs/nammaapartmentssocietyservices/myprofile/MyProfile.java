@@ -195,11 +195,12 @@ public class MyProfile extends BaseActivity {
                 textTotalCount.setText(String.valueOf(totalCount));
                 textTotalAcceptedCount.setText(String.valueOf(totalAcceptedCount));
                 textTotalRejectedCount.setText(String.valueOf(totalRejectedCount));
-
-                /*Displaying My Profile layout after retrieving all details*/
-                hideProgressIndicator();
-                layoutMyProfile.setVisibility(View.VISIBLE);
             }
+
+            /*Displaying My Profile layout after retrieving all details*/
+            hideProgressIndicator();
+            layoutMyProfile.setVisibility(View.VISIBLE);
+
         });
     }
 }
