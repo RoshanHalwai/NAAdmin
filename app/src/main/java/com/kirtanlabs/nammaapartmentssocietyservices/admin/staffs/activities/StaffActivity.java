@@ -17,6 +17,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StaffActivity extends BaseActivity {
 
@@ -74,7 +75,7 @@ public class StaffActivity extends BaseActivity {
         staffDataList = new ArrayList<>();
 
         /*Creating the Adapter*/
-        staffAdapter = new StaffAdapter(this, staffDataList);
+        staffAdapter = new StaffAdapter(this, staffDataList, screenTitle);
 
         /*Attaching adapter to the recyclerView */
         recyclerView.setAdapter(staffAdapter);
@@ -153,7 +154,7 @@ public class StaffActivity extends BaseActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 count++;
                                 SocietyServiceData societyServiceData = dataSnapshot.getValue(SocietyServiceData.class);
-                                societyServiceData.setSocietyServiceType(Constants.FIREBASE_CHILD_GUARDS);
+                                Objects.requireNonNull(societyServiceData).setSocietyServiceType(Constants.FIREBASE_CHILD_GUARDS);
                                 staffDataList.add(societyServiceData);
                                 if (count == guardsUIDSnapshot.getChildrenCount()) {
                                     staffAdapter.notifyDataSetChanged();

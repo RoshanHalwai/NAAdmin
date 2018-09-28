@@ -34,9 +34,13 @@ public class History extends BaseActivity {
         RecyclerView recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
         recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
 
+        /*We need Progress Indicator in this screen*/
+        showProgressIndicator();
+
         /*Retrieving all the request details which society service has received till now*/
         RetrievingNotificationData retrievingNotificationData = new RetrievingNotificationData(this, societyServiceUID);
         retrievingNotificationData.getHistoryNotificationDataList(historyNotificationDataList -> {
+            hideProgressIndicator();
             if (historyNotificationDataList == null) {
                 showFeatureUnavailableLayout(R.string.history_detail_message);
             } else {
