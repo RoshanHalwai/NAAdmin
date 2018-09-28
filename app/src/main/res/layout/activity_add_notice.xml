@@ -45,7 +45,6 @@
         android:textColor="@color/nmBlack"
         android:textSize="@dimen/text_view_default_size" />
 
-
     <EditText
         android:id="@+id/editDescription"
         android:layout_width="match_parent"
@@ -61,6 +60,16 @@
         android:textColor="@color/nmBlack"
         android:textSize="@dimen/edit_text_default_size"
         tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/textErrorNoticeDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/enter_notice_description"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textSocietyServiceAdminName"
