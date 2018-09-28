@@ -185,6 +185,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
@@ -219,6 +220,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
@@ -253,6 +255,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
@@ -319,6 +322,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
@@ -353,6 +357,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
@@ -387,6 +392,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:padding="3dp"
+                                        android:text="@string/society_service_no_count"
                                         android:textColor="@android:color/black"
                                         android:textSize="18sp" />
 
