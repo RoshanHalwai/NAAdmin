@@ -22,7 +22,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
      * ------------------------------------------------------------- */
 
     private final Context context;
-    private List<SocietyServiceData> staffDataList;
+    private final List<SocietyServiceData> staffDataList;
     private int screenTitle;
 
     /* ------------------------------------------------------------- *

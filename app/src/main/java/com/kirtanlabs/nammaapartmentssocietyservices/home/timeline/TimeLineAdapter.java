@@ -23,8 +23,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
      * Private Members
      * ------------------------------------------------------------- */
 
-    private Context mCtx;
-    private List<SocietyServiceNotification> requestDetailsList;
+    private final Context mCtx;
+    private final List<SocietyServiceNotification> requestDetailsList;
 
     /* ------------------------------------------------------------- *
      * Constructor
@@ -81,19 +81,19 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
          * Private Members
          * ------------------------------------------------------------- */
 
-        private TextView textResidentName;
-        private TextView textApartment;
-        private TextView textFlatNumber;
-        private TextView textServiceType;
-        private TextView textTimeSlot;
-        private TextView textProblemDescription;
-        private TextView textResidentNameValue;
-        private TextView textApartmentValue;
-        private TextView textFlatNumberValue;
-        private TextView textServiceTypeValue;
-        private TextView textTimeSlotValue;
-        private TextView textProblemDescriptionValue;
-        private ImageView imageActionTaken;
+        private final TextView textResidentName;
+        private final TextView textApartment;
+        private final TextView textFlatNumber;
+        private final TextView textServiceType;
+        private final TextView textTimeSlot;
+        private final TextView textProblemDescription;
+        private final TextView textResidentNameValue;
+        private final TextView textApartmentValue;
+        private final TextView textFlatNumberValue;
+        private final TextView textServiceTypeValue;
+        private final TextView textTimeSlotValue;
+        private final TextView textProblemDescriptionValue;
+        private final ImageView imageActionTaken;
 
         /* ------------------------------------------------------------- *
          * Constructor
