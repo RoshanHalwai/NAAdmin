@@ -120,6 +120,7 @@
     <string name="till_date">TILL DATE</string>
     <string name="total">Total</string>
     <string name="rating">Rating:</string>
+    <string name="society_service_no_count">-</string>
 
     <!--Admin Home Activity-->
     <string name="society_admin">ADMIN</string>

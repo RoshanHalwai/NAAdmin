@@ -181,6 +181,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -215,6 +216,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -249,6 +251,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -315,6 +318,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -349,6 +353,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -383,6 +388,7 @@
                                     android:gravity="center"
                                     android:padding="3dp"
                                     android:textColor="@android:color/black"
+                                    android:text="@string/society_service_no_count"
                                     android:textSize="18sp" />
 
                                 <TextView
