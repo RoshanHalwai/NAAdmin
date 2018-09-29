@@ -82,6 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent = new Intent(this, SocietyAdminHome.class);
             }
 
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.NEW_USER_OR_NEW_EVENT_REQUEST_CODE,
                     intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -125,8 +126,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(
                         getString(R.string.default_notification_channel_id), "Namma Apartments Channel", NotificationManager.IMPORTANCE_HIGH);
                 android.media.AudioAttributes attributes = new android.media.AudioAttributes.Builder()
-                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                    .build();
+                        .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
                 mChannel.setSound(android.net.Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.society_service_alarm), attributes);
                 Objects.requireNonNull(notificationManager).createNotificationChannel(mChannel);
                 channelId = mChannel.getId();
@@ -147,7 +148,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setPriority(PRIORITY_DEFAULT)
                     .build();
 
-             /* Setting Push Notification Custom Sound */
+            /* Setting Push Notification Custom Sound */
             notification.sound = android.net.Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.society_service_alarm);
 
             int mNotificationID = (int) System.currentTimeMillis();
