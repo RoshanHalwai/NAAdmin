@@ -11,15 +11,15 @@ import android.widget.TextView;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 
-public class SocietyAdminHomeAdapter extends BaseAdapter {
+class SocietyAdminHomeAdapter extends BaseAdapter {
 
     /* ------------------------------------------------------------- *
      * Private Members
      * ------------------------------------------------------------- */
 
-    private Context mCtx;
-    private String[] stringSocietyAdminServices;
-    private int[] icons;
+    private final Context mCtx;
+    private final String[] stringSocietyAdminServices;
+    private final int[] icons;
 
     /* ------------------------------------------------------------- *
      * Constructor
