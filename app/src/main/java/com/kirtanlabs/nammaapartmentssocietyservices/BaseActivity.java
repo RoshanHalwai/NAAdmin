@@ -32,6 +32,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.myprofile.MyProfile;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -415,7 +416,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
      * @return returns a boolean variable based on the context.
      */
 
-    public boolean isValidPhone(String phone) {
+    protected boolean isValidPhone(String phone) {
         return !Pattern.matches("[a-zA-Z]+", phone) && phone.length() == PHONE_NUMBER_MAX_LENGTH;
     }
 
@@ -423,7 +424,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
      * We check if permissions are granted to access location of the user, if granted user's longitude and longitude can be fetched
      * else we show Request permission dialog to allow users to give access.
      */
-    public void enableLocationService() {
+    protected void enableLocationService() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ENABLE_LOCATION_PERMISSION_CODE);
@@ -435,10 +436,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     /**
      * We are using the Location Manager class to get the latitude and longitude coordinates of the user
      */
-    public void getLocation() {
+    private void getLocation() {
         try {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+            Objects.requireNonNull(locationManager).requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
         } catch (SecurityException e) {
             e.printStackTrace();
         }
