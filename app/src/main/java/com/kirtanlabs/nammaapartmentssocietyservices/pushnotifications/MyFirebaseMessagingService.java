@@ -18,6 +18,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activities.ApproveEventsActivity;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.helpdesk.activities.HelpDeskActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 
@@ -29,6 +30,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUT
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EMERGENCY;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_EVENT_MANAGEMENT;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SCRAP_COLLECTION;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SUPPORT_NOTIFICATION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MESSAGE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_EXPAND_MSG;
@@ -65,7 +67,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 societyServiceType.equals(FIREBASE_CHILD_EMERGENCY) ||
                 societyServiceType.equals(REMOTE_CANCELLED_SERVICE_REQUEST) ||
                 societyServiceType.equals(REMOTE_USER_DONATE_FOOD_NOTIFICATION) ||
-                societyServiceType.equals(FIREBASE_CHILD_SCRAP_COLLECTION)) {
+                societyServiceType.equals(FIREBASE_CHILD_SCRAP_COLLECTION) ||
+                societyServiceType.equals(FIREBASE_CHILD_SUPPORT_NOTIFICATION)) {
 
             Intent intent;
             switch (societyServiceType) {
@@ -77,6 +80,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     break;
                 case REMOTE_CANCELLED_SERVICE_REQUEST:
                     intent = new Intent(this, HomeViewPager.class);
+                    break;
+                case FIREBASE_CHILD_SUPPORT_NOTIFICATION:
+                    intent = new Intent(this, HelpDeskActivity.class);
                     break;
                 default:
                     intent = new Intent(this, SocietyAdminHome.class);

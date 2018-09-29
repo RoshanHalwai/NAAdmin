@@ -113,6 +113,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_MAINTENANCE_COST = "maintenanceCost";
     public static final String FIREBASE_CHILD_FULLNAME = "fullName";
     public static final String FIREBASE_CHILD_SCRAP_COLLECTION = "scrapCollection";
+    public static final String FIREBASE_CHILD_SUPPORT_NOTIFICATION = "supportNotification";
     public static final String FIREBASE_CHILD_GATE_NUMBER = "gateNumber";
 
     /* ------------------------------------------------------------- *
