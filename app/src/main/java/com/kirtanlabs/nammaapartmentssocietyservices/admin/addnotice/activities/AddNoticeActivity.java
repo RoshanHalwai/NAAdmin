@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.addnotice.pojo.NoticeBoardPojo;
@@ -23,7 +22,11 @@ import java.util.Locale;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_FULLNAME;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTICE_BOARD;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTICE_BOARD_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 
 public class AddNoticeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -31,7 +34,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
      * Private Members
      * ------------------------------------------------------------- */
 
-    private TextView textSocietyServiceAdminName;
+    private TextView textSocietyServiceAdminName, textErrorNoticeDesc;
     private EditText editTitle, editDescription;
     private String nameOfAdmin;
 
@@ -58,18 +61,20 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
         TextView textNoticeDescription = findViewById(R.id.textNoticeDescription);
         textSocietyServiceAdminName = findViewById(R.id.textSocietyServiceAdminName);
         TextView textSocietyServiceDesignation = findViewById(R.id.textSocietyServiceDesignation);
+        textErrorNoticeDesc = findViewById(R.id.textErrorNoticeDesc);
         editTitle = findViewById(R.id.editTitle);
         editDescription = findViewById(R.id.editDescription);
         Button buttonAddNotice = findViewById(R.id.buttonAddNotice);
 
         /*Setting fonts for all the views*/
-        textNoticeTitle.setTypeface(Constants.setLatoBoldFont(this));
-        textNoticeDescription.setTypeface(Constants.setLatoBoldFont(this));
-        textSocietyServiceAdminName.setTypeface(Constants.setLatoBoldFont(this));
-        textSocietyServiceDesignation.setTypeface(Constants.setLatoBoldFont(this));
-        editTitle.setTypeface(Constants.setLatoRegularFont(this));
-        editDescription.setTypeface(Constants.setLatoRegularFont(this));
-        buttonAddNotice.setTypeface(Constants.setLatoLightFont(this));
+        textNoticeTitle.setTypeface(setLatoBoldFont(this));
+        textNoticeDescription.setTypeface(setLatoBoldFont(this));
+        textSocietyServiceAdminName.setTypeface(setLatoBoldFont(this));
+        textSocietyServiceDesignation.setTypeface(setLatoBoldFont(this));
+        textErrorNoticeDesc.setTypeface(setLatoBoldFont(this));
+        editTitle.setTypeface(setLatoRegularFont(this));
+        editDescription.setTypeface(setLatoRegularFont(this));
+        buttonAddNotice.setTypeface(setLatoLightFont(this));
 
         /*This method retrieves admin Name from Firebase*/
         retrieveAdminName();
@@ -84,7 +89,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.buttonAddNotice) {
+        if (validateFields()) {
             /*Storing Notice Details Entered by the admin*/
             storeNoticeDetailsInFirebase();
         }
@@ -100,7 +105,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
     private void storeNoticeDetailsInFirebase() {
 
         /*Creating a new parent as noticeBoard  in firebase and setting the uid associated with it */
-        DatabaseReference noticeBoardReference = Constants.NOTICE_BOARD_REFERENCE;
+        DatabaseReference noticeBoardReference = NOTICE_BOARD_REFERENCE;
         String noticeBoardUID = noticeBoardReference.push().getKey();
 
         /*Setting the noticeBoardUid Value under societyservices->admin->noticeBoard*/
@@ -153,5 +158,20 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+    }
+
+    /**
+     * Performs validation and returns results accordingly
+     *
+     * @return true if validation is successful else returns false
+     */
+    private boolean validateFields() {
+        if (!editTitle.getText().toString().isEmpty() && !editDescription.getText().toString().isEmpty())
+            return true;
+        else if (editTitle.getText().toString().isEmpty())
+            editTitle.setError(getString(R.string.enter_notice_title));
+        else
+            textErrorNoticeDesc.setVisibility(View.VISIBLE);
+        return false;
     }
 }

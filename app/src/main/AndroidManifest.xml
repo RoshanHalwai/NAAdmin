@@ -67,18 +67,24 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <service android:name=".pushnotifications.MyFirebaseMessagingService">
+        <service
+            android:name=".pushnotifications.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".pushnotifications.MyFirebaseInstanceIdService">
+        <service
+            android:name=".pushnotifications.MyFirebaseInstanceIdService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".pushnotifications.ActionButtonListener">
+        <receiver
+            android:name=".pushnotifications.ActionButtonListener"
+            android:exported="false">
             <intent-filter>
                 <action android:name="accept_button_clicked" />
                 <action android:name="reject_button_clicked" />

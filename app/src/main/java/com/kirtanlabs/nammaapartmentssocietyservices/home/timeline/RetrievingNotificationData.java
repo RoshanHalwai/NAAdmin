@@ -33,8 +33,8 @@ public class RetrievingNotificationData {
      * Private Members
      * ------------------------------------------------------------- */
 
-    private String societyServiceUID;
-    private Context context;
+    private final String societyServiceUID;
+    private final Context context;
     private int index = 0;
     private int count = 0;
 
@@ -261,7 +261,7 @@ public class RetrievingNotificationData {
      * @param futureUIDMapCallback callback to return a map of all notification UID which society service will
      *                             serve in future
      */
-    protected void getFutureUIDMap(FutureUIDMapCallback futureUIDMapCallback) {
+    void getFutureUIDMap(FutureUIDMapCallback futureUIDMapCallback) {
         DatabaseReference futureReference = ((SocietyServiceGlobal) context.getApplicationContext())
                 .getFutureNotificationReference();
         futureReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -358,8 +358,8 @@ public class RetrievingNotificationData {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 NAUser naUser = dataSnapshot.getValue(NAUser.class);
-                long timestamp = dataSnapshot.child(Constants.FIREBASE_CHILD_OTHER_DETAILS).child(Constants.FIREBASE_CHILD_TIMESTAMP).getValue(Long.class);
-                naUser.setTimestamp(timestamp);
+                long timestamp = Objects.requireNonNull(dataSnapshot.child(Constants.FIREBASE_CHILD_OTHER_DETAILS).child(Constants.FIREBASE_CHILD_TIMESTAMP).getValue(Long.class));
+                Objects.requireNonNull(naUser).setTimestamp(timestamp);
                 userDataCallback.onCallBack(naUser);
             }
 
@@ -401,11 +401,11 @@ public class RetrievingNotificationData {
      * Interfaces
      * ------------------------------------------------------------- */
 
-    public interface ServiceTypeCallback {
+    interface ServiceTypeCallback {
         void onCallBack(String serviceType);
     }
 
-    public interface ServingDataCallback {
+    interface ServingDataCallback {
         void onCallBack(SocietyServiceNotification societyServiceNotification);
     }
 
@@ -413,12 +413,12 @@ public class RetrievingNotificationData {
         void onCallBack(NAUser NAUser);
     }
 
-    public interface ServingUIDCallback {
+    interface ServingUIDCallback {
         void onCallBack(String servingUID);
     }
 
 
-    public interface HistoryUIDMapCallback {
+    interface HistoryUIDMapCallback {
         void onCallback(Map<String, String> historyUIDMap);
     }
 
@@ -426,7 +426,7 @@ public class RetrievingNotificationData {
         void onCallback(Map<String, String> futureUIDMap);
     }
 
-    public interface NotificationDataListCallback {
+    interface NotificationDataListCallback {
         void onCallback(List<SocietyServiceNotification> societyServiceNotificationList);
     }
 
@@ -446,7 +446,7 @@ public class RetrievingNotificationData {
         void onCallback(SocietyServiceData societyServiceData);
     }
 
-    public interface UserUIDCallback {
+    interface UserUIDCallback {
         void onCallback(List<String> userUIDList);
     }
 
