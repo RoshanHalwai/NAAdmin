@@ -10,6 +10,4 @@
 
     <style name="NammaApartmentsTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="NammaApartmentsTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>

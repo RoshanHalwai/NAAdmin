@@ -24,7 +24,6 @@
                 android:weightSum="3">
 
                 <RelativeLayout
-                    android:id="@+id/layoutUsersProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -32,7 +31,6 @@
                     android:gravity="center">
 
                     <com.wang.avi.AVLoadingIndicatorView
-                        android:id="@+id/animationWaitingForCustomers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -54,7 +52,6 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/layoutTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -109,7 +106,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layoutTitleValues"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
