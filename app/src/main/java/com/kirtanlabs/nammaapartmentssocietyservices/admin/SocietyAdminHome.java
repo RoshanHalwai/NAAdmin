@@ -147,12 +147,12 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
 
         String[] stringSocietyAdminServices = getResources().getStringArray(R.array.society_admin_services);
 
-        int[] icons = {R.drawable.manage_user,
-                R.drawable.register_society_service,
-                R.drawable.staff,
-                R.drawable.event,
-                R.drawable.notice_board,
-                R.drawable.chatting
+        int[] icons = {R.drawable.manage_users,
+                R.drawable.register_service,
+                R.drawable.staffs,
+                R.drawable.booked_events,
+                R.drawable.add_notice,
+                R.drawable.help_desk
         };
 
         return new SocietyAdminHomeAdapter(this, stringSocietyAdminServices, icons);
