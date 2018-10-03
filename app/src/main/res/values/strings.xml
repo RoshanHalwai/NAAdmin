@@ -17,6 +17,7 @@
     <string name="time_slot">Time Slot:</string>
     <string name="service_type">Service Type:</string>
     <string name="problem_description">Problem:</string>
+    <string name="booked_time">Booked Time:</string>
     <string name="call_resident">Call Resident</string>
     <string name="end_service">End Service</string>
     <string name="verify_otp">Verify OTP</string>

@@ -13,7 +13,10 @@ import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
@@ -36,7 +39,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
     }
 
     /* ------------------------------------------------------------- *
-     * Overriding RecyclerView Adapter object
+     * Overriding RecyclerView Adapter Object
      * ------------------------------------------------------------- */
 
     @NonNull
@@ -59,6 +62,9 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         holder.textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
         holder.textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
         holder.textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
+        SimpleDateFormat sfd = new SimpleDateFormat("EEE, MMM dd, HH:mm", Locale.US);
+        String formattedDateAndTime = sfd.format(new Date(societyServiceNotification.getTimeStamp()));
+        holder.textBookingTimeValue.setText(formattedDateAndTime);
         holder.imageActionTaken.setVisibility(View.VISIBLE);
         if (societyServiceNotification.getSocietyServiceResponse().equals(Constants.FIREBASE_CHILD_ACCEPTED))
             holder.imageActionTaken.setImageResource(R.drawable.accepted);
@@ -87,12 +93,14 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         private final TextView textServiceType;
         private final TextView textTimeSlot;
         private final TextView textProblemDescription;
+        private final TextView textBookingTime;
         private final TextView textResidentNameValue;
         private final TextView textApartmentValue;
         private final TextView textFlatNumberValue;
         private final TextView textServiceTypeValue;
         private final TextView textTimeSlotValue;
         private final TextView textProblemDescriptionValue;
+        private final TextView textBookingTimeValue;
         private final ImageView imageActionTaken;
 
         /* ------------------------------------------------------------- *
@@ -109,12 +117,14 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
             textServiceType = itemView.findViewById(R.id.textServiceType);
             textTimeSlot = itemView.findViewById(R.id.textTimeSlot);
             textProblemDescription = itemView.findViewById(R.id.textProblemDescription);
+            textBookingTime = itemView.findViewById(R.id.textBookingTime);
             textResidentNameValue = itemView.findViewById(R.id.textResidentNameValue);
             textApartmentValue = itemView.findViewById(R.id.textApartmentValue);
             textFlatNumberValue = itemView.findViewById(R.id.textFlatNumberValue);
             textServiceTypeValue = itemView.findViewById(R.id.textServiceTypeValue);
             textTimeSlotValue = itemView.findViewById(R.id.textTimeSlotValue);
             textProblemDescriptionValue = itemView.findViewById(R.id.textProblemDescriptionValue);
+            textBookingTimeValue = itemView.findViewById(R.id.textBookingTimeValue);
             imageActionTaken = itemView.findViewById(R.id.imageActionTaken);
 
             /*Setting font for all the views*/
@@ -124,12 +134,14 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
             textServiceType.setTypeface(Constants.setLatoRegularFont(mCtx));
             textTimeSlot.setTypeface(Constants.setLatoRegularFont(mCtx));
             textProblemDescription.setTypeface(Constants.setLatoRegularFont(mCtx));
+            textBookingTime.setTypeface(Constants.setLatoRegularFont(mCtx));
             textResidentNameValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textApartmentValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textFlatNumberValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textServiceTypeValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textTimeSlotValue.setTypeface(Constants.setLatoBoldFont(mCtx));
             textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(mCtx));
+            textBookingTimeValue.setTypeface(Constants.setLatoBoldFont(mCtx));
         }
     }
 }

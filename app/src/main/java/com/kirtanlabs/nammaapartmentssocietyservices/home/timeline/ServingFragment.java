@@ -3,6 +3,7 @@ package com.kirtanlabs.nammaapartmentssocietyservices.home.timeline;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,9 @@ import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.OTP;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -50,6 +54,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
     private TextView textTimeSlotValue;
     private TextView textProblemDescriptionValue;
     private TextView textServiceTypeValue;
+    private TextView textBookingTimeValue;
     private RetrievingNotificationData retrievingNotificationData;
     private String notificationUID;
     private String mobileNumber;
@@ -80,35 +85,40 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         TextView textServiceType = view.findViewById(R.id.textServiceType);
         TextView textTimeSlot = view.findViewById(R.id.textTimeSlot);
         TextView textProblemDescription = view.findViewById(R.id.textProblemDescription);
+        TextView textBookingTime = view.findViewById(R.id.textBookingTime);
         textResidentNameValue = view.findViewById(R.id.textResidentNameValue);
         textApartmentValue = view.findViewById(R.id.textApartmentValue);
         textFlatNumberValue = view.findViewById(R.id.textFlatNumberValue);
         textServiceTypeValue = view.findViewById(R.id.textServiceTypeValue);
         textTimeSlotValue = view.findViewById(R.id.textTimeSlotValue);
         textProblemDescriptionValue = view.findViewById(R.id.textProblemDescriptionValue);
+        textBookingTimeValue = view.findViewById(R.id.textBookingTimeValue);
         Button buttonCallResident = view.findViewById(R.id.buttonCallResident);
         Button buttonEndService = view.findViewById(R.id.buttonEndService);
 
         buttonCallResident.setVisibility(View.VISIBLE);
 
         /*Setting font for all the views*/
-        textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textResidentName.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textApartment.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textFlatNumber.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textServiceType.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textTimeSlot.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textProblemDescription.setTypeface(Constants.setLatoRegularFont(Objects.requireNonNull(getActivity())));
-        textResidentNameValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textApartmentValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textFlatNumberValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textServiceTypeValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textTimeSlotValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
-        buttonCallResident.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
-        buttonEndService.setTypeface(Constants.setLatoLightFont(Objects.requireNonNull(getActivity())));
+        final Context activityContext = Objects.requireNonNull(getActivity());
+        textAwaitingResponse.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textResidentName.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textApartment.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textFlatNumber.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textServiceType.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textTimeSlot.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textProblemDescription.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textBookingTime.setTypeface(Constants.setLatoRegularFont(activityContext));
+        textResidentNameValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textApartmentValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textFlatNumberValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textServiceTypeValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textTimeSlotValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textProblemDescriptionValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        textBookingTimeValue.setTypeface(Constants.setLatoBoldFont(activityContext));
+        buttonCallResident.setTypeface(Constants.setLatoLightFont(activityContext));
+        buttonEndService.setTypeface(Constants.setLatoLightFont(activityContext));
 
-        baseActivity = (BaseActivity) getActivity();
+        baseActivity = (BaseActivity) activityContext;
 
         /*Setting listener for item in card view*/
         buttonCallResident.setOnClickListener(this);
@@ -119,7 +129,6 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         /*Setting Tag of Serving Fragment*/
         String servingFragmentTag = getTag();
         ((HomeViewPager) Objects.requireNonNull(getActivity())).setServingFragmentTag(servingFragmentTag);
-
     }
 
 
@@ -216,6 +225,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
                 textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
+                SimpleDateFormat sfd = new SimpleDateFormat("EEE, MMM dd, HH:mm", Locale.US);
+                String formattedDateAndTime = sfd.format(new Date(societyServiceNotification.getTimeStamp()));
+                textBookingTimeValue.setText(formattedDateAndTime);
                 layoutAwaitingResponse.setVisibility(View.GONE);
                 layoutAcceptedUserDetails.setVisibility(View.VISIBLE);
 
@@ -240,7 +252,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         TextView textDescription = successfulDialog.findViewById(R.id.textDescription);
 
         /*Setting font for all the views*/
-        textDescription.setTypeface(Constants.setLatoBoldFont(Objects.requireNonNull(getActivity())));
+        textDescription.setTypeface(Constants.setLatoBoldFont(getActivity()));
 
         /*Setting view in Dialog*/
         AlertDialog.Builder alertSuccessfulDialog = new AlertDialog.Builder(getActivity());
