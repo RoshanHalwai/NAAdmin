@@ -62,7 +62,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
         holder.textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
         holder.textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
         holder.textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
-        SimpleDateFormat sfd = new SimpleDateFormat("EEE, MMM dd, HH:mm", Locale.US);
+        SimpleDateFormat sfd = new SimpleDateFormat("MMM dd, HH:mm", Locale.US);
         String formattedDateAndTime = sfd.format(new Date(societyServiceNotification.getTimeStamp()));
         holder.textBookingTimeValue.setText(formattedDateAndTime);
         holder.imageActionTaken.setVisibility(View.VISIBLE);

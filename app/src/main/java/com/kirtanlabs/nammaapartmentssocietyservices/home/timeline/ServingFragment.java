@@ -225,7 +225,7 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
                 textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
-                SimpleDateFormat sfd = new SimpleDateFormat("EEE, MMM dd, HH:mm", Locale.US);
+                SimpleDateFormat sfd = new SimpleDateFormat("MMM dd, HH:mm", Locale.US);
                 String formattedDateAndTime = sfd.format(new Date(societyServiceNotification.getTimeStamp()));
                 textBookingTimeValue.setText(formattedDateAndTime);
                 layoutAwaitingResponse.setVisibility(View.GONE);
