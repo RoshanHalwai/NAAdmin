@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
@@ -13,6 +14,9 @@ import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -101,8 +105,8 @@ public class RetrievingNotificationData {
         getHistoryUIDMap(historyUIDMap ->
         {
             if (historyUIDMap != null) {
-                getNotificationDataList(new ArrayList<>(historyUIDMap.keySet()), societyServiceNotificationList -> {
-                    List<SocietyServiceNotification> serviceHistoryList = new ArrayList<>();
+                getNotificationDataList(new LinkedList<>(historyUIDMap.keySet()), societyServiceNotificationList -> {
+                    List<SocietyServiceNotification> serviceHistoryList = new LinkedList<>();
                     for (SocietyServiceNotification societyServiceNotification : societyServiceNotificationList) {
                         getUserData(societyServiceNotification.getUserUID(), NAUser -> {
                             societyServiceNotification.setNaUser(NAUser);
@@ -129,14 +133,13 @@ public class RetrievingNotificationData {
     public void getFutureNotificationDataList(FutureNotificationDataListCallback futureNotificationDataListCallback) {
         getFutureUIDMap(futureUIDMap -> {
             if (futureUIDMap != null) {
-                getNotificationDataList(new ArrayList<>(futureUIDMap.values()), societyServiceNotificationList -> {
-                    List<SocietyServiceNotification> serviceFutureList = new ArrayList<>();
+                getNotificationDataList(new LinkedList<>(futureUIDMap.values()), societyServiceNotificationList -> {
+                    List<SocietyServiceNotification> serviceFutureList = new LinkedList<>();
                     for (SocietyServiceNotification societyServiceNotification : societyServiceNotificationList) {
                         getUserData(societyServiceNotification.getUserUID(), NAUser -> {
                             societyServiceNotification.setNaUser(NAUser);
                             societyServiceNotification.setSocietyServiceResponse(Constants.FIREBASE_CHILD_ACCEPTED);
                             serviceFutureList.add(societyServiceNotification);
-
                             if (societyServiceNotificationList.size() == serviceFutureList.size()) {
                                 futureNotificationDataListCallback.onCallback(serviceFutureList);
                             }
@@ -236,11 +239,10 @@ public class RetrievingNotificationData {
      * @param historyUIDMapCallback callback to return a map of all notification UID which society service has received till date
      */
     private void getHistoryUIDMap(HistoryUIDMapCallback historyUIDMapCallback) {
-        DatabaseReference historyReference = ((SocietyServiceGlobal) context.getApplicationContext())
-                .getHistoryNotificationReference();
+        Query historyReference = ((SocietyServiceGlobal) context.getApplicationContext())
+                .getHistoryNotificationReference().orderByKey();
         historyReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
                     historyUIDMapCallback.onCallback((Map<String, String>) dataSnapshot.getValue());
@@ -253,6 +255,7 @@ public class RetrievingNotificationData {
 
             }
         });
+
     }
 
     /**
@@ -262,15 +265,19 @@ public class RetrievingNotificationData {
      *                             serve in future
      */
     void getFutureUIDMap(FutureUIDMapCallback futureUIDMapCallback) {
-        DatabaseReference futureReference = ((SocietyServiceGlobal) context.getApplicationContext())
-                .getFutureNotificationReference();
+        Query futureReference = ((SocietyServiceGlobal) context.getApplicationContext())
+                .getFutureNotificationReference().orderByKey();
+        HashMap<String, String> futureUIDMap = new LinkedHashMap<>();
         futureReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists())
-                    futureUIDMapCallback.onCallback((Map<String, String>) dataSnapshot.getValue());
-                else
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot uidSnapshot : dataSnapshot.getChildren()) {
+                        futureUIDMap.put(uidSnapshot.getKey(), uidSnapshot.getValue(String.class));
+                    }
+                    futureUIDMapCallback.onCallback(futureUIDMap);
+                } else
                     futureUIDMapCallback.onCallback(null);
             }
 
@@ -288,7 +295,7 @@ public class RetrievingNotificationData {
      * @param notificationDataListCallback callback to return list of notification data
      */
     private void getNotificationDataList(List<String> notificationUIDList, NotificationDataListCallback notificationDataListCallback) {
-        List<SocietyServiceNotification> notificationDataList = new ArrayList<>();
+        List<SocietyServiceNotification> notificationDataList = new LinkedList<>();
         for (String notificationUID : notificationUIDList) {
             getNotificationData(notificationUID, societyServiceNotification -> {
                 notificationDataList.add(societyServiceNotification);
