@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.History;
+import com.kirtanlabs.nammaapartmentssocietyservices.home.timeline.RetrievingNotificationData;
 import com.kirtanlabs.nammaapartmentssocietyservices.login.SignIn;
 import com.kirtanlabs.nammaapartmentssocietyservices.myprofile.MyProfile;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
@@ -39,6 +40,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ENABLE_LOCATION_PERMISSION_CODE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_LATITUDE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_LONGITUDE;
@@ -235,20 +237,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
 
     @Override
     public void onLocationChanged(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-
         SocietyServiceData societyServiceData = ((SocietyServiceGlobal) getApplicationContext()).getSocietyServiceData();
-        String serviceType = societyServiceData.getSocietyServiceType();
+        if (societyServiceData == null) {
+            new RetrievingNotificationData(this, FIREBASE_AUTH.getCurrentUser().getUid())
+                    .getSocietyServiceData(societyServiceData1 -> {
+                        setLocation(societyServiceData1.getSocietyServiceType(), location);
+                    });
+        } else {
+            setLocation(societyServiceData.getSocietyServiceType(), location);
+        }
+    }
 
+    private void setLocation(final String serviceType, final Location location) {
         /*Setting the value of Latitude and Longitude under (societyServices->serviceType->private->data->societyServiceUID)*/
         DatabaseReference societyServiceLocationReference = Constants.SOCIETY_SERVICES_REFERENCE
                 .child(serviceType)
                 .child(Constants.FIREBASE_CHILD_PRIVATE)
                 .child(FIREBASE_CHILD_DATA)
                 .child(societyServiceUID);
-        societyServiceLocationReference.child(FIREBASE_CHILD_LATITUDE).setValue(latitude);
-        societyServiceLocationReference.child(FIREBASE_CHILD_LONGITUDE).setValue(longitude);
+        societyServiceLocationReference.child(FIREBASE_CHILD_LATITUDE).setValue(location.getLatitude());
+        societyServiceLocationReference.child(FIREBASE_CHILD_LONGITUDE).setValue(location.getLongitude());
     }
 
     @Override
