@@ -2,6 +2,8 @@ package com.kirtanlabs.nammaapartmentssocietyservices.pojo;
 
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 
+import java.util.Map;
+
 /**
  * KirtanLabs Pvt. Ltd.
  * Created by Roshan Halwai on 8/2/2018
@@ -22,6 +24,7 @@ public class SocietyServiceNotification {
     private String endOTP;
     private String eventDate;
     private String eventTitle;
+    private Map<String, Boolean> timeSlots;
 
     /*Variable to indicate if Society Service Person has Accepted or Rejected the Notification*/
     private String societyServiceResponse;
@@ -96,6 +99,10 @@ public class SocietyServiceNotification {
 
     public String getEventTitle() {
         return eventTitle;
+    }
+
+    public Map<String, Boolean> getTimeSlots() {
+        return timeSlots;
     }
 
     /* ------------------------------------------------------------- *
