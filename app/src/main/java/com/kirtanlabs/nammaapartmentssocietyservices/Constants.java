@@ -40,6 +40,7 @@ public class Constants {
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
+    public static final String TIME_SLOT_FULL_DAY = "fullDay";
 
     /* ------------------------------------------------------------- *
      * Request Code
