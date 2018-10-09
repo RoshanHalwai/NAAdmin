@@ -46,6 +46,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_S
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_GUARD_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_DEFAULT_RATING_VALUE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE;
@@ -287,7 +288,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
 
             /*Setting Society Service Service Count and Rating to its Default value at the time of registration */
             societyServiceData.setServiceCount(0);
-            societyServiceData.setRating(0);
+            societyServiceData.setRating(SOCIETY_SERVICE_DEFAULT_RATING_VALUE);
 
             /*Storing the Society Service personal details under societyServices->societyServiceType->private->unavailable->societyServiceUID*/
             societyServiceDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
