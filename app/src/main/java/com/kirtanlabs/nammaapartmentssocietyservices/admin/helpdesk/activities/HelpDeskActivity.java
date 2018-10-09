@@ -75,7 +75,6 @@ public class HelpDeskActivity extends BaseActivity {
     private void retrieveHelpDeskData() {
         /*Getting 'Support' reference to get the unique UID generated after an issue has been raised*/
         DatabaseReference helpDeskReference = Constants.SUPPORT_REFERENCE;
-        helpDeskReference.keepSynced(true);
         helpDeskReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -88,7 +87,6 @@ public class HelpDeskActivity extends BaseActivity {
                     for (DataSnapshot helpDeskDataSnapshot : dataSnapshot.getChildren()) {
                         String helpDeskUID = helpDeskDataSnapshot.getKey();
                         DatabaseReference helpDeskUIDReference = helpDeskReference.child(helpDeskUID);
-                        helpDeskUIDReference.keepSynced(true);
                         helpDeskUIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
