@@ -85,20 +85,20 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textProblemDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:text="@string/problem_description"
-                        android:textColor="@color/nmBlack"
-                        android:textSize="18sp" />
-
-                    <TextView
                         android:id="@+id/textBookingTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
                         android:text="@string/booked_time"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textProblemDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/problem_description"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
@@ -157,7 +157,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textProblemDescriptionValue"
+                        android:id="@+id/textBookingTimeValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -165,7 +165,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textBookingTimeValue"
+                        android:id="@+id/textProblemDescriptionValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
