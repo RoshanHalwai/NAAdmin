@@ -15,6 +15,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
 import java.util.Objects;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ACCEPT_BUTTON_CLICKED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_OTP;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_FUTURE;
@@ -22,6 +23,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_NOTIFICATIONS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_REJECTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SERVING;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TAKEN_BY;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.NOTIFICATION_ID;
@@ -146,7 +148,8 @@ public class ActionButtonListener extends BroadcastReceiver {
      */
     private void settingNotificationData(final Context context, final DatabaseReference societyServiceNotificationsReference, final String societyServiceUID) {
         societyServiceNotificationsReference.child(FIREBASE_CHILD_TAKEN_BY).setValue(societyServiceUID);
-        societyServiceNotificationsReference.child(Constants.END_OTP).setValue(generateOTP());
+        societyServiceNotificationsReference.child(END_OTP).setValue(generateOTP());
+        societyServiceNotificationsReference.child(FIREBASE_CHILD_STATUS).setValue(FIREBASE_CHILD_ACCEPTED);
         Intent homeIntent = new Intent(context, HomeViewPager.class);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(homeIntent);
