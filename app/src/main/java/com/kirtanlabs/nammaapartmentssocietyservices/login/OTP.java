@@ -34,8 +34,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.COUNTRY_CODE_IN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.HYPHEN;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_MOBILE_NUMBER;
 
 
 public class OTP extends BaseActivity implements View.OnClickListener {
@@ -45,17 +48,9 @@ public class OTP extends BaseActivity implements View.OnClickListener {
      * ------------------------------------------------------------- */
 
     private TextView textDescription, textResendOTPOrVerificationMessage, textChangeNumberOrTimer;
-    private EditText editFirstOTPDigit;
-    private EditText editSecondOTPDigit;
-    private EditText editThirdOTPDigit;
-    private EditText editFourthOTPDigit;
-    private EditText editFifthOTPDigit;
-    private EditText editSixthOTPDigit;
+    private EditText editFirstOTPDigit, editSecondOTPDigit, editThirdOTPDigit, editFourthOTPDigit, editFifthOTPDigit, editSixthOTPDigit;
     private Button buttonVerifyOTP;
-    private int previousScreenTitle;
-
-    private int RESEND_OTP_SECONDS;
-    private int RESEND_OTP_MINUTE;
+    private int previousScreenTitle, RESEND_OTP_SECONDS, RESEND_OTP_MINUTE;
 
     /* ------------------------------------------------------------- *
      * Private Members for Phone Authentication
@@ -109,11 +104,6 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         editSixthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
         buttonVerifyOTP.setTypeface(Constants.setLatoLightFont(this));
 
-        /* Since multiple activities make use of this class we get previous
-         * screen title and update the views accordingly*/
-        getPreviousScreenTitle();
-        updatePhoneVerificationText();
-
         /*If Previous screen title is Serving, we wouldn't want Firebase to generate OTP*/
         if (previousScreenTitle != R.string.serving) {
             /* Generate an OTP to user's mobile number */
@@ -129,6 +119,11 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         /*Setting onClickListener for view*/
         buttonVerifyOTP.setOnClickListener(this);
         textResendOTPOrVerificationMessage.setOnClickListener(v -> resendOTP());
+
+        /* Since multiple activities make use of this class we get previous
+         * screen title and update the views accordingly*/
+        getPreviousScreenTitle();
+        updatePhoneVerificationText();
     }
 
     /* ------------------------------------------------------------- *
@@ -183,7 +178,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     private void sendOTP() {
         setUpVerificationCallbacks();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                Constants.COUNTRY_CODE_IN + userMobileNumber,
+                COUNTRY_CODE_IN + userMobileNumber,
                 Constants.OTP_TIMER,
                 TimeUnit.SECONDS,
                 this,
@@ -307,7 +302,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
      */
     private void resendOTP() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                Constants.COUNTRY_CODE_IN + userMobileNumber,
+                COUNTRY_CODE_IN + userMobileNumber,
                 Constants.OTP_TIMER,
                 TimeUnit.SECONDS,
                 this,
@@ -499,10 +494,15 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     private void updatePhoneVerificationText() {
         switch (previousScreenTitle) {
             case R.string.login:
-                textDescription.setText(R.string.enter_verification_code);
+                String otpDescription = getString(R.string.enter_verification_code);
+                otpDescription = otpDescription.replace(getString(R.string.your_mobile_number), COUNTRY_CODE_IN + HYPHEN + userMobileNumber);
+                textDescription.setText(otpDescription);
                 break;
             case R.string.register:
-                textDescription.setText(R.string.enter_verification_code_for_registration);
+                String otpDescriptionMessage = getString(R.string.enter_verification_code_for_registration);
+                String societyServiceMobileNumber = getIntent().getStringExtra(SOCIETY_SERVICE_MOBILE_NUMBER);
+                otpDescriptionMessage = otpDescriptionMessage.replace(getString(R.string.society_service_mobile_number), COUNTRY_CODE_IN + HYPHEN + societyServiceMobileNumber);
+                textDescription.setText(otpDescriptionMessage);
                 break;
             case R.string.serving:
                 textDescription.setText(R.string.enter_verification_code_to_end_service);

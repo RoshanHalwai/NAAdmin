@@ -43,10 +43,12 @@
     <!--End Service Activity-->
     <string name="enter_verification_code_to_end_service">A 6 digit OTP has been sent to the Flat Owner Mobile Number. Please enter the OTP to end the Service.</string>
     <string name="phone_verification">Phone Verification</string>
-    <string name="enter_verification_code">We need to verify your account. Please enter the 6 digit verification
+    <string name="enter_verification_code">We need to verify your account. Please enter the 6-digit verification
     code sent to your mobile number.</string>
-    <string name="enter_verification_code_for_registration">A 6 digit OTP has been sent to the Society Service Mobile Number.
+    <string name="your_mobile_number">your mobile number</string>
+    <string name="enter_verification_code_for_registration">A 6-digit OTP has been sent to Society Service Mobile Number.
         Please enter the OTP to create an Account.</string>
+    <string name="society_service_mobile_number">Society Service Mobile Number</string>
 
     <!-- Sign Up Activity -->
     <string name="login">LOGIN</string>
