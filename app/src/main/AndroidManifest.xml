@@ -96,7 +96,7 @@
             android:name=".myprofile.MyProfile"
             android:screenOrientation="portrait" />
 
-        <!--Society Admin Home Screen-->
+        <!-- Society Admin Home Screen -->
         <activity
             android:name=".admin.SocietyAdminHome"
             android:screenOrientation="portrait" />
@@ -125,7 +125,7 @@
         <activity
             android:name=".admin.helpdesk.activities.HelpDeskActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".admin.addnotice.activities.NoticeBoardHistoryActivity"></activity>
     </application>
 
 </manifest>

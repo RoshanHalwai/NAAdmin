@@ -9,4 +9,7 @@
     <color name="nmGreen">#05ab2c</color>
     <color name="nmRed">#ec0606</color>
 
+    <!--Settings Activity-->
+    <color name="nmSettingsHeader">#e2e1e1</color>
+
 </resources>

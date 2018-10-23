@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +57,11 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*Since we have History button here, we would want users to navigate to history and take a look at their
+         * History of that particular Society Service*/
+        ImageView historyButton = findViewById(R.id.historyButton);
+        historyButton.setVisibility(View.VISIBLE);
+
         /*Getting Id's for all the views*/
         TextView textNoticeTitle = findViewById(R.id.textNoticeTitle);
         TextView textNoticeDescription = findViewById(R.id.textNoticeDescription);
@@ -80,7 +86,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
         retrieveAdminName();
         /*Setting events for the views*/
         buttonAddNotice.setOnClickListener(this);
-
+        historyButton.setOnClickListener(this);
     }
 
     /* ------------------------------------------------------------- *
@@ -89,9 +95,13 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (validateFields()) {
-            /*Storing Notice Details Entered by the admin*/
-            storeNoticeDetailsInFirebase();
+        if (v.getId() == R.id.buttonAddNotice) {
+            if (validateFields()) {
+                /*Storing Notice Details Entered by the admin*/
+                storeNoticeDetailsInFirebase();
+            }
+        } else if (v.getId() == R.id.historyButton) {
+            startActivity(new Intent(AddNoticeActivity.this, NoticeBoardHistoryActivity.class));
         }
     }
 

@@ -33,6 +33,17 @@
         android:textColor="@android:color/white"
         android:textSize="24sp" />
 
+    <ImageView
+        android:id="@+id/historyButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0.05"
+        android:contentDescription="@string/history_button_description"
+        android:src="@drawable/history_na"
+        android:visibility="gone" />
+
     <Switch
         android:id="@+id/switchAvailability"
         android:layout_width="wrap_content"
