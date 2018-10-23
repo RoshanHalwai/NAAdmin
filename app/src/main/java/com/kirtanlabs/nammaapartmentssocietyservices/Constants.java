@@ -91,6 +91,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_TOKEN_ID = "tokenId";
     public static final String FIREBASE_CHILD_SOCIETY_SERVICES = "societyServices";
     public static final String FIREBASE_CHILD_DATA = "data";
+    public static final String FIREBASE_CHILD_PENDING_DUES = "pendingDues";
     public static final String FIREBASE_CHILD_PRIVATE = "private";
     public static final String FIREBASE_CHILD_PROFILE_PHOTO = "profilePhoto";
     public static final String FIREBASE_CHILD_PERSONAL_DETAILS = "personalDetails";

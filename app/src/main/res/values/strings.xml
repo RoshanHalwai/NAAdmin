@@ -143,6 +143,7 @@
     <string name="call">Call</string>
     <string name="message">Message</string>
     <string name="e_mail">E-Mail</string>
+    <string name="dues">Dues</string>
     <string name="approve">Approve</string>
     <string name="decline">Decline</string>
     <string name="approve_user_title">Approve User Message</string>

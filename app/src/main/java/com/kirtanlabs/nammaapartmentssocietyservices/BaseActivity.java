@@ -305,7 +305,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     }
 
 
-    protected void showProgressDialog(Context context, String title, String message) {
+    public void showProgressDialog(Context context, String title, String message) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setTitle(title);
@@ -313,7 +313,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
         progressDialog.show();
     }
 
-    protected void hideProgressDialog() {
+    public void hideProgressDialog() {
         progressDialog.dismiss();
     }
 

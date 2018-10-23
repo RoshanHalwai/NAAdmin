@@ -15,7 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
@@ -30,6 +33,7 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PENDING_DUES;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_DECLINED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USER_DATA_REFERENCE;
@@ -228,6 +232,47 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         });
     }
 
+    private void showPendingDuesDialog(final UserFlatDetails userFlatDetails) {
+        baseActivity.showProgressDialog(mCtx, "Getting Pending Dues", mCtx.getString(R.string.please_wait_a_moment));
+        getPendingDues(userFlatDetails, numberOfMonths -> {
+            baseActivity.hideProgressDialog();
+            if (numberOfMonths == 0) {
+                baseActivity.showNotificationDialog("Pending Dues", "User does not have any Pending dues.", null);
+            } else {
+                final String months = (numberOfMonths == 1) ? "month." : "months.";
+                baseActivity.showNotificationDialog("Pending Dues", "User has not paid maintenance for" + " " + numberOfMonths + " " + months, null);
+            }
+        });
+    }
+
+    private void getPendingDues(final UserFlatDetails userFlatDetails, final PendingDues pendingDues) {
+        final String city = userFlatDetails.getCity();
+        final String society = userFlatDetails.getSocietyName();
+        final String apartment = userFlatDetails.getApartmentName();
+        final String flat = userFlatDetails.getFlatNumber();
+        DatabaseReference userPrivateData = PRIVATE_USER_DATA_REFERENCE.child(city)
+                .child(society).child(apartment).child(flat).child(FIREBASE_CHILD_PENDING_DUES);
+        userPrivateData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    pendingDues.onCallback(dataSnapshot.getChildrenCount());
+                } else {
+                    pendingDues.onCallback(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private interface PendingDues {
+        void onCallback(long numberOfMonths);
+    }
+
     /* ------------------------------------------------------------- *
      * Manage User View Holder class
      * ------------------------------------------------------------- */
@@ -252,6 +297,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
         private final TextView textCall;
         private final TextView textMessage;
         private final TextView textEmail;
+        private final TextView textDues;
         private final LinearLayout layoutIcons;
         private final LinearLayout layoutButtons;
         private final View line;
@@ -280,6 +326,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall = itemView.findViewById(R.id.textCall);
             textMessage = itemView.findViewById(R.id.textMessage);
             textEmail = itemView.findViewById(R.id.textEmail);
+            textDues = itemView.findViewById(R.id.textDues);
             layoutIcons = itemView.findViewById(R.id.layoutIcons);
             layoutButtons = itemView.findViewById(R.id.layoutButtons);
             line = itemView.findViewById(R.id.line);
@@ -300,6 +347,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall.setTypeface(setLatoBoldItalicFont(mCtx));
             textMessage.setTypeface(setLatoBoldItalicFont(mCtx));
             textEmail.setTypeface(setLatoBoldItalicFont(mCtx));
+            textDues.setTypeface(setLatoBoldItalicFont(mCtx));
             buttonApproveUser.setTypeface(setLatoLightFont(mCtx));
             buttonDeclineUser.setTypeface(setLatoLightFont(mCtx));
 
@@ -309,6 +357,7 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
             textCall.setOnClickListener(this);
             textMessage.setOnClickListener(this);
             textEmail.setOnClickListener(this);
+            textDues.setOnClickListener(this);
         }
 
         /* ------------------------------------------------------------- *
@@ -329,6 +378,9 @@ public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.
                     break;
                 case R.id.textEmail:
                     baseActivity.sendEmail(naUser.getPersonalDetails().getEmail());
+                    break;
+                case R.id.textDues:
+                    showPendingDuesDialog(naUser.getFlatDetails());
                     break;
                 case R.id.buttonApproveUser:
                     showMaintenanceCostDialog(position);
