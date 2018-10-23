@@ -96,7 +96,7 @@
             android:name=".myprofile.MyProfile"
             android:screenOrientation="portrait" />
 
-        <!--Society Admin Home Screen-->
+        <!-- Society Admin Home Screen -->
         <activity
             android:name=".admin.SocietyAdminHome"
             android:screenOrientation="portrait" />
@@ -116,9 +116,12 @@
             android:name=".admin.approveevents.activities.ApproveEventsActivity"
             android:screenOrientation="portrait" />
 
-        <!-- Add Notice Screen -->
+        <!-- Add Notice and History Screen -->
         <activity
             android:name=".admin.addnotice.activities.AddNoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".admin.addnotice.activities.NoticeBoardHistoryActivity"
             android:screenOrientation="portrait" />
 
         <!-- HelpDesk Screen -->
