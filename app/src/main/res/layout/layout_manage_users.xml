@@ -172,7 +172,7 @@
                 android:layout_below="@+id/line"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <TextView
                     android:id="@+id/textCall"
@@ -204,6 +204,16 @@
                     android:drawableTop="@drawable/email"
                     android:gravity="center"
                     android:text="@string/e_mail"
+                    android:textColor="@color/nmBlack" />
+
+                <TextView
+                    android:id="@+id/textDues"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/wallet"
+                    android:gravity="center"
+                    android:text="@string/dues"
                     android:textColor="@color/nmBlack" />
 
             </LinearLayout>
