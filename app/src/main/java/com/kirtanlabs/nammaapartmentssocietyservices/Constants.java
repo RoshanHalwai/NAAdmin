@@ -39,6 +39,7 @@ public class Constants {
     public static final int EDIT_TEXT_EMPTY_LENGTH = 0;
     static final int PHONE_NUMBER_MAX_LENGTH = 10;
     public static final String TIME_SLOT_FULL_DAY = "fullDay";
+    public static final String HYPHEN = "-";
 
     /* ------------------------------------------------------------- *
      * Request Code
