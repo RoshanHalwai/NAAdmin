@@ -82,6 +82,7 @@
     <string name="upload_image">Please Upload Image</string>
     <string name="gate_number">Gate Number:</string>
     <string name="gate_number_validation">Please Enter Gate Number</string>
+    <string name="mobile_number_exists">Mobile number already exists</string>
 
     <!--OTP Screen-->
     <string name="auto_verification_completed">AutoVerification completed. Please wait while we check your Account in our system. . .</string>

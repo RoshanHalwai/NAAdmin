@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
@@ -149,10 +155,14 @@ public class Register extends BaseActivity implements View.OnClickListener {
             case R.id.buttonRegister:
                 mobileNumber = editMobileNumber.getText().toString().trim();
                 if (validateFields()) {
-                    Intent intent = new Intent(Register.this, OTP.class);
-                    intent.putExtra(SCREEN_TITLE, R.string.register);
-                    intent.putExtra(SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
-                    startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                    if (registrationOf.equals(getString(R.string.guard))) {
+                        checkGuardMobileNumberInFirebase(mobileNumber);
+                    } else {
+                        Intent intent = new Intent(Register.this, OTP.class);
+                        intent.putExtra(SCREEN_TITLE, R.string.register);
+                        intent.putExtra(SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                        startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                    }
                 }
                 break;
             case R.id.buttonYes:
@@ -205,8 +215,46 @@ public class Register extends BaseActivity implements View.OnClickListener {
     }
 
     /* ------------------------------------------------------------- *
-     * Private Method
+     * Private Methods
      * ------------------------------------------------------------- */
+
+    /**
+     * This method checks if the entered guard mobile number is already registered in firebase or not,
+     * Elsewhere it will display appropriate error message .
+     *
+     * @param guardMobileNumber contains the entered guard mobile number
+     */
+    private void checkGuardMobileNumberInFirebase(String guardMobileNumber) {
+        DatabaseReference securityGuardAllReference = ALL_GUARD_REFERENCE.child(guardMobileNumber);
+        securityGuardAllReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    editMobileNumber.requestFocus();
+                    Drawable drawableWrap = DrawableCompat.wrap(
+                            Objects.requireNonNull(ContextCompat.getDrawable(Register.this,
+                                    android.R.drawable.stat_sys_warning)
+                            )
+                    );
+                    drawableWrap.mutate();
+                    DrawableCompat.setTint(drawableWrap, ContextCompat.getColor(Register.this, R.color.nmBlack));
+                    drawableWrap.setBounds(0, 0, drawableWrap.getIntrinsicWidth(), drawableWrap.getIntrinsicHeight());
+                    editMobileNumber.setError(getString(R.string.mobile_number_exists), drawableWrap);
+                    editMobileNumber.setSelection(editMobileNumber.length());
+                } else {
+                    Intent intent = new Intent(Register.this, OTP.class);
+                    intent.putExtra(SCREEN_TITLE, R.string.register);
+                    intent.putExtra(SOCIETY_SERVICE_MOBILE_NUMBER, mobileNumber);
+                    startActivityForResult(intent, SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     /**
      * This method is invoked when the 'Admin' registers a Society Service
