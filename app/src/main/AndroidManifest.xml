@@ -129,6 +129,11 @@
             android:name=".admin.helpdesk.activities.HelpDeskActivity"
             android:screenOrientation="portrait" />
 
+        <!-- Food Collections Screen -->
+        <activity
+            android:name=".admin.foodcollections.activities.FoodCollectionsActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
