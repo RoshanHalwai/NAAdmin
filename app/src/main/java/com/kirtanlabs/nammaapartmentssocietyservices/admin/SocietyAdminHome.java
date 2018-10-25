@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
@@ -18,6 +19,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.approveevents.activit
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.helpdesk.activities.HelpDeskActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.foodcollections.activities.FoodCollectionsActivity;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
@@ -112,8 +114,14 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
             case 4:
                 startActivity(new Intent(SocietyAdminHome.this, AddNoticeActivity.class));
                 break;
-            default:
+            case 5:
                 startActivity(new Intent(SocietyAdminHome.this, HelpDeskActivity.class));
+                break;
+            case 6:
+                startActivity(new Intent(SocietyAdminHome.this, FoodCollectionsActivity.class));
+                break;
+            default:
+                Toast.makeText(this, "Yet to Implemented", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,12 +155,15 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
 
         String[] stringSocietyAdminServices = getResources().getStringArray(R.array.society_admin_services);
 
+        //TODO: To change Scrap and Food Collection image from here if required.
         int[] icons = {R.drawable.manage_users,
                 R.drawable.register_service,
                 R.drawable.staffs,
                 R.drawable.booked_events,
                 R.drawable.add_notice,
-                R.drawable.help_desk
+                R.drawable.help_desk,
+                R.drawable.food_collection_na,
+                R.drawable.scrap_collection_na
         };
 
         return new SocietyAdminHomeAdapter(this, stringSocietyAdminServices, icons);

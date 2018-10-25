@@ -9,6 +9,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.foodcollections.pojo.DonateFoodPojo;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
@@ -27,6 +28,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_PENDING;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FOOD_DONATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE_REFERENCE;
@@ -148,6 +150,33 @@ public class RetrievingNotificationData {
                 });
             } else {
                 futureNotificationDataListCallback.onCallback(null);
+            }
+        });
+    }
+
+    /**
+     * Return the list of all food collection Data
+     *
+     * @param foodCollectionDataListCallback - callback to return the list of all food collection data.
+     */
+    public void getFoodCollectionDataList(FoodCollectionDataListCallback foodCollectionDataListCallback) {
+        /*Getting the list of all food collection UID*/
+        getFoodCollectionUIDList(foodCollectionUIDList -> {
+            if (!foodCollectionUIDList.isEmpty()) {
+                ArrayList<DonateFoodPojo> foodCollectionDataList = new ArrayList<>();
+
+                for (String foodCollectionUID : foodCollectionUIDList) {
+                    getFoodCollectionData(foodCollectionUID, donateFoodData -> {
+                        foodCollectionDataList.add(donateFoodData);
+
+                        if (foodCollectionDataList.size() == foodCollectionUIDList.size()) {
+                            foodCollectionDataListCallback.onCallBack(foodCollectionDataList);
+                        }
+                    });
+                }
+
+            } else {
+                foodCollectionDataListCallback.onCallBack(new ArrayList<>());
             }
         });
     }
@@ -404,6 +433,64 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * Return the list of all food collection UID
+     *
+     * @param foodCollectionUIDListCallBack - callback to return all UID of food collection
+     */
+    private void getFoodCollectionUIDList(FoodCollectionUIDListCallBack foodCollectionUIDListCallBack) {
+        FOOD_DONATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<String> foodDonationUIDList = new ArrayList<>();
+                    for (DataSnapshot foodDonationUIDSnapshot : dataSnapshot.getChildren()) {
+                        foodDonationUIDList.add(foodDonationUIDSnapshot.getKey());
+                    }
+
+                    if (foodDonationUIDList.size() == dataSnapshot.getChildrenCount()) {
+                        foodCollectionUIDListCallBack.onCallBack(foodDonationUIDList);
+                    }
+                } else {
+                    foodCollectionUIDListCallBack.onCallBack(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Return the food collection data for a particular UID
+     *
+     * @param foodCollectionUID          - UID of particular food donation
+     * @param foodCollectionDataCallBack - return the Food Donation data for a particular UID
+     */
+    private void getFoodCollectionData(final String foodCollectionUID, FoodCollectionDataCallBack foodCollectionDataCallBack) {
+        DatabaseReference foodDonationDataReference = FOOD_DONATION_REFERENCE
+                .child(foodCollectionUID);
+
+        foodDonationDataReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DonateFoodPojo donateFoodPojo = dataSnapshot.getValue(DonateFoodPojo.class);
+
+                getUserData(donateFoodPojo.getUserUID(), NAUser -> {
+                    donateFoodPojo.setNaUser(NAUser);
+                    foodCollectionDataCallBack.onCallBack(donateFoodPojo);
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     /* ------------------------------------------------------------- *
      * Interfaces
      * ------------------------------------------------------------- */
@@ -463,6 +550,18 @@ public class RetrievingNotificationData {
 
     public interface ApprovedUsersDataListCallback {
         void onCallBack(List<NAUser> approvedUsersList);
+    }
+
+    interface FoodCollectionUIDListCallBack {
+        void onCallBack(List<String> foodCollectionUIDList);
+    }
+
+    interface FoodCollectionDataCallBack {
+        void onCallBack(DonateFoodPojo donateFoodData);
+    }
+
+    public interface FoodCollectionDataListCallback {
+        void onCallBack(List<DonateFoodPojo> foodCollectionDataList);
     }
 
 }

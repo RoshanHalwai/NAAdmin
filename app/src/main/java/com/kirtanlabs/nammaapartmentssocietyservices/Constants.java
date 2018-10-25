@@ -124,6 +124,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_SCRAP_COLLECTION = "scrapCollection";
     public static final String FIREBASE_CHILD_SUPPORT_NOTIFICATION = "supportNotification";
     public static final String FIREBASE_CHILD_GATE_NUMBER = "gateNumber";
+    public static final String FIREBASE_CHILD_Food_DONATION = "foodDonations";
 
     /* ------------------------------------------------------------- *
      * Firebase Values
@@ -159,6 +160,7 @@ public class Constants {
     public static final DatabaseReference PRIVATE_GUARD_REFERENCE = GUARD_REFERENCE.child(FIREBASE_CHILD_PRIVATE);
     public static final DatabaseReference GUARDS_DATA_REFERENCE = PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_DATA);
     public static final DatabaseReference SUPPORT_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_SUPPORT);
+    public static final DatabaseReference FOOD_DONATION_REFERENCE = FIREBASE_DATABASE.getReference(FIREBASE_CHILD_Food_DONATION);
 
     /* ------------------------------------------------------------- *
      * Remote Message Keys And Values

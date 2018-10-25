@@ -127,6 +127,8 @@
     <string name="help_desk">Help Desk</string>
     <string name="image_society_admin_service_desc">Image Services that Society Admin will do</string>
     <string name="pending_user_list">Unapproved Users</string>
+    <string name="scrap_collections">Scrap Collections</string>
+    <string name="food_collections">Food Collections</string>
 
     <string-array name="society_admin_services">
         <item>@string/manage_users</item>
@@ -135,6 +137,8 @@
         <item>@string/booked_events</item>
         <item>@string/add_notice</item>
         <item>@string/help_desk</item>
+        <item>@string/food_collections</item>
+        <item>@string/scrap_collections</item>
     </string-array>
 
     <!--Manage Users Activity-->
@@ -205,5 +209,10 @@
     <string name="help_service_type">Type:</string>
     <string name="help_description">Description:</string>
     <string name="whatsapp">Whatsapp</string>
+
+    <!--Food Collection Activity-->
+    <string name="food_type">Food Type:</string>
+    <string name="quantity">Quantity:</string>
+    <string name="food_collection_unavailable">Currently there is no Food Donation done by any user in your society</string>
 
 </resources>
