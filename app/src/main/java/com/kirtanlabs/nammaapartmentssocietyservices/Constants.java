@@ -12,6 +12,11 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class Constants {
 
+    /**
+     * ------------------------------------------------------------- *
+     * ----------------DO NOT AUTO-FORMAT THIS FILE-------------------*
+     * --------------------------------------------------------------
+     */
     /* ------------------------------------------------------------- *
      * Environment
      * ------------------------------------------------------------- */
@@ -31,6 +36,9 @@ public class Constants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String SOCIETY_SERVICE_TYPE = "societyServiceType";
     public static final String NOTIFICATION_ID = "notificationID";
+    public static final String NAME_OLD_CONTENT = "nameOldContent";
+    public static final String PROFILE_PIC_OLD_CONTENT = "profilePicOldContent";
+    public static final String GATE_NUMBER_OLD_CONTENT = "gateNumberOldContent";
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -48,7 +56,7 @@ public class Constants {
     static final int PLACE_CALL_PERMISSION_REQUEST_CODE = 1;
     public static final int END_SERVICE_REQUEST_CODE = 2;
     public static final int SOCIETY_SERVICE_REGISTRATION_REQUEST_CODE = 3;
-    public static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
+    static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
     public static final int NEW_USER_OR_NEW_EVENT_REQUEST_CODE = 5;
     static final int SEND_SMS_PERMISSION_REQUEST_CODE = 6;
     static final int ENABLE_LOCATION_PERMISSION_CODE = 7;

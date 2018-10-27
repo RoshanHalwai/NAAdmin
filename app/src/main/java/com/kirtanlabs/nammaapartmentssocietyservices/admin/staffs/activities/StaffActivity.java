@@ -19,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CARPENTER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ELECTRICIAN;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.GARBAGE_COLLECTOR;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.GUARD;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PLUMBER;
+
 public class StaffActivity extends BaseActivity {
 
     /* ------------------------------------------------------------- *
@@ -44,19 +50,19 @@ public class StaffActivity extends BaseActivity {
     protected int getActivityTitle() {
         staffType = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_TYPE);
         switch (staffType) {
-            case Constants.PLUMBER:
+            case PLUMBER:
                 screenTitle = R.string.plumbers;
                 break;
-            case Constants.CARPENTER:
+            case CARPENTER:
                 screenTitle = R.string.carpenters;
                 break;
-            case Constants.ELECTRICIAN:
+            case ELECTRICIAN:
                 screenTitle = R.string.electricians;
                 break;
-            case Constants.GARBAGE_COLLECTOR:
+            case GARBAGE_COLLECTOR:
                 screenTitle = R.string.garbageCollectors;
                 break;
-            case Constants.GUARD:
+            case GUARD:
                 screenTitle = R.string.guards;
                 break;
         }

@@ -111,6 +111,11 @@
             android:name=".admin.staffs.activities.StaffActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".admin.staffs.activities.EditStaffActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Approve Event Screen -->
         <activity
             android:name=".admin.approveevents.activities.ApproveEventsActivity"
@@ -133,6 +138,7 @@
         <activity
             android:name=".admin.foodcollections.activities.FoodCollectionsActivity"
             android:screenOrientation="portrait" />
+
 
     </application>
 
