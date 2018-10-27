@@ -289,6 +289,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     }
 
     /**
+     * This method gets invoked when the Admin presses the profilePic image to capture a photo
+     */
+    protected void launchCamera() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+        else {
+            EasyImage.openCamera(this, 0);
+        }
+    }
+
+    /**
      * This method checks if all the editTexts are filled or not.
      *
      * @param fields consists of array of EditTexts.
