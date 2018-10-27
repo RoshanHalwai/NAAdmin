@@ -78,6 +78,7 @@ public class Constants {
      * Application Specific
      * ------------------------------------------------------------- */
 
+    public static final String PACKAGE_NAME = "com.kirtanlabs.nammaapartmentssocietyservices";
     public static final String COUNTRY_CODE_IN = "+91";
     public static final int DEFAULT_MANAGE_USERS_TAB_POSITION = 1;
     public static final int SOCIETY_SERVICE_DEFAULT_RATING_VALUE = 3;
