@@ -215,4 +215,13 @@
     <string name="quantity">Quantity:</string>
     <string name="food_collection_unavailable">Currently there is no Food Donation done by any user in your society</string>
 
+    <!--Edit Staff Activity-->
+    <string name="done">Done</string>
+    <string name="edit_staff">Edit Staff</string>
+    <string name="camera">Camera</string>
+    <string name="enter_gate_number">Please Enter Gate Number</string>
+    <string name="update_message">Update Message</string>
+    <string name="updating_profile">Updating Profile</string>
+    <string name="update_profile_photo">Updating Photo</string>
+
 </resources>

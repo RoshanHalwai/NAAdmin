@@ -1,13 +1,10 @@
 package com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
@@ -38,16 +35,12 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_GUARD_REFERENCE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ADMIN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ALL;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GATE_NUMBER;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PROFILE_PHOTO;
-import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_STORAGE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_GUARD_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
@@ -295,9 +288,9 @@ public class Register extends BaseActivity implements View.OnClickListener {
             /*Adding the profile photo to storage reference and Guard Data to real time database */
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 /*creating the upload object to store uploaded image details and guard data*/
-                securityGuardDetailsReference.child(FIREBASE_CHILD_PROFILE_PHOTO).setValue(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
-                securityGuardDetailsReference.child(FIREBASE_CHILD_STATUS).setValue(getString(R.string.available).toLowerCase());
-                securityGuardDetailsReference.child(FIREBASE_CHILD_GATE_NUMBER).setValue(Integer.parseInt(gateNumber));
+                societyServiceData.setProfilePhoto(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+                societyServiceData.setStatus(getString(R.string.available).toLowerCase());
+                societyServiceData.setGateNumber(Integer.parseInt(gateNumber));
 
                 /*We want to map Admin Guard with UID to ensure all User Security Notifications are sent only to this Guard
                  * This will ensure we do not iterate over each of the Guard's UID and find the Admin, hence making this
@@ -345,17 +338,6 @@ public class Register extends BaseActivity implements View.OnClickListener {
                         getString(R.string.society_service_added_message),
                         adminHomeIntent);
             });
-        }
-    }
-
-    /**
-     * This method gets invoked when the Admin presses the profilePic image to capture a photo
-     */
-    private void launchCamera() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
-        else {
-            EasyImage.openCamera(Register.this, 0);
         }
     }
 
