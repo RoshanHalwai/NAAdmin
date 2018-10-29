@@ -7,7 +7,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.foodcollections.pojo.DonateFoodPojo;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
@@ -24,8 +23,12 @@ import java.util.Objects;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_USERS_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_OTHER_DETAILS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_RATING;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TIMESTAMP;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_PENDING;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FOOD_DONATION_REFERENCE;
@@ -73,7 +76,7 @@ public class RetrievingNotificationData {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     SocietyServiceData societyServiceData = dataSnapshot.getValue(SocietyServiceData.class);
                     Objects.requireNonNull(societyServiceData).setSocietyServiceType(serviceType);
-                    societyServiceData.setRating(dataSnapshot.child(Constants.FIREBASE_CHILD_RATING).getValue(Integer.class));
+                    societyServiceData.setRating(dataSnapshot.child(FIREBASE_CHILD_RATING).getValue(Integer.class));
                     societyServiceDataCallback.onCallback(societyServiceData);
                 }
 
@@ -140,7 +143,7 @@ public class RetrievingNotificationData {
                     for (SocietyServiceNotification societyServiceNotification : societyServiceNotificationList) {
                         getUserData(societyServiceNotification.getUserUID(), NAUser -> {
                             societyServiceNotification.setNaUser(NAUser);
-                            societyServiceNotification.setSocietyServiceResponse(Constants.FIREBASE_CHILD_ACCEPTED);
+                            societyServiceNotification.setSocietyServiceResponse(FIREBASE_CHILD_ACCEPTED);
                             serviceFutureList.add(societyServiceNotification);
                             if (societyServiceNotificationList.size() == serviceFutureList.size()) {
                                 futureNotificationDataListCallback.onCallback(serviceFutureList);
@@ -269,7 +272,7 @@ public class RetrievingNotificationData {
      */
     private void getHistoryUIDMap(HistoryUIDMapCallback historyUIDMapCallback) {
         Query historyReference = ((SocietyServiceGlobal) context.getApplicationContext())
-                .getHistoryNotificationReference().orderByKey();
+                .getHistoryNotificationReference().orderByValue();
         historyReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -394,7 +397,7 @@ public class RetrievingNotificationData {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 NAUser naUser = dataSnapshot.getValue(NAUser.class);
-                long timestamp = Objects.requireNonNull(dataSnapshot.child(Constants.FIREBASE_CHILD_OTHER_DETAILS).child(Constants.FIREBASE_CHILD_TIMESTAMP).getValue(Long.class));
+                long timestamp = Objects.requireNonNull(dataSnapshot.child(FIREBASE_CHILD_OTHER_DETAILS).child(FIREBASE_CHILD_TIMESTAMP).getValue(Long.class));
                 Objects.requireNonNull(naUser).setTimestamp(timestamp);
                 userDataCallback.onCallBack(naUser);
             }

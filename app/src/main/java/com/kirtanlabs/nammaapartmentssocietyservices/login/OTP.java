@@ -23,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
-import com.kirtanlabs.nammaapartmentssocietyservices.Constants;
 import com.kirtanlabs.nammaapartmentssocietyservices.R;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.SocietyAdminHome;
 import com.kirtanlabs.nammaapartmentssocietyservices.home.HomeViewPager;
@@ -34,11 +33,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import static android.view.View.GONE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.COUNTRY_CODE_IN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.EDIT_TEXT_EMPTY_LENGTH;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_OTP;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_AUTH;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.HYPHEN;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.MOBILE_NUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.OTP_TIMER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_ADMIN_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_MOBILE_NUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoLightFont;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 
 
 public class OTP extends BaseActivity implements View.OnClickListener {
@@ -95,22 +103,30 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         textChangeNumberOrTimer = findViewById(R.id.textChangeNumberOrTimer);
 
         /*Setting font for all the views*/
-        textDescription.setTypeface(Constants.setLatoRegularFont(this));
-        editFirstOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        editSecondOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        editThirdOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        editFourthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        editFifthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        editSixthOTPDigit.setTypeface(Constants.setLatoRegularFont(this));
-        buttonVerifyOTP.setTypeface(Constants.setLatoLightFont(this));
+        textDescription.setTypeface(setLatoRegularFont(this));
+        editFirstOTPDigit.setTypeface(setLatoRegularFont(this));
+        editSecondOTPDigit.setTypeface(setLatoRegularFont(this));
+        editThirdOTPDigit.setTypeface(setLatoRegularFont(this));
+        editFourthOTPDigit.setTypeface(setLatoRegularFont(this));
+        editFifthOTPDigit.setTypeface(setLatoRegularFont(this));
+        editSixthOTPDigit.setTypeface(setLatoRegularFont(this));
+        buttonVerifyOTP.setTypeface(setLatoLightFont(this));
+
+        /* Since multiple activities make use of this class we get previous
+         * screen title and update the views accordingly*/
+        getPreviousScreenTitle();
+        updatePhoneVerificationText();
 
         /*If Previous screen title is Serving, we wouldn't want Firebase to generate OTP*/
         if (previousScreenTitle != R.string.serving) {
             /* Generate an OTP to user's mobile number */
-            userMobileNumber = getIntent().getStringExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER);
+            userMobileNumber = getIntent().getStringExtra(SOCIETY_SERVICE_MOBILE_NUMBER);
             sendOTP();
             /* Start the Resend OTP timer, valid for 120 seconds*/
             startResendOTPTimer();
+        } else {
+            textResendOTPOrVerificationMessage.setVisibility(GONE);
+            textChangeNumberOrTimer.setVisibility(GONE);
         }
 
         /*Setting events for OTP edit text*/
@@ -119,11 +135,6 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         /*Setting onClickListener for view*/
         buttonVerifyOTP.setOnClickListener(this);
         textResendOTPOrVerificationMessage.setOnClickListener(v -> resendOTP());
-
-        /* Since multiple activities make use of this class we get previous
-         * screen title and update the views accordingly*/
-        getPreviousScreenTitle();
-        updatePhoneVerificationText();
     }
 
     /* ------------------------------------------------------------- *
@@ -155,7 +166,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                     editSixthOTPDigit.getText().toString();
 
             if (previousScreenTitle == R.string.serving) {
-                if (code.equals(getIntent().getStringExtra(Constants.END_OTP))) {
+                if (code.equals(getIntent().getStringExtra(END_OTP))) {
                     setResult(Activity.RESULT_OK, new Intent());
                     finish();
                 } else {
@@ -179,7 +190,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         setUpVerificationCallbacks();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 COUNTRY_CODE_IN + userMobileNumber,
-                Constants.OTP_TIMER,
+                OTP_TIMER,
                 TimeUnit.SECONDS,
                 this,
                 verificationCallbacks);
@@ -235,18 +246,18 @@ public class OTP extends BaseActivity implements View.OnClickListener {
                     if (task.isSuccessful()) {
                         /*Existing user is Logging in*/
                         if (previousScreenTitle == R.string.login) {
-                            DatabaseReference allSocietyServiceReference = Constants.ALL_SOCIETY_SERVICES_REFERENCE.child(userMobileNumber);
+                            DatabaseReference allSocietyServiceReference = ALL_SOCIETY_SERVICES_REFERENCE.child(userMobileNumber);
                             allSocietyServiceReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     //Society Service has Logged In
                                     if (dataSnapshot.exists()) {
                                         Intent intent = new Intent(OTP.this, HomeViewPager.class);
-                                        intent.putExtra(Constants.SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
+                                        intent.putExtra(SOCIETY_SERVICE_MOBILE_NUMBER, userMobileNumber);
                                         startActivity(intent);
                                         finish();
                                     } else {
-                                        DatabaseReference societyServiceAdminReference = Constants.SOCIETY_SERVICES_ADMIN_REFERENCE.child(Constants.MOBILE_NUMBER);
+                                        DatabaseReference societyServiceAdminReference = SOCIETY_SERVICES_ADMIN_REFERENCE.child(MOBILE_NUMBER);
                                         societyServiceAdminReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -303,7 +314,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
     private void resendOTP() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 COUNTRY_CODE_IN + userMobileNumber,
-                Constants.OTP_TIMER,
+                OTP_TIMER,
                 TimeUnit.SECONDS,
                 this,
                 verificationCallbacks,
@@ -355,7 +366,7 @@ public class OTP extends BaseActivity implements View.OnClickListener {
      * This method to invoked to get the screen title based on the user navigating from previous screen
      */
     private void getPreviousScreenTitle() {
-        previousScreenTitle = getIntent().getIntExtra(Constants.SCREEN_TITLE, 0);
+        previousScreenTitle = getIntent().getIntExtra(SCREEN_TITLE, 0);
     }
 
     /**
