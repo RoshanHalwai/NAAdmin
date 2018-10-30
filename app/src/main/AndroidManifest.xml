@@ -116,7 +116,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Approve Event Screen -->
+        <!-- Booked Events Screen -->
         <activity
             android:name=".admin.approveevents.activities.ApproveEventsActivity"
             android:screenOrientation="portrait" />
@@ -134,11 +134,13 @@
             android:name=".admin.helpdesk.activities.HelpDeskActivity"
             android:screenOrientation="portrait" />
 
-        <!-- Food Collections Screen -->
+        <!-- Food Collections and History Screen -->
         <activity
             android:name=".admin.foodcollections.activities.FoodCollectionsActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".admin.foodcollections.activities.FoodCollectionHistory"
+            android:screenOrientation="portrait" />
 
     </application>
 

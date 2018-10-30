@@ -134,6 +134,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_SUPPORT_NOTIFICATION = "supportNotification";
     public static final String FIREBASE_CHILD_GATE_NUMBER = "gateNumber";
     public static final String FIREBASE_CHILD_Food_DONATION = "foodDonations";
+    public static final String FIREBASE_CHILD_PENDING = "Pending";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

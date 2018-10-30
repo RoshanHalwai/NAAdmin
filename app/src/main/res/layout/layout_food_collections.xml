@@ -85,6 +85,14 @@
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
+                    <TextView
+                        android:id="@+id/textFoodDonationStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/status"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,9 +150,28 @@
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
 
+                    <TextView
+                        android:id="@+id/textFoodDonationStatusValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:textColor="@color/nmBlack"
+                        android:textSize="18sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonUpdateStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/nmBlack"
+                android:text="@string/update_status"
+                android:textAllCaps="true"
+                android:textColor="@color/nmLightYellow"
+                android:textSize="@dimen/button_default_size" />
 
         </LinearLayout>
 
