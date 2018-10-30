@@ -158,6 +158,7 @@
                         android:padding="2dp"
                         android:textColor="@color/nmBlack"
                         android:textSize="18sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -172,6 +173,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/nmLightYellow"
                 android:textSize="@dimen/button_default_size" />
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

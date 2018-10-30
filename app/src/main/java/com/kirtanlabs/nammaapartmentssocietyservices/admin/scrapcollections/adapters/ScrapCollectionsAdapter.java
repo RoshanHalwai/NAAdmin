@@ -55,7 +55,7 @@ public class ScrapCollectionsAdapter extends RecyclerView.Adapter<ScrapCollectio
     @Override
     public ScrapCollectionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.layout_food_collections, parent, false);
+        View view = inflater.inflate(R.layout.layout_food_collections_and_scrap_collections, parent, false);
         return new ScrapCollectionHolder(view);
     }
 

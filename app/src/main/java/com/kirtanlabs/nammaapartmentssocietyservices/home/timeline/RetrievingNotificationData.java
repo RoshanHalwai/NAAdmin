@@ -92,6 +92,11 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * This method retrieves the serving notification data of that particular society service
+     *
+     * @param servingNotificationDataCallback callback to return the serving notification data.
+     */
     public void getServingNotificationData(ServingNotificationDataCallback servingNotificationDataCallback) {
         getServingNotificationUID(servingUID -> {
             if (servingUID == null) {
@@ -174,9 +179,13 @@ public class RetrievingNotificationData {
 
                 for (String foodCollectionUID : foodCollectionUIDList) {
                     getFoodCollectionData(foodCollectionUID, donateFoodData -> {
-                        foodCollectionDataList.add(donateFoodData);
+                        count++;
+                        if (!donateFoodData.getStatus().equals(FIREBASE_CHILD_COLLECTED)) {
+                            foodCollectionDataList.add(donateFoodData);
+                        }
 
-                        if (foodCollectionDataList.size() == foodCollectionUIDList.size()) {
+                        if (count == foodCollectionUIDList.size()) {
+                            count = 0;
                             foodCollectionDataListCallback.onCallBack(foodCollectionDataList);
                         }
                     });
@@ -221,6 +230,36 @@ public class RetrievingNotificationData {
     }
 
     /**
+     * This method retrieves all the food donations whose status has been changed to "Collected"
+     *
+     * @param foodCollectionDataListCallback resulting callback to return list of food donations whose status is "Collected"
+     */
+    public void getFoodDonationHistoryList(FoodCollectionDataListCallback foodCollectionDataListCallback) {
+        /*Getting the list of all food collection UID*/
+        getFoodCollectionUIDList(foodCollectionUIDList -> {
+            if (!foodCollectionUIDList.isEmpty()) {
+                ArrayList<DonateFoodPojo> foodCollectionHistoryList = new ArrayList<>();
+
+                for (String foodDonationUID : foodCollectionUIDList) {
+                    getFoodCollectionData(foodDonationUID, donateFoodData -> {
+                        count++;
+                        if (donateFoodData.getStatus().equals(FIREBASE_CHILD_COLLECTED)) {
+                            foodCollectionHistoryList.add(donateFoodData);
+                        }
+
+                        if (count == foodCollectionUIDList.size()) {
+                            count = 0;
+                            foodCollectionDataListCallback.onCallBack(foodCollectionHistoryList);
+                        }
+                    });
+                }
+            } else {
+                foodCollectionDataListCallback.onCallBack(new ArrayList<>());
+            }
+        });
+    }
+
+    /**
      * This method retrieves all the scrap collections whose status has been changed to "Completed"
      *
      * @param scrapCollectionDataListCallback resulting callback to return list of scrap collections whose status is "Completed"
@@ -249,7 +288,6 @@ public class RetrievingNotificationData {
             }
         });
     }
-
 
     /**
      * Returns a list of all unapproved users data
@@ -548,7 +586,7 @@ public class RetrievingNotificationData {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DonateFoodPojo donateFoodPojo = dataSnapshot.getValue(DonateFoodPojo.class);
 
-                getUserData(donateFoodPojo.getUserUID(), NAUser -> {
+                getUserData(Objects.requireNonNull(donateFoodPojo).getUserUID(), NAUser -> {
                     donateFoodPojo.setNaUser(NAUser);
                     foodCollectionDataCallBack.onCallBack(donateFoodPojo);
                 });
@@ -561,6 +599,11 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * This method gets individual data of that particular society service notification UID
+     *
+     * @param scrapCollectionUIDListCallBack callback resulting complete data of that particular society service.
+     */
     private void getAllSocietyServicesUIDList(ScrapCollectionUIDListCallback scrapCollectionUIDListCallBack) {
         ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -585,6 +628,11 @@ public class RetrievingNotificationData {
         });
     }
 
+    /**
+     * This method gets all the society services data based on that particular UID
+     * @param SocietyServiceUID contains the societyServiceUID of that particular society service data
+     * @param scrapCollectionDataCallBack callback resulting data of that particular UID.
+     */
     private void getSocietyServicesData(final String SocietyServiceUID, ScrapCollectionDataCallBack scrapCollectionDataCallBack) {
         ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(SocietyServiceUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
