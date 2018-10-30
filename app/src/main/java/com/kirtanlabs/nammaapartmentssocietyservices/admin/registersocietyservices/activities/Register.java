@@ -253,7 +253,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
      * This method is invoked when the 'Admin' registers a Society Service
      */
     private void storeSocietyServiceData() {
-        //displaying progress dialog while image is uploading
+        /*displaying progress dialog while image is uploading*/
         showProgressDialog(this,
                 getString(R.string.adding_society_service_data),
                 getString(R.string.please_wait_a_moment));
@@ -269,6 +269,7 @@ public class Register extends BaseActivity implements View.OnClickListener {
         SocietyServiceData societyServiceData = new SocietyServiceData(fullName,
                 mobileNumber, societyServiceUID);
 
+        /*Navigating Admin to Home Screen once when admin successfully registers guard*/
         Intent adminHomeIntent = new Intent(Register.this, SocietyAdminHome.class);
         adminHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -282,6 +283,10 @@ public class Register extends BaseActivity implements View.OnClickListener {
             StorageReference storageReference = FIREBASE_STORAGE.getReference(serviceType)
                     .child(FIREBASE_CHILD_PRIVATE)
                     .child(societyServiceUID);
+
+            /*Mapping Security Guard mobile number with security guard UID under guard->all*/
+            DatabaseReference securityGuardAllReference = ALL_GUARD_REFERENCE.child(mobileNumber);
+            securityGuardAllReference.setValue(societyServiceUID);
 
             UploadTask uploadTask = storageReference.putBytes(getByteArrayFromFile(Register.this, profilePhotoPath));
 
@@ -299,19 +304,18 @@ public class Register extends BaseActivity implements View.OnClickListener {
                     PRIVATE_GUARD_REFERENCE.child(FIREBASE_CHILD_ADMIN).setValue(societyServiceUID);
                 }
 
-            }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
-
-            /*Mapping Security Guard mobile number with security guard UID under guard->all*/
-            DatabaseReference securityGuardAllReference = ALL_GUARD_REFERENCE.child(mobileNumber);
-            securityGuardAllReference.setValue(societyServiceUID);
-
-            /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
-            securityGuardDetailsReference.setValue(societyServiceData).addOnSuccessListener(aVoid -> {
+                /*dismissing the progress dialog*/
                 hideProgressDialog();
+
+                /*Storing the Security Guard personal details under guard->private->data->securityGuardUID*/
+                securityGuardDetailsReference.setValue(societyServiceData);
+
+                /*Show an alert dialog to admin that they successfully registered guard*/
                 showNotificationDialog(getString(R.string.security_guard_added_title),
                         getString(R.string.security_guard_added_message),
                         adminHomeIntent);
-            });
+
+            }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show());
 
         } else {
             /*Getting the reference of 'Data' child under 'societyServices'*/
