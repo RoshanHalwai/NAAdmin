@@ -15,6 +15,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/imageSocietyService"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
@@ -68,7 +69,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textFoodType"
+                        android:id="@+id/textFoodTypeAndScrapType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -86,7 +87,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textFoodDonationStatus"
+                        android:id="@+id/textStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -135,7 +136,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textFoodTypeValue"
+                        android:id="@+id/textFoodTypeAndScrapTypeValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -151,7 +152,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textFoodDonationStatusValue"
+                        android:id="@+id/textStatusValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"

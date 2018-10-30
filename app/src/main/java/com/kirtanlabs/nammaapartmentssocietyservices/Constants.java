@@ -39,6 +39,8 @@ public class Constants {
     public static final String NAME_OLD_CONTENT = "nameOldContent";
     public static final String PROFILE_PIC_OLD_CONTENT = "profilePicOldContent";
     public static final String GATE_NUMBER_OLD_CONTENT = "gateNumberOldContent";
+    public static final String IN_PROGRESS = "in progress";
+
 
     /* ------------------------------------------------------------- *
      * Validation Keys
@@ -134,7 +136,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_SUPPORT_NOTIFICATION = "supportNotification";
     public static final String FIREBASE_CHILD_GATE_NUMBER = "gateNumber";
     public static final String FIREBASE_CHILD_Food_DONATION = "foodDonations";
-    public static final String FIREBASE_CHILD_PENDING = "Pending";
+    public static final String FIREBASE_CHILD_COLLECTED="Collected";
 
     /* ------------------------------------------------------------- *
      * Firebase Values

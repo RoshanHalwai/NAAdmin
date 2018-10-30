@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kirtanlabs.nammaapartmentssocietyservices.BaseActivity;
@@ -20,6 +19,7 @@ import com.kirtanlabs.nammaapartmentssocietyservices.admin.foodcollections.activ
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.helpdesk.activities.HelpDeskActivity;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.manageusers.ManageUsers;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.registersocietyservices.activities.RegistrationCategories;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.scrapcollections.activities.ScrapCollectionsActivity;
 
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SCREEN_TITLE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.pushnotifications.MyFirebaseInstanceIdService.getRefreshedToken;
@@ -120,8 +120,9 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
             case 6:
                 startActivity(new Intent(SocietyAdminHome.this, FoodCollectionsActivity.class));
                 break;
-            default:
-                Toast.makeText(this, "Yet to Implemented", Toast.LENGTH_SHORT).show();
+            case 7:
+                startActivity(new Intent(SocietyAdminHome.this, ScrapCollectionsActivity.class));
+                break;
         }
     }
 
