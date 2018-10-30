@@ -24,6 +24,7 @@ import java.util.Objects;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_COMPLETED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_OTHER_DETAILS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
@@ -170,14 +171,48 @@ public class RetrievingNotificationData {
 
                 for (String foodCollectionUID : foodCollectionUIDList) {
                     getFoodCollectionData(foodCollectionUID, donateFoodData -> {
-                        foodCollectionDataList.add(donateFoodData);
+                        count++;
+                        if (!donateFoodData.getStatus().equals(FIREBASE_CHILD_COMPLETED)) {
+                            foodCollectionDataList.add(donateFoodData);
+                        }
 
-                        if (foodCollectionDataList.size() == foodCollectionUIDList.size()) {
+                        if (count == foodCollectionUIDList.size()) {
+                            count = 0;
                             foodCollectionDataListCallback.onCallBack(foodCollectionDataList);
                         }
                     });
                 }
 
+            } else {
+                foodCollectionDataListCallback.onCallBack(new ArrayList<>());
+            }
+        });
+    }
+
+    /**
+     * This method retrieves all the food donations whose status has been changed to "Completed"
+     *
+     * @param foodCollectionDataListCallback resulting callback to return list of food donations whose status is "Completed"
+     */
+    public void getFoodDonationHistoryList(FoodCollectionDataListCallback foodCollectionDataListCallback) {
+        /*Getting the list of all food collection UID*/
+        getFoodCollectionUIDList(foodCollectionUIDList -> {
+            if (!foodCollectionUIDList.isEmpty()) {
+                ArrayList<DonateFoodPojo> foodCollectionHistoryList = new ArrayList<>();
+
+                for (String foodDonationUID : foodCollectionUIDList) {
+                    getFoodCollectionData(foodDonationUID, donateFoodData -> {
+                        count++;
+                        if (donateFoodData.getStatus().equals(FIREBASE_CHILD_COMPLETED)) {
+                            foodCollectionHistoryList.add(donateFoodData);
+                        }
+
+                        if (count == foodCollectionUIDList.size()) {
+                            count = 0;
+                            foodCollectionDataListCallback.onCallBack(foodCollectionHistoryList);
+                        }
+                    });
+                }
             } else {
                 foodCollectionDataListCallback.onCallBack(new ArrayList<>());
             }
@@ -481,7 +516,7 @@ public class RetrievingNotificationData {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DonateFoodPojo donateFoodPojo = dataSnapshot.getValue(DonateFoodPojo.class);
 
-                getUserData(donateFoodPojo.getUserUID(), NAUser -> {
+                getUserData(Objects.requireNonNull(donateFoodPojo).getUserUID(), NAUser -> {
                     donateFoodPojo.setNaUser(NAUser);
                     foodCollectionDataCallBack.onCallBack(donateFoodPojo);
                 });
