@@ -93,15 +93,15 @@ public class FoodCollectionsAdapter extends RecyclerView.Adapter<FoodCollections
             textResidentName = itemView.findViewById(R.id.textResidentName);
             textApartment = itemView.findViewById(R.id.textApartment);
             textFlatNumber = itemView.findViewById(R.id.textFlatNumber);
-            textFoodType = itemView.findViewById(R.id.textFoodType);
+            textFoodType = itemView.findViewById(R.id.textFoodTypeAndScrapType);
             textQuantity = itemView.findViewById(R.id.textQuantity);
             textResidentNameValue = itemView.findViewById(R.id.textResidentNameValue);
             textApartmentValue = itemView.findViewById(R.id.textApartmentValue);
             textFlatNumberValue = itemView.findViewById(R.id.textFlatNumberValue);
-            textFoodTypeValue = itemView.findViewById(R.id.textFoodTypeValue);
+            textFoodTypeValue = itemView.findViewById(R.id.textFoodTypeAndScrapTypeValue);
             textQuantityValue = itemView.findViewById(R.id.textQuantityValue);
 
-            /*Setting font Id's for the view*/
+            /*Setting fonts for all the view*/
             textResidentName.setTypeface(setLatoRegularFont(mCtx));
             textApartment.setTypeface(setLatoRegularFont(mCtx));
             textFlatNumber.setTypeface(setLatoRegularFont(mCtx));

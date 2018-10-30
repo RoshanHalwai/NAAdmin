@@ -9,6 +9,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal;
 import com.kirtanlabs.nammaapartmentssocietyservices.admin.foodcollections.pojo.DonateFoodPojo;
+import com.kirtanlabs.nammaapartmentssocietyservices.admin.scrapcollections.pojo.ScrapCollectionPojo;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.NammaApartmentUser.NAUser;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceData;
 import com.kirtanlabs.nammaapartmentssocietyservices.pojo.SocietyServiceNotification;
@@ -24,14 +25,17 @@ import java.util.Objects;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIETYSERVICENOTIFICATION_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_COLLECTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_DATA;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_OTHER_DETAILS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PRIVATE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_RATING;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_SCRAP_COLLECTION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_TIMESTAMP;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_APPROVED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_VERIFIED_PENDING;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FOOD_DONATION_REFERENCE;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.IN_PROGRESS;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.PRIVATE_USERS_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICES_REFERENCE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.SOCIETY_SERVICE_TYPE_REFERENCE;
@@ -183,6 +187,69 @@ public class RetrievingNotificationData {
             }
         });
     }
+
+    /**
+     * This method returns the list of all scrap collections
+     *
+     * @param scrapCollectionDataListCallback - callback to return the list of all scrap collection data.
+     */
+    public void getScrapCollectionDataList(ScrapCollectionDataListCallback scrapCollectionDataListCallback) {
+        /*Getting the list of all society services UID's*/
+        getAllSocietyServicesUIDList(societyServicesUIDList -> {
+            if (!societyServicesUIDList.isEmpty()) {
+                ArrayList<ScrapCollectionPojo> scrapCollectionDataList = new ArrayList<>();
+
+                for (String scrapCollectionUID : societyServicesUIDList) {
+                    getSocietyServicesData(scrapCollectionUID, societyServicesData -> {
+                        count++;
+                        if (societyServicesData.getSocietyServiceType().equals(FIREBASE_CHILD_SCRAP_COLLECTION) && societyServicesData.getStatus().equals(IN_PROGRESS)) {
+                            scrapCollectionDataList.add(societyServicesData);
+                        }
+
+                        if (count == societyServicesUIDList.size()) {
+                            count = 0;
+                            scrapCollectionDataListCallback.onCallBack(scrapCollectionDataList);
+                        }
+                    });
+                }
+
+            } else {
+                scrapCollectionDataListCallback.onCallBack(new ArrayList<>());
+            }
+        });
+
+    }
+
+    /**
+     * This method retrieves all the scrap collections whose status has been changed to "Completed"
+     *
+     * @param scrapCollectionDataListCallback resulting callback to return list of scrap collections whose status is "Completed"
+     */
+    public void getScrapCollectionHistoryList(ScrapCollectionDataListCallback scrapCollectionDataListCallback) {
+        /*Getting the list of all society services UID*/
+        getAllSocietyServicesUIDList(societyServicesUIDList -> {
+            if (!societyServicesUIDList.isEmpty()) {
+                ArrayList<ScrapCollectionPojo> scrapCollectionHistoryList = new ArrayList<>();
+
+                for (String scrapCollectionUID : societyServicesUIDList) {
+                    getSocietyServicesData(scrapCollectionUID, societyServicesData -> {
+                        count++;
+                        if (societyServicesData.getSocietyServiceType().equals(FIREBASE_CHILD_SCRAP_COLLECTION) && societyServicesData.getStatus().equals(FIREBASE_CHILD_COLLECTED)) {
+                            scrapCollectionHistoryList.add(societyServicesData);
+                        }
+
+                        if (count == societyServicesUIDList.size()) {
+                            count = 0;
+                            scrapCollectionDataListCallback.onCallBack(scrapCollectionHistoryList);
+                        }
+                    });
+                }
+            } else {
+                scrapCollectionDataListCallback.onCallBack(new ArrayList<>());
+            }
+        });
+    }
+
 
     /**
      * Returns a list of all unapproved users data
@@ -494,6 +561,48 @@ public class RetrievingNotificationData {
         });
     }
 
+    private void getAllSocietyServicesUIDList(ScrapCollectionUIDListCallback scrapCollectionUIDListCallBack) {
+        ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<String> societyServicesUIDList = new ArrayList<>();
+                    for (DataSnapshot societyServicesUIDSnapshot : dataSnapshot.getChildren()) {
+                        societyServicesUIDList.add(societyServicesUIDSnapshot.getKey());
+                    }
+                    if (societyServicesUIDList.size() == dataSnapshot.getChildrenCount()) {
+                        scrapCollectionUIDListCallBack.onCallBack(societyServicesUIDList);
+                    }
+                } else {
+                    scrapCollectionUIDListCallBack.onCallBack(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getSocietyServicesData(final String SocietyServiceUID, ScrapCollectionDataCallBack scrapCollectionDataCallBack) {
+        ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(SocietyServiceUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ScrapCollectionPojo scrapCollectionPojo = dataSnapshot.getValue(ScrapCollectionPojo.class);
+
+                getUserData(Objects.requireNonNull(scrapCollectionPojo).getUserUID(), NAUser -> {
+                    scrapCollectionPojo.setNaUser(NAUser);
+                    scrapCollectionDataCallBack.onCallBack(scrapCollectionPojo);
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     /* ------------------------------------------------------------- *
      * Interfaces
      * ------------------------------------------------------------- */
@@ -567,4 +676,15 @@ public class RetrievingNotificationData {
         void onCallBack(List<DonateFoodPojo> foodCollectionDataList);
     }
 
+    interface ScrapCollectionUIDListCallback {
+        void onCallBack(List<String> scrapCollectionUIDList);
+    }
+
+    interface ScrapCollectionDataCallBack {
+        void onCallBack(ScrapCollectionPojo scrapCollectionPojo);
+    }
+
+    public interface ScrapCollectionDataListCallback {
+        void onCallBack(List<ScrapCollectionPojo> scrapCollectionPojoList);
+    }
 }

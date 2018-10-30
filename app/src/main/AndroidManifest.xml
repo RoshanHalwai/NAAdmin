@@ -139,6 +139,14 @@
             android:name=".admin.foodcollections.activities.FoodCollectionsActivity"
             android:screenOrientation="portrait" />
 
+        <!--Scrap Collections and History Screen -->
+        <activity
+            android:name=".admin.scrapcollections.activities.ScrapCollectionsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".admin.scrapcollections.activities.ScrapCollectionHistory"
+            android:windowSoftInputMode="adjustResize" />
+
 
     </application>
 

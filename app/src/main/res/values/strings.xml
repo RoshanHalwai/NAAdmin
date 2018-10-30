@@ -213,7 +213,7 @@
     <!--Food Collection Activity-->
     <string name="food_type">Food Type:</string>
     <string name="quantity">Quantity:</string>
-    <string name="food_collection_unavailable">Currently there is no Food Donation done by any user in your society</string>
+    <string name="food_collection_unavailable">There has not been any Food Donation request raised at your Society yet.</string>
 
     <!--Edit Staff Activity-->
     <string name="done">Done</string>
@@ -224,4 +224,9 @@
     <string name="updating_profile">Updating Profile</string>
     <string name="update_profile_photo">Updating Photo</string>
 
+    <!--Scrap Collection Activity-->
+    <string name="scrap_collection_unavailable">There has not been any Scrap Collection request raised at your Society yet.</string>
+    <string name="status">Status:</string>
+    <string name="update_status">Update Status</string>
+    <string name="scrap_type">Scrap Type:</string>
 </resources>
