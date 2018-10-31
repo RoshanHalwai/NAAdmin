@@ -55,7 +55,6 @@
     <string name="login">LOGIN</string>
     <string name="_91">+91</string>
     <string name="phone_number">Mobile Number</string>
-    <string name="mobile_number_validation">Please Enter a valid 10 digit mobile number</string>
     <string name="logout">Logout</string>
 
     <!-- Register Activity -->
@@ -78,12 +77,8 @@
     <string name="admin">Admin:</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="name_validation">Please Enter Name</string>
-    <string name="accept_alphabets">Accept Alphabets Only.</string>
-    <string name="upload_image">Please Upload Image</string>
     <string name="gate_number">Gate Number:</string>
     <string name="gate_number_validation">Please Enter Gate Number</string>
-    <string name="mobile_number_exists">Mobile number already exists</string>
 
     <!--OTP Screen-->
     <string name="auto_verification_completed">AutoVerification completed. Please wait while we check your Account in our system. . .</string>
@@ -229,4 +224,12 @@
     <!--Scrap Collection Activity-->
     <string name="scrap_collection_unavailable">There has not been any Scrap Collection request raised at your Society yet.</string>
     <string name="scrap_type">Scrap Type:</string>
+
+    <!--Validations-->
+    <string name="mobile_number_validation">Please enter mobile number</string>
+    <string name="name_validation">Please enter name</string>
+    <string name="accept_alphabets">Accepts alphabets only</string>
+    <string name="upload_image">Please upload image</string>
+    <string name="mobile_number_exists">Mobile number already exists</string>
+
 </resources>
