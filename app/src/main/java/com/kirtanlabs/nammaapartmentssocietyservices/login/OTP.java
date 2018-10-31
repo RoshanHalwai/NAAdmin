@@ -112,11 +112,6 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         editSixthOTPDigit.setTypeface(setLatoRegularFont(this));
         buttonVerifyOTP.setTypeface(setLatoLightFont(this));
 
-        /* Since multiple activities make use of this class we get previous
-         * screen title and update the views accordingly*/
-        getPreviousScreenTitle();
-        updatePhoneVerificationText();
-
         /*If Previous screen title is Serving, we wouldn't want Firebase to generate OTP*/
         if (previousScreenTitle != R.string.serving) {
             /* Generate an OTP to user's mobile number */
@@ -128,6 +123,11 @@ public class OTP extends BaseActivity implements View.OnClickListener {
             textResendOTPOrVerificationMessage.setVisibility(GONE);
             textChangeNumberOrTimer.setVisibility(GONE);
         }
+
+        /* Since multiple activities make use of this class we get previous
+         * screen title and update the views accordingly*/
+        getPreviousScreenTitle();
+        updatePhoneVerificationText();
 
         /*Setting events for OTP edit text*/
         setEventsForEditText();
