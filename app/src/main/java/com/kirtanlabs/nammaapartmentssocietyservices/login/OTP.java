@@ -115,7 +115,6 @@ public class OTP extends BaseActivity implements View.OnClickListener {
         /* Since multiple activities make use of this class we get previous
          * screen title and update the views accordingly*/
         getPreviousScreenTitle();
-        updatePhoneVerificationText();
 
         /*If Previous screen title is Serving, we wouldn't want Firebase to generate OTP*/
         if (previousScreenTitle != R.string.serving) {
@@ -128,6 +127,9 @@ public class OTP extends BaseActivity implements View.OnClickListener {
             textResendOTPOrVerificationMessage.setVisibility(GONE);
             textChangeNumberOrTimer.setVisibility(GONE);
         }
+
+        /*This method updates the phone verification message based on the screen title*/
+        updatePhoneVerificationText();
 
         /*Setting events for OTP edit text*/
         setEventsForEditText();
