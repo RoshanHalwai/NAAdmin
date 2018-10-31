@@ -273,7 +273,7 @@ public class EditStaffActivity extends BaseActivity implements View.OnClickListe
                 editStaffName.setError(getString(R.string.name_validation));
             }
             if (TextUtils.isEmpty(updatedGuardGateNumber)) {
-                editGuardGateNumber.setError(getString(R.string.enter_gate_number));
+                editGuardGateNumber.setError(getString(R.string.gate_number_validation));
             }
         } else {
             /*Navigating Admin to Staff Details Screen*/
