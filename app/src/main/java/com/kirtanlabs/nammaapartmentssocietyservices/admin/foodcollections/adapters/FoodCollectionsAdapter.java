@@ -96,13 +96,14 @@ public class FoodCollectionsAdapter extends RecyclerView.Adapter<FoodCollections
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, foodCollectionDataList.size());
         DatabaseReference foodDonationReference = FOOD_DONATION_REFERENCE.child(foodDonationUID).child(FIREBASE_CHILD_STATUS);
-        foodDonationReference.setValue(FIREBASE_CHILD_COLLECTED);
-
-        /*This is to ensure when user deletes the last item in the list a blank screen is not shown
-         * instead feature unavailable layout is shown*/
-        if (foodCollectionDataList.isEmpty()) {
-            baseActivity.showFeatureUnavailableLayout(R.string.food_collection_unavailable);
-        }
+        foodDonationReference.setValue(FIREBASE_CHILD_COLLECTED).addOnSuccessListener(aVoid -> {
+            baseActivity.showNotificationDialog("Status Updated", "User has been Notified", null);
+            /*This is to ensure when user deletes the last item in the list a blank screen is not shown
+             * instead feature unavailable layout is shown*/
+            if (foodCollectionDataList.isEmpty()) {
+                baseActivity.showFeatureUnavailableLayout(R.string.food_collection_unavailable);
+            }
+        });
     }
     /* ------------------------------------------------------------- *
      * Food Collection Holder Class
