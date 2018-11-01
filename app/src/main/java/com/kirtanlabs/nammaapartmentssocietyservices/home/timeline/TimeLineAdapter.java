@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.GARBAGE_COLLECTOR;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.PlumberServicesHolder> {
@@ -56,7 +58,12 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Plumbe
 
         /*Creating an instance of class SocietyServiceNotification and retrieving the values from Firebase*/
         SocietyServiceNotification societyServiceNotification = requestDetailsList.get(position);
-        holder.textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+        /*Displaying Garbage Collector if societyService Type is Garbage Collection*/
+        if (!societyServiceNotification.getSocietyServiceType().equals(FIREBASE_CHILD_GARBAGE_COLLECTION)) {
+            holder.textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+        } else {
+            holder.textServiceTypeValue.setText(GARBAGE_COLLECTOR);
+        }
         holder.textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
         holder.textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
         holder.textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());

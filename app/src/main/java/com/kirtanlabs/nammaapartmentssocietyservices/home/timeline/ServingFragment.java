@@ -36,7 +36,9 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.ALL_SOCIET
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.END_SERVICE_REQUEST_CODE;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ACCEPTED;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_COMPLETED;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_STATUS;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.GARBAGE_COLLECTOR;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Utilities.capitalizeString;
 
@@ -48,17 +50,9 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
 
     private BaseActivity baseActivity;
     private RelativeLayout layoutAwaitingResponse, layoutAcceptedUserDetails, layoutUnAvailable;
-    private TextView textResidentNameValue;
-    private TextView textApartmentValue;
-    private TextView textFlatNumberValue;
-    private TextView textTimeSlotValue;
-    private TextView textProblemDescriptionValue;
-    private TextView textServiceTypeValue;
-    private TextView textBookingTimeValue;
+    private TextView textResidentNameValue, textApartmentValue, textFlatNumberValue, textTimeSlotValue, textProblemDescriptionValue, textServiceTypeValue, textBookingTimeValue;
     private RetrievingNotificationData retrievingNotificationData;
-    private String notificationUID;
-    private String mobileNumber;
-    private String endOTP;
+    private String notificationUID, mobileNumber, endOTP, societyServiceType;
 
     /* ------------------------------------------------------------- *
      * Overriding Fragment Objects
@@ -218,11 +212,17 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
         retrievingNotificationData = new RetrievingNotificationData(getActivity(), societyServiceUID);
         retrievingNotificationData.getServingNotificationData(societyServiceNotification -> {
             if (societyServiceNotification != null) {
+                societyServiceType = societyServiceNotification.getSocietyServiceType();
                 endOTP = societyServiceNotification.getEndOTP();
                 textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
                 textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
                 textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
-                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                /*Displaying Garbage Collector if societyService Type is Garbage Collection*/
+                if (!societyServiceType.equals(FIREBASE_CHILD_GARBAGE_COLLECTION)) {
+                    textServiceTypeValue.setText(capitalizeString(societyServiceType));
+                } else {
+                    textServiceTypeValue.setText(GARBAGE_COLLECTOR);
+                }
                 textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
                 SimpleDateFormat sfd = new SimpleDateFormat("MMM dd, HH:mm", Locale.US);
@@ -286,7 +286,12 @@ public class ServingFragment extends Fragment implements View.OnClickListener {
                 textResidentNameValue.setText(societyServiceNotification.getNaUser().getPersonalDetails().getFullName());
                 textApartmentValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getApartmentName());
                 textFlatNumberValue.setText(societyServiceNotification.getNaUser().getFlatDetails().getFlatNumber());
-                textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                /*Displaying Garbage Collector if societyService Type is Garbage Collection*/
+                if (!societyServiceType.equals(FIREBASE_CHILD_GARBAGE_COLLECTION)) {
+                    textServiceTypeValue.setText(capitalizeString(societyServiceNotification.getSocietyServiceType()));
+                } else {
+                    textServiceTypeValue.setText(GARBAGE_COLLECTOR);
+                }
                 textTimeSlotValue.setText(societyServiceNotification.getTimeSlot());
                 textProblemDescriptionValue.setText(societyServiceNotification.getProblem());
                 layoutAwaitingResponse.setVisibility(View.GONE);

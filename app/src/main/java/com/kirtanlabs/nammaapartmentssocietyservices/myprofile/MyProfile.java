@@ -22,6 +22,7 @@ import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_C
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_ELECTRICIAN;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_GARBAGE_COLLECTION;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.FIREBASE_CHILD_PLUMBER;
+import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.GARBAGE_COLLECTOR;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoBoldFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.Constants.setLatoRegularFont;
 import static com.kirtanlabs.nammaapartmentssocietyservices.SocietyServiceGlobal.societyServiceUID;
@@ -137,7 +138,12 @@ public class MyProfile extends BaseActivity {
 
             textSocietyServiceName.setText(societyServiceName);
             textSocietyServiceMobileNumber.setText(societyServiceMobile);
-            textSocietyServiceType.setText(capitalizeString(societyServiceType));
+            /*Displaying Garbage Collector if societyService Type is Garbage Collection*/
+            if (!societyServiceType.equals(FIREBASE_CHILD_GARBAGE_COLLECTION)) {
+                textSocietyServiceType.setText(capitalizeString(societyServiceType));
+            } else {
+                textSocietyServiceType.setText(GARBAGE_COLLECTOR);
+            }
             textSocietyServiceRatingValue.setText(String.valueOf(societyServiceRating));
 
             switch (societyServiceType) {
