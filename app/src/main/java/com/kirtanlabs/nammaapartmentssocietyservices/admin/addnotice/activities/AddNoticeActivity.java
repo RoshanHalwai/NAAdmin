@@ -124,7 +124,7 @@ public class AddNoticeActivity extends BaseActivity implements View.OnClickListe
 
         /*Add Notice record under noticeBoard->noticeBoardUID*/
         String titleValue = editTitle.getText().toString();
-        String descriptionValue = editDescription.getText().toString();
+        String descriptionValue = editDescription.getText().toString().trim();
 
         /*Utility Functions to get Date and Time*/
         Calendar calendar = Calendar.getInstance();
