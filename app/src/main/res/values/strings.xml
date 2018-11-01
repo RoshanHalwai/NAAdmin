@@ -208,7 +208,7 @@
     <string name="status">Status:</string>
     <string name="update_status">Update Status</string>
     <string name="status_updated">Status Updated</string>
-    <string name="user_notified">Thanks for collecting food. User has been Notified.</string>
+    <string name="user_notified_food_donation">Thanks for collecting Food. User has been Notified.</string>
 
     <!--Edit Staff Activity-->
     <string name="done">Done</string>
@@ -221,6 +221,7 @@
     <!--Scrap Collection Activity-->
     <string name="scrap_collection_unavailable">There has not been any Scrap Collection request raised at your Society yet.</string>
     <string name="scrap_type">Scrap Type:</string>
+    <string name="user_notified_scrap_collection">Thanks for collecting Scrap. User has been Notified.</string>
 
     <!--Validations-->
     <string name="mobile_number_validation">Please enter mobile number</string>
