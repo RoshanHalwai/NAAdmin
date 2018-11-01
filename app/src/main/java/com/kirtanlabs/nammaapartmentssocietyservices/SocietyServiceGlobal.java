@@ -31,6 +31,7 @@ public class SocietyServiceGlobal extends Application {
      * ------------------------------------------------------------- */
 
     public static String societyServiceUID;
+    public static String BUILD_VARIANT;
     private SocietyServiceData societyServiceData;
 
     @Override
@@ -38,9 +39,9 @@ public class SocietyServiceGlobal extends Application {
         super.onCreate();
 
         FirebaseOptions firebaseOptions;
-        final String buildVariant = getBuildVariant();
+        BUILD_VARIANT = getBuildVariant();
 
-        if (buildVariant.equals(BETA_ENV)) {
+        if (BUILD_VARIANT.equals(BETA_ENV)) {
             //TODO:Change the database URL when we deploy to new society.
             firebaseOptions = new FirebaseOptions.Builder()
                     .setApplicationId("1:896005326129:android:6ff623e10a2664c5")
@@ -61,7 +62,7 @@ public class SocietyServiceGlobal extends Application {
                     .setProjectId("nammaapartments-development")
                     .build();
         }
-        initializeApp(this, firebaseOptions, buildVariant);
+        initializeApp(this, firebaseOptions, BUILD_VARIANT);
     }
 
     private String getBuildVariant() {
