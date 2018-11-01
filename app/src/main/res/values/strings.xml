@@ -207,6 +207,8 @@
     <string name="food_collection_unavailable">There has not been any Food Donation request raised at your Society yet.</string>
     <string name="status">Status:</string>
     <string name="update_status">Update Status</string>
+    <string name="status_updated">Status Updated</string>
+    <string name="user_notified">Thanks for collecting food. User has been Notified.</string>
 
     <!--Edit Staff Activity-->
     <string name="done">Done</string>
