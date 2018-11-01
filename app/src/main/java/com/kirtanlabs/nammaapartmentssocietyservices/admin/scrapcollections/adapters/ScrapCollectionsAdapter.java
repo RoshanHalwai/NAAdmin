@@ -101,13 +101,14 @@ public class ScrapCollectionsAdapter extends RecyclerView.Adapter<ScrapCollectio
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, scrapCollectionDataList.size());
         DatabaseReference scrapCollectionReference = ALL_SOCIETYSERVICENOTIFICATION_REFERENCE.child(scrapCollectionUID).child(FIREBASE_CHILD_STATUS);
-        scrapCollectionReference.setValue(FIREBASE_CHILD_COLLECTED);
-
-        /*This is to ensure when user deletes the last item in the list a blank screen is not shown
-         * instead feature unavailable layout is shown*/
-        if (scrapCollectionDataList.isEmpty()) {
-            baseActivity.showFeatureUnavailableLayout(R.string.scrap_collection_unavailable);
-        }
+        scrapCollectionReference.setValue(FIREBASE_CHILD_COLLECTED).addOnSuccessListener(aVoid -> {
+            baseActivity.showNotificationDialog(mCtx.getString(R.string.status_updated), mCtx.getString(R.string.user_notified_scrap_collection), null);
+            /*This is to ensure when user deletes the last item in the list a blank screen is not shown
+             * instead feature unavailable layout is shown*/
+            if (scrapCollectionDataList.isEmpty()) {
+                baseActivity.showFeatureUnavailableLayout(R.string.scrap_collection_unavailable);
+            }
+        });
     }
     /* ------------------------------------------------------------- *
      * Scrap Collection Holder Class
@@ -182,13 +183,7 @@ public class ScrapCollectionsAdapter extends RecyclerView.Adapter<ScrapCollectio
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
-            ScrapCollectionPojo scrapCollectionPojo = scrapCollectionDataList.get(position);
-            switch (v.getId()) {
-                case R.id.buttonUpdateStatus:
-                    updateScrapCollectionStatus(position, scrapCollectionPojo);
-                    break;
-            }
-
+            updateScrapCollectionStatus(position, scrapCollectionDataList.get(position));
         }
     }
 }
