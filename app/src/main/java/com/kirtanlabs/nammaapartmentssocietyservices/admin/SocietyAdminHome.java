@@ -155,8 +155,7 @@ public class SocietyAdminHome extends BaseActivity implements AdapterView.OnItem
     private SocietyAdminHomeAdapter getAdapter() {
 
         String[] stringSocietyAdminServices = getResources().getStringArray(R.array.society_admin_services);
-
-        //TODO: To change Scrap and Food Collection image from here if required.
+        
         int[] icons = {R.drawable.manage_users,
                 R.drawable.register_service,
                 R.drawable.staffs,
